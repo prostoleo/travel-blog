@@ -1,8 +1,10 @@
 <template>
-  <!-- <Tutorial/> -->
-  <div>
-    <h1>привет мир</h1>
-  </div>
+  <main>
+    <SectionHero />
+    <SectionNew />
+    <SectionDirections />
+    <SectionAbout />
+  </main>
 </template>
 
 <script>

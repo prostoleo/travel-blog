@@ -39,6 +39,7 @@ export default {
     '@nuxtjs/eslint-module',
     '@nuxtjs/fontawesome',
     '@nuxtjs/google-fonts',
+    '@nuxtjs/composition-api/module',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -54,7 +55,7 @@ export default {
       },
     ],
 
-    '@nuxtjs/fontawesome',
+    // '@nuxtjs/fontawesome',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -69,6 +70,10 @@ export default {
     prefetch: true,
     preconnect: true,
     preload: true,
+  },
+
+  fontawesome: {
+    icons: {},
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

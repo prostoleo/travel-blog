@@ -1,10 +1,8 @@
 <template>
   <div class="my-layout">
     <BaseHeader />
-    <BaseContainer>
-      <Nuxt />
-    </BaseContainer>
-    <!-- <BaseFooter /> -->
+    <Nuxt />
+    <BaseFooter />
   </div>
 </template>
 
@@ -17,5 +15,7 @@ export default {}
 .my-layout {
   display: grid;
   grid-template-rows: auto 1fr auto;
+
+  min-height: 100vh;
 }
 </style>
