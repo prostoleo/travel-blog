@@ -1,5 +1,5 @@
 <template>
-  <section id="#new">
+  <section id="#directions">
     <BaseContainer>
       <div class="content">
         <div class="title">
@@ -7,13 +7,7 @@
           <h2>Направления</h2>
         </div>
 
-        <div class="slider" :data-slick="slickOptions">
-          <div class="slide">1</div>
-          <div class="slide">2</div>
-          <div class="slide">3</div>
-          <div class="slide">4</div>
-          <div class="slide">5</div>
-        </div>
+        <SliderHome />
       </div>
     </BaseContainer>
   </section>
@@ -22,19 +16,17 @@
 <script>
 export default {
   setup() {
-    const slickOptions = {}
-
-    return {
-      slickOptions: JSON.stringify(slickOptions),
-    }
+    return {};
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
 section {
   @include adaptive-value-min-max(padding-top, 40, 70);
   @include adaptive-value-min-max(padding-bottom, 40, 70);
+
+  overflow-x: hidden !important;
 
   .content {
     .title {
@@ -57,6 +49,43 @@ section {
 
         font-weight: 700;
         color: $title-dark;
+      }
+    }
+
+    .tns-outer {
+      /* .tns-controls {
+        max-width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      } */
+    }
+
+    .slider {
+      display: flex;
+      gap: 1rem;
+
+      max-width: 100%;
+      /* .my-slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 100px;
+      } */
+
+      .tns-item {
+        width: 100%;
+        // max-width: 200px;
+        font-size: 3rem;
+        font-family: Arial;
+        text-align: center;
+        padding: 2em;
+        background: #fafafb;
+
+        // margin: 0 1rem;
+      }
+      .tns-item:nth-child(odd) {
+        background: #c8e1ff;
       }
     }
   }
