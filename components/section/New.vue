@@ -38,9 +38,9 @@
 <script>
 export default {
   setup() {
-    return {}
+    return {};
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -49,6 +49,9 @@ section {
   @include adaptive-value-min-max(padding-bottom, 40, 70);
 
   .content {
+    display: grid;
+    justify-content: center;
+
     .title {
       text-align: center;
 
@@ -61,7 +64,7 @@ section {
       gap: 1.5rem;
 
       img {
-        width: 50%;
+        width: 25%;
       }
 
       h2 {

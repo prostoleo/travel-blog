@@ -29,6 +29,9 @@ section {
   overflow-x: hidden !important;
 
   .content {
+    /* display: grid;
+    justify-content: center; */
+
     .title {
       text-align: center;
 
@@ -41,7 +44,7 @@ section {
       gap: 1.5rem;
 
       img {
-        width: 50%;
+        width: 25%;
       }
 
       h2 {
