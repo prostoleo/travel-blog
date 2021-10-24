@@ -61,7 +61,9 @@
     <div class="slider">
       <div v-for="index in 6" :key="index" class="slide-item">
         <!-- {{ index }} -->
-        <nuxt-link to="/" class="slide-link">Дальний Восток</nuxt-link>
+        <nuxt-link to="/directions/1" class="slide-link"
+          >Дальний Восток</nuxt-link
+        >
       </div>
       <!-- <div class="slide-item">1</div>
       <div class="slide-item">2</div>

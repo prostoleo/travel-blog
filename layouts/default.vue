@@ -1,14 +1,16 @@
 <template>
   <div class="my-layout">
     <BaseHeader />
-    <Nuxt />
+    <main>
+      <Nuxt />
+    </main>
     <BaseFooter />
   </div>
 </template>
 
 <script>
 // import Container from "../components/base/Container.vue";
-export default {}
+export default {};
 </script>
 
 <style lang="scss" scoped>
