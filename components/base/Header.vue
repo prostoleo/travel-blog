@@ -41,24 +41,24 @@
 </template>
 
 <script>
-import { ref, computed } from '@nuxtjs/composition-api'
+import { ref, computed } from '@nuxtjs/composition-api';
 
 export default {
   setup(props) {
-    const menuOpen = ref(false)
+    const menuOpen = ref(false);
 
     function toggleMenu() {
-      menuOpen.value = !menuOpen.value
+      menuOpen.value = !menuOpen.value;
     }
 
-    const isMenuOpenComp = computed(() => menuOpen.value)
+    const isMenuOpenComp = computed(() => menuOpen.value);
 
     return {
       isMenuOpenComp,
       toggleMenu,
-    }
+    };
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -69,7 +69,10 @@ export default {
 
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 1000;
+  isolation: isolate;
+
+  box-shadow: 0px 7px 15px hsla(0, 0%, 0%, 10%);
 
   // .header__content
 
@@ -89,6 +92,10 @@ export default {
   // .header__open-menu
 
   &__open-menu {
+    @include mq(lg) {
+      display: none !important;
+    }
+
     img {
       cursor: pointer;
     }
@@ -108,11 +115,28 @@ export default {
   text-align: center;
 
   transform: translateY(-130%);
+  // transform: translateY(-50%);
   transition: all 250ms ease-in-out;
 
-  z-index: -1;
+  z-index: -2;
+
+  // isolation: isolate;
 
   padding: 2rem 0;
+
+  @include mq(lg) {
+    position: unset;
+    background: transparent;
+    transform: translateY(0%);
+    z-index: unset;
+
+    margin-left: auto;
+    width: max-content;
+
+    & > ul.nav__list {
+      flex-direction: row;
+    }
+  }
 
   &.active {
     transform: translateY(0%);

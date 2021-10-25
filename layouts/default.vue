@@ -20,4 +20,9 @@ export default {};
 
   min-height: 100vh;
 }
+
+main {
+  position: relative;
+  z-index: 1;
+}
 </style>
