@@ -135,6 +135,108 @@
           <img src="/img/grid-gallery/5.jpg" alt="" />
         </div> -->
     </section>
+
+    <section class="second">
+      <BaseContainer>
+        <div class="title">
+          <img src="/icons/divider.svg" alt="разделитель" />
+          <h2>Подзаголовок</h2>
+        </div>
+        <div class="text-wrapper">
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur
+            dolor nostrum dolorem ipsa eveniet, nulla saepe unde autem deserunt
+            vero quis, repellendus delectus iste ab facilis perferendis
+            voluptatem odio asperiores veritatis officia eligendi, labore
+            expedita adipisci? Mollitia minima ut dolorum.
+          </p>
+        </div>
+      </BaseContainer>
+
+      <div class="flex-gallery">
+        <div class="flex-gallery__item">
+          <div
+            class="img"
+            style="background-image: url(/img/flex-gallery/1.jpg)"
+          >
+            <h3>Магадан</h3>
+          </div>
+        </div>
+        <div class="flex-gallery__item">
+          <div
+            class="img"
+            style="background-image: url(/img/flex-gallery/1.jpg)"
+          >
+            <h3>Магадан</h3>
+          </div>
+        </div>
+        <div class="flex-gallery__item">
+          <div
+            class="img"
+            style="background-image: url(/img/flex-gallery/1.jpg)"
+          >
+            <h3>Магадан</h3>
+          </div>
+        </div>
+        <div class="flex-gallery__item">
+          <div
+            class="img"
+            style="background-image: url(/img/flex-gallery/1.jpg)"
+          >
+            <h3>Магадан</h3>
+          </div>
+        </div>
+        <div class="flex-gallery__item">
+          <div
+            class="img"
+            style="background-image: url(/img/flex-gallery/1.jpg)"
+          >
+            <h3>Магадан</h3>
+          </div>
+        </div>
+        <div class="flex-gallery__item">
+          <div
+            class="img"
+            style="background-image: url(/img/flex-gallery/1.jpg)"
+          >
+            <h3>Магадан</h3>
+          </div>
+        </div>
+        <div class="flex-gallery__item">
+          <div
+            class="img"
+            style="background-image: url(/img/flex-gallery/1.jpg)"
+          >
+            <h3>Магадан</h3>
+          </div>
+        </div>
+        <div class="flex-gallery__item">
+          <div
+            class="img"
+            style="background-image: url(/img/flex-gallery/1.jpg)"
+          >
+            <h3>Магадан</h3>
+          </div>
+        </div>
+        <div class="flex-gallery__item">
+          <div
+            class="img"
+            style="background-image: url(/img/flex-gallery/1.jpg)"
+          >
+            <h3>Магадан</h3>
+          </div>
+        </div>
+        <!-- <img src="/img/flex-gallery/1.jpg" alt="" class="flex-gallery__item" />
+        <img src="/img/flex-gallery/2.jpg" alt="" class="flex-gallery__item" />
+        <img src="/img/flex-gallery/3.jpg" alt="" class="flex-gallery__item" />
+        <img src="/img/flex-gallery/4.jpg" alt="" class="flex-gallery__item" />
+        <img src="/img/flex-gallery/5.jpg" alt="" class="flex-gallery__item" />
+        <img src="/img/flex-gallery/6.jpg" alt="" class="flex-gallery__item" />
+        <img src="/img/flex-gallery/7.jpg" alt="" class="flex-gallery__item" />
+        <img src="/img/flex-gallery/8.jpg" alt="" class="flex-gallery__item" />
+        <img src="/img/flex-gallery/9.jpg" alt="" class="flex-gallery__item" /> -->
+      </div>
+    </section>
   </div>
 </template>
 
@@ -240,6 +342,34 @@ img.full-img {
     object-fit: cover;
     @include adaptive-value-min-max(width, 250, 400);
     // max-width: 40rem;
+  }
+}
+
+.flex-gallery {
+  max-width: 100%;
+  display: flex;
+  // align-items: center;
+
+  height: 100%;
+  max-height: 50rem;
+
+  gap: 3rem;
+
+  &__item {
+    flex: 1;
+
+    object-fit: cover;
+
+    &.active {
+      flex: 10;
+    }
+
+    & > .img {
+      @include adaptive-value-min-max(height, 200, 500);
+
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
   }
 }
 
