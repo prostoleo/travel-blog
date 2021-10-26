@@ -9,7 +9,7 @@
 
         <div class="rows">
           <div class="row">
-            <img src="/img/about/1.jpg" alt="" class="row__img" />
+            <img src="/img/about/1.jpg" class="row__img" alt="" />
             <div class="row__content">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. In
               similique reprehenderit mollitia eum rem quisquam nisi,
@@ -22,7 +22,7 @@
           </div>
 
           <div class="row">
-            <img src="/img/about/2.jpg" alt="" class="row__img" />
+            <img src="/img/about/2.jpg" class="row__img" alt="" />
             <div class="row__content">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. In
               similique reprehenderit mollitia eum rem quisquam nisi,
@@ -56,8 +56,8 @@ section {
   @include adaptive-value-min-max(padding-bottom, 40, 70);
 
   .content {
-    display: grid;
-    justify-content: center;
+    /* display: grid;
+    justify-content: center; */
 
     .title {
       text-align: center;
@@ -83,12 +83,15 @@ section {
     }
 
     .rows {
+      width: 100%;
+      // justify-self: stretch;
+
       @include adaptive-value-min-max(padding-top, 35, 55);
 
       .row {
         display: flex;
         flex-direction: column-reverse;
-        align-items: center;
+        align-items: stretch;
         gap: 1.75rem;
 
         margin-top: 2.5em;
@@ -97,13 +100,19 @@ section {
           margin-top: 0 !important;
         }
 
-        img.row__img {
+        .row__img {
+          max-height: 50rem;
+          object-fit: cover;
+
+          /* // img {
+          } */
         }
 
         .row__content {
           @include adaptive-value-min-max(font-size, 14, 16);
 
           max-width: 65ch;
+          margin: 0 auto;
 
           text-align: justify;
           hyphens: auto;

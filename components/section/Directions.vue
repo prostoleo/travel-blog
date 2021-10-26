@@ -7,9 +7,10 @@
           <h2>Направления</h2>
         </div>
 
-        <SliderHome />
+        <!-- <SliderHome /> -->
       </div>
     </BaseContainer>
+    <SliderHomeNew />
   </section>
 </template>
 
@@ -55,26 +56,18 @@ section {
       }
     }
 
-    .tns-outer {
-      /* .tns-controls {
-        max-width: 100%;
-        display: flex;
-        justify-content: flex-end;
-      } */
-    }
-
-    .slider {
+    /* .slider {
       display: flex;
       gap: 1rem;
 
       max-width: 100%;
-      /* .my-slide {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      // .my-slide {
+      //   display: flex;
+      //   align-items: center;
+      //   justify-content: center;
 
-        width: 100px;
-      } */
+      //   width: 100px;
+      // }
 
       .tns-item {
         width: 100%;
@@ -90,7 +83,7 @@ section {
       .tns-item:nth-child(odd) {
         background: #c8e1ff;
       }
-    }
+    } */
   }
 }
 </style>
