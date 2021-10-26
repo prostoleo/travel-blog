@@ -153,97 +153,58 @@
         </div>
       </BaseContainer>
 
-      <div class="flex-gallery">
-        <div class="flex-gallery__item">
+      <div id="flex-gallery-1" class="flex-gallery">
+        <div
+          v-for="index in 5"
+          ref="flexGalleryItem"
+          :key="index"
+          class="flex-gallery__item"
+          :class="index === 3 ? 'active' : ''"
+          @click="setActiveSlide"
+        >
           <div
             class="img"
-            style="background-image: url(/img/flex-gallery/1.jpg)"
+            :style="`background-image: url(/img/flex-gallery/${index}.jpg)`"
           >
-            <h3>Магадан</h3>
+            <h3 class="flex-gallery__title">Магадан</h3>
           </div>
         </div>
-        <div class="flex-gallery__item">
-          <div
-            class="img"
-            style="background-image: url(/img/flex-gallery/1.jpg)"
-          >
-            <h3>Магадан</h3>
-          </div>
-        </div>
-        <div class="flex-gallery__item">
-          <div
-            class="img"
-            style="background-image: url(/img/flex-gallery/1.jpg)"
-          >
-            <h3>Магадан</h3>
-          </div>
-        </div>
-        <div class="flex-gallery__item">
-          <div
-            class="img"
-            style="background-image: url(/img/flex-gallery/1.jpg)"
-          >
-            <h3>Магадан</h3>
-          </div>
-        </div>
-        <div class="flex-gallery__item">
-          <div
-            class="img"
-            style="background-image: url(/img/flex-gallery/1.jpg)"
-          >
-            <h3>Магадан</h3>
-          </div>
-        </div>
-        <div class="flex-gallery__item">
-          <div
-            class="img"
-            style="background-image: url(/img/flex-gallery/1.jpg)"
-          >
-            <h3>Магадан</h3>
-          </div>
-        </div>
-        <div class="flex-gallery__item">
-          <div
-            class="img"
-            style="background-image: url(/img/flex-gallery/1.jpg)"
-          >
-            <h3>Магадан</h3>
-          </div>
-        </div>
-        <div class="flex-gallery__item">
-          <div
-            class="img"
-            style="background-image: url(/img/flex-gallery/1.jpg)"
-          >
-            <h3>Магадан</h3>
-          </div>
-        </div>
-        <div class="flex-gallery__item">
-          <div
-            class="img"
-            style="background-image: url(/img/flex-gallery/1.jpg)"
-          >
-            <h3>Магадан</h3>
-          </div>
-        </div>
-        <!-- <img src="/img/flex-gallery/1.jpg" alt="" class="flex-gallery__item" />
-        <img src="/img/flex-gallery/2.jpg" alt="" class="flex-gallery__item" />
-        <img src="/img/flex-gallery/3.jpg" alt="" class="flex-gallery__item" />
-        <img src="/img/flex-gallery/4.jpg" alt="" class="flex-gallery__item" />
-        <img src="/img/flex-gallery/5.jpg" alt="" class="flex-gallery__item" />
-        <img src="/img/flex-gallery/6.jpg" alt="" class="flex-gallery__item" />
-        <img src="/img/flex-gallery/7.jpg" alt="" class="flex-gallery__item" />
-        <img src="/img/flex-gallery/8.jpg" alt="" class="flex-gallery__item" />
-        <img src="/img/flex-gallery/9.jpg" alt="" class="flex-gallery__item" /> -->
       </div>
     </section>
   </div>
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import { ref, computed, onMounted } from '@nuxtjs/composition-api';
+
 export default {
   setup() {
-    return {};
+    // const flexGalleryItem = ref([]);
+    const sliderEl1 = ref(null);
+    const slidesEls1 = ref(null);
+
+    const setActiveSlide = (event) => {
+      console.log('sliderEl1.value: ', sliderEl1.value);
+      console.log('slidesEls1.value: ', slidesEls1.value);
+      console.log('event: ', event);
+
+      slidesEls1.value.forEach((item) => item.classList.remove('active'));
+
+      const { target } = event;
+
+      target.closest('.flex-gallery__item').classList.add('active');
+    };
+
+    onMounted(() => {
+      sliderEl1.value = document.querySelector('.flex-gallery');
+
+      slidesEls1.value = document.querySelectorAll('.flex-gallery__item');
+    });
+
+    return {
+      setActiveSlide,
+    };
   },
 };
 </script>
@@ -348,27 +309,78 @@ img.full-img {
 .flex-gallery {
   max-width: 100%;
   display: flex;
-  // align-items: center;
+
+  overflow-x: auto !important;
 
   height: 100%;
   max-height: 50rem;
 
-  gap: 3rem;
+  gap: 1.5rem;
 
   &__item {
-    flex: 1;
-
-    object-fit: cover;
-
-    &.active {
-      flex: 10;
-    }
+    width: 100%;
+    max-width: 30%;
+    flex: 1 0 30%;
 
     & > .img {
       @include adaptive-value-min-max(height, 200, 500);
 
-      background-size: cover;
+      background-color: $overlay;
+      background-blend-mode: darken;
+
       background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+
+      /* display: flex;
+      justify-content: flex-start;
+      align-items: flex-end;
+
+      padding-bottom: 20%;
+      padding-left: 10%; */
+
+      position: relative;
+    }
+  }
+
+  &__title {
+    position: absolute;
+    bottom: 20%;
+    left: 10%;
+
+    @include adaptive-value-min-max(font-size, 14, 18);
+    font-weight: 600;
+
+    color: $text-light;
+    // opacity: 0;
+
+    width: max-content;
+  }
+
+  @include mq(lg) {
+    overflow-x: hidden;
+
+    &__item {
+      flex: 1;
+      object-fit: cover;
+      cursor: pointer;
+      transition: flex 250ms ease-in-out;
+
+      max-width: unset;
+
+      &.active {
+        flex: 10;
+
+        h3.flex-gallery__title {
+          opacity: 1;
+        }
+      }
+    }
+
+    &__title {
+      opacity: 0;
+
+      transition: opacity 250ms ease-in-out !important;
     }
   }
 }

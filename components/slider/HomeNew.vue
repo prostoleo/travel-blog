@@ -412,7 +412,7 @@ export default {
   @include adaptive-value-min-max(height, 200, 400);
   // @include adaptive-value-min-max(width, 300, 600);
   @include mq(lg) {
-    max-width: 50vw;
+    max-width: 60rem;
   }
 
   // margin: 0.5%;
@@ -427,7 +427,7 @@ export default {
   padding-left: 4%;
 
   transform: scale(0.8, 0.8);
-  opacity: 0.8;
+  opacity: 0.5;
 
   transition: all 1000ms ease-in-out;
 
