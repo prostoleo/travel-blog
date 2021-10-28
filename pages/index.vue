@@ -8,14 +8,29 @@
 </template>
 
 <script>
-import { onMounted } from '@nuxtjs/composition-api';
+import { onMounted, useRoute } from '@nuxtjs/composition-api';
 
 export default {
   name: 'Home',
 
   setup() {
+    const route = useRoute();
+
     // todo intersectionObserverApi
     onMounted(() => {
+      console.log('route.value: ', route.value);
+
+      if (route.value.hash) {
+        const selectorInitial = route.value.hash.slice(1);
+
+        const el = document.querySelector(`section.${selectorInitial}`);
+        console.log('el: ', el);
+
+        el.scrollIntoView(true, {
+          behavior: 'smooth',
+        });
+      }
+
       const selectors = ['new', 'directions', 'about'];
 
       const sections = selectors.map((selector, i) =>
@@ -28,18 +43,18 @@ export default {
       );
       console.log('links: ', links);
 
-      function addToNavLink(event) {
+      /* function addToNavLink(event) {
         console.log('event: ', event);
 
         const curSection = sections[2];
         console.log('curSection: ', curSection);
 
         const params = curSection.getBoundingClientRect();
-        /* const params = curSection.getBoundingClientRect(); */
+        // const params = curSection.getBoundingClientRect();
         console.log('params: ', params);
-      }
+      } */
 
-      window.addEventListener('scroll', addToNavLink);
+      // window.addEventListener('scroll', addToNavLink);
       // ==============
       /* const obsOptions = {
         root: null,

@@ -8,7 +8,7 @@
               Главная
               <img src="/icons/shevron.svg" alt="" />
             </nuxt-link>
-            <nuxt-link to="/" class="breadcrumb-item">
+            <nuxt-link to="/#directions" class="breadcrumb-item">
               Направления
               <img src="/icons/shevron.svg" alt="" />
             </nuxt-link>
@@ -28,12 +28,12 @@
                 <span class="row__text">Пн, 18 октября 2021 г.</span>
               </div>
               <div class="post-info__row row">
-                <img src="/icons/date.svg" alt="" class="row__img" />
-                <span class="row__text">Пн, 18 октября 2021 г.</span>
+                <img src="/icons/author.svg" alt="" class="row__img" />
+                <span class="row__text">Автор, Федор Федоров</span>
               </div>
               <div class="post-info__row row">
-                <img src="/icons/date.svg" alt="" class="row__img" />
-                <span class="row__text">Пн, 18 октября 2021 г.</span>
+                <img src="/icons/time.svg" alt="" class="row__img" />
+                <span class="row__text">Время на чтение: 12 мин.</span>
               </div>
             </div>
           </div>
@@ -55,7 +55,7 @@ export default {
 
 <style lang="scss" scoped>
 section.first {
-  background: url(/img/all-posts-bg/bg.jpg) $overlay;
+  background: url(/img/post-bg/magadan-cover.jpg) $overlay;
   background-blend-mode: darken;
   background-repeat: no-repeat;
   background-size: cover;

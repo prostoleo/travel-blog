@@ -86,32 +86,32 @@ export default {
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Дальний Восток',
-          path: '/direction/1',
+          path: '/directions/1',
         },
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Сибирь',
-          path: '/direction/1',
+          path: '/directions/1',
         },
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Урал',
-          path: '/direction/1',
+          path: '/directions/1',
         },
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Кавказ',
-          path: '/direction/1',
+          path: '/directions/1',
         },
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Север',
-          path: '/direction/1',
+          path: '/directions/1',
         },
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Юг',
-          path: '/direction/1',
+          path: '/directions/1',
         },
       ],
 

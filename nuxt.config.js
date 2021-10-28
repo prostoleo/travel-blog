@@ -78,6 +78,16 @@ export default {
     icons: {},
   },
 
+  loading: {
+    color: 'goldenrod',
+    height: '3px',
+  },
+
+  server: {
+    port: 7777,
+    host: '0.0.0.0',
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 
@@ -105,7 +115,7 @@ export default {
     },
   }, */
 
-  router: {
+  /* router: {
     scrollBehavior: async (to, from, savedPosition) => {
       if (savedPosition) {
         return savedPosition;
@@ -141,5 +151,5 @@ export default {
 
       return { x: 0, y: 0, behavior: 'smooth' };
     },
-  },
+  }, */
 };

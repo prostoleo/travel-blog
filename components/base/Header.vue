@@ -2,7 +2,7 @@
   <header class="header">
     <BaseContainer>
       <div class="header__content">
-        <nuxt-link to="/home" class="header__logo"> logo </nuxt-link>
+        <nuxt-link to="/" class="header__logo"> logo </nuxt-link>
 
         <nav
           ref="nav"

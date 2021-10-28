@@ -1,5 +1,5 @@
 <template>
-  <div class="my-layout">
+  <div>
     <BaseHeader />
     <main>
       <Nuxt />
@@ -14,7 +14,7 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
-.my-layout {
+div {
   display: grid;
   grid-template-rows: auto 1fr auto;
 

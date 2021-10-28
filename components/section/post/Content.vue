@@ -310,7 +310,7 @@ img.full-img {
   max-width: 100%;
   display: flex;
 
-  overflow-x: auto !important;
+  overflow-x: auto;
 
   height: 100%;
   max-height: 50rem;
@@ -358,7 +358,9 @@ img.full-img {
   }
 
   @include mq(lg) {
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+    justify-content: space-between !important;
+    gap: 1rem !important;
 
     &__item {
       flex: 1;
