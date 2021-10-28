@@ -16,7 +16,9 @@
       :navigation="true"
     >
       <swiper-slide v-for="(slide, index) in slides" :key="index">
-        {{ slide.text }}
+        <nuxt-link :to="slide.path" class="slide__link">
+          {{ slide.text }}
+        </nuxt-link>
       </swiper-slide>
 
       <!-- <div class="swiper-navigation"> -->
@@ -84,26 +86,32 @@ export default {
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Дальний Восток',
+          path: '/direction/1',
         },
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Сибирь',
+          path: '/direction/1',
         },
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Урал',
+          path: '/direction/1',
         },
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Кавказ',
+          path: '/direction/1',
         },
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Север',
+          path: '/direction/1',
         },
         {
           imgSrc: '/img/slider-main/1-min.jpg',
           text: 'Юг',
+          path: '/direction/1',
         },
       ],
 
@@ -125,41 +133,30 @@ export default {
         spaceBetween: 20,
 
         centeredSlides: true,
-        // centeredSlidesBounds: true,
+        centeredSlidesBounds: true,
         centerInsufficientSlides: true,
 
-        breakpoints: {
-          // 320: {
-          //   slidesPerView: 1,
-          //   spaceBetween: 10,
-          //   // width: 300,
-          // },
-          // // 450: {
-          // //   slidesPerView: 1,
-          // //   spaceBetween: 10,
-          // //   // width: 300,
-          // // },
-          // 600: {
-          //   slidesPerView: 1,
-          // },
-        },
+        /*  breakpoints: {
+          900: {
+            // centeredSlides: false,
+            // centeredSlidesBounds: false,
+            centerInsufficientSlides: true,
+          },
+        }, */
 
         on: {
-          init: () => {
-            console.log(' init swiper ');
-          },
           slideChange: () => {
-            console.log(' this.swiper.activeIndex ', this.swiper.activeIndex);
-            console.log(' slideChange swiper ');
+            // console.log(' this.swiper.activeIndex ', this.swiper.activeIndex);
+            // console.log(' slideChange swiper ');
 
             const bullets = this.$refs.bullet;
-            console.log('bullets: ', bullets);
+            // console.log('bullets: ', bullets);
 
             const activeIndex = this.swiper.activeIndex;
 
             const { prevBtn, nextBtn } = this.$refs;
-            console.log('prevBtn: ', prevBtn);
-            console.log('nextBtn: ', nextBtn);
+            // console.log('prevBtn: ', prevBtn);
+            // console.log('nextBtn: ', nextBtn);
 
             prevBtn.classList.remove('disabled');
             nextBtn.classList.remove('disabled');
@@ -189,21 +186,21 @@ export default {
   },
 
   mounted() {
-    console.log('Current Swiper instance object', this.swiper);
+    // console.log('Current Swiper instance object', this.swiper);
     this.swiper.slideTo(3, 1000, false);
     this.goToSlide(3);
   },
 
   methods: {
     goToPrevSlide() {
-      console.log('this.swiper.activeIndex: ', this.swiper.activeIndex);
+      // console.log('this.swiper.activeIndex: ', this.swiper.activeIndex);
 
       if (this.swiper.activeIndex === 0) return;
 
       this.swiper.slidePrev(1000, false);
     },
     goToNextSlide() {
-      console.log('this.swiper.activeIndex: ', this.swiper.activeIndex);
+      // console.log('this.swiper.activeIndex: ', this.swiper.activeIndex);
 
       if (this.swiper.activeIndex === this.slides.length) return;
 
@@ -420,9 +417,6 @@ export default {
   display: flex;
   align-items: flex-end;
 
-  @include adaptive-value-min-max(font-size, 14, 18);
-  color: $text-light;
-
   padding-bottom: 5%;
   padding-left: 4%;
 
@@ -430,6 +424,39 @@ export default {
   opacity: 0.5;
 
   transition: all 1000ms ease-in-out;
+
+  .slide__link {
+    @include adaptive-value-min-max(font-size, 14, 18);
+    color: $text-light;
+
+    width: max-content;
+
+    padding: 0.25em 0;
+
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      width: min(15rem, 200%);
+      height: 2px;
+
+      background: $text-light;
+
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: all 200ms ease-in-out;
+    }
+
+    &:hover::before,
+    &:focus::before {
+      transform: scaleX(1);
+    }
+  }
 
   &-active {
     transform: scale(1, 1);

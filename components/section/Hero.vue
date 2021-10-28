@@ -10,8 +10,20 @@
         </p>
 
         <div class="btn-row">
-          <button class="btn btn-primary">Новые приключения</button>
-          <button class="btn btn-secondary">Направления</button>
+          <nuxt-link
+            :to="{ path: '/', hash: '#new' }"
+            class="btn btn-primary"
+            tag="button"
+          >
+            Новые приключения</nuxt-link
+          >
+          <!-- @click="navigateToNew" -->
+          <nuxt-link
+            :to="{ path: '/', hash: '#directions' }"
+            class="btn btn-secondary"
+            tag="button"
+            >Направления</nuxt-link
+          >
         </div>
       </div>
     </BaseContainer>
@@ -19,12 +31,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  setup(props) {},
+};
 </script>
 
 <style lang="scss" scoped>
 section {
   @include adaptive-value-min-max(padding-top, 35, 55);
+  @include adaptive-value-min-max(padding-bottom, 125, 175);
 
   background: url(/img/hero-bg/1-min.jpg) $overlay;
   background-blend-mode: darken;
@@ -33,7 +48,7 @@ section {
   background-size: cover;
   background-repeat: no-repeat;
 
-  min-height: 95vh;
+  // min-height: 95vh;
 
   .content {
     text-align: center;

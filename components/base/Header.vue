@@ -2,28 +2,52 @@
   <header class="header">
     <BaseContainer>
       <div class="header__content">
-        <nuxt-link to="/" class="header__logo"> logo </nuxt-link>
+        <nuxt-link to="/home" class="header__logo"> logo </nuxt-link>
 
-        <nav ref="nav" class="nav" :class="{ active: isMenuOpenComp }">
+        <nav
+          ref="nav"
+          class="nav"
+          :class="{ active: isMenuOpenComp }"
+          @click="closeMenu"
+        >
           <ul class="nav__list">
             <li class="nav__item">
-              <nuxt-link to="/" class="nav__link"> Главная </nuxt-link>
+              <nuxt-link id="nav-link-home" to="/" class="nav__link">
+                Главная
+              </nuxt-link>
             </li>
             <li class="nav__item">
-              <nuxt-link to="/#new" class="nav__link">
+              <nuxt-link
+                id="nav-link-new"
+                :to="{ path: '/', hash: '#new' }"
+                class="nav__link"
+              >
+                <!-- @click="navigateToNew" -->
                 Новые приключения
               </nuxt-link>
             </li>
             <li class="nav__item">
-              <nuxt-link to="/#directions" class="nav__link">
+              <nuxt-link
+                id="nav-link-directions"
+                :to="{ path: '/', hash: '#directions' }"
+                class="nav__link"
+              >
                 Направления
               </nuxt-link>
             </li>
             <li class="nav__item">
-              <nuxt-link to="/#about" class="nav__link"> Обо мне </nuxt-link>
+              <nuxt-link
+                id="nav-link-about"
+                :to="{ path: '/', hash: '#about' }"
+                class="nav__link"
+              >
+                Обо мне
+              </nuxt-link>
             </li>
             <li class="nav__item">
-              <nuxt-link to="/posts" class="nav__link"> Посты </nuxt-link>
+              <nuxt-link id="nav-link-posts" to="/posts" class="nav__link">
+                Посты
+              </nuxt-link>
             </li>
           </ul>
         </nav>
@@ -41,21 +65,54 @@
 </template>
 
 <script>
-import { ref, computed } from '@nuxtjs/composition-api';
+// eslint-disable-next-line no-unused-vars
+import { ref, computed, useRouter } from '@nuxtjs/composition-api';
 
 export default {
   setup(props) {
+    // const router = useRouter();
+
     const menuOpen = ref(false);
 
     function toggleMenu() {
       menuOpen.value = !menuOpen.value;
     }
 
+    function closeMenu(event) {
+      const el = event.target.closest('.nav__link');
+
+      if (!el) return;
+
+      menuOpen.value = false;
+    }
+
     const isMenuOpenComp = computed(() => menuOpen.value);
+
+    // ====================
+    // todo функции для перехода по страницам
+    /* function navigateToNew(event) {
+      event.preventDefault();
+
+      menuOpen.value = false;
+
+      router.push({
+        name: 'Home',
+      });
+
+      const sectionNew = document.getElementById('new');
+      console.log('sectionNew: ', sectionNew);
+
+      sectionNew.scrollIntoView(true, {
+        behavior: 'smooth',
+      });
+    } */
 
     return {
       isMenuOpenComp,
       toggleMenu,
+      closeMenu,
+
+      // navigateToNew,
     };
   },
 };
@@ -162,6 +219,11 @@ export default {
     &:hover,
     &:focus {
       color: $primary-opacity60;
+    }
+
+    &.nuxt-link-exact-active {
+      color: $primary-opacity60;
+      font-weight: 600;
     }
   }
 }

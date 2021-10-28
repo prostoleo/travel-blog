@@ -1,5 +1,5 @@
 <template>
-  <section id="#new">
+  <section id="#new" class="new">
     <BaseContainer>
       <div class="content">
         <div class="title">
@@ -17,6 +17,8 @@
 
 <script>
 export default {
+  name: 'New',
+
   setup() {
     return {};
   },

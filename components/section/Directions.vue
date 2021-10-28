@@ -1,5 +1,5 @@
 <template>
-  <section id="#directions">
+  <section id="#directions" class="directions">
     <BaseContainer>
       <div class="content">
         <div class="title">

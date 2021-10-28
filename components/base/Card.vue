@@ -14,7 +14,7 @@
         удивить.
       </p>
 
-      <nuxt-link to="/" class="card__link">Читать далее</nuxt-link>
+      <nuxt-link to="/post/1" class="card__link">Читать далее</nuxt-link>
     </div>
   </div>
 </template>
