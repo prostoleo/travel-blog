@@ -40,7 +40,12 @@
         </div>
       </BaseContainer>
 
-      <img src="/img/post-bg/girl.jpg" alt="" class="full-img" />
+      <img
+        src="/img/post-bg/girl.jpg"
+        alt=""
+        class="full-img mah-55r"
+        @click="openImage"
+      />
     </section>
     <section class="second">
       <BaseContainer>
@@ -67,7 +72,12 @@
         </div>
       </BaseContainer>
 
-      <img src="/img/post-bg/park.jpg" alt="" class="full-img" />
+      <img
+        src="/img/post-bg/park.jpg"
+        alt=""
+        class="full-img mah-55r"
+        @click="openImage"
+      />
     </section>
 
     <section class="second">
@@ -94,28 +104,33 @@
       <div class="grid-gallery">
         <img
           id="gallery-item-1"
-          class="grid-gallery__item"
+          class="grid-gallery__item full-img"
           src="/img/grid-gallery/5.jpg"
+          @click="openImage"
         />
         <img
           id="gallery-item-2"
-          class="grid-gallery__item"
+          class="grid-gallery__item full-img"
           src="/img/grid-gallery/2.jpg"
+          @click="openImage"
         />
         <img
           id="gallery-item-3"
-          class="grid-gallery__item"
+          class="grid-gallery__item full-img"
           src="/img/grid-gallery/3.jpg"
+          @click="openImage"
         />
         <img
           id="gallery-item-4"
-          class="grid-gallery__item"
+          class="grid-gallery__item full-img"
           src="/img/grid-gallery/4.jpg"
+          @click="openImage"
         />
         <img
           id="gallery-item-5"
-          class="grid-gallery__item"
+          class="grid-gallery__item full-img"
           src="/img/grid-gallery/1.jpg"
+          @click="openImage"
         />
       </div>
 
@@ -171,12 +186,19 @@
         </div>
       </div>
     </section>
+    <BaseImageDialog
+      v-if="isImageShowing"
+      :image-src="imgSrc"
+      @close-dialog="closeDialog"
+    />
   </div>
 </template>
 
 <script>
 // eslint-disable-next-line no-unused-vars
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
+
+import useImageDialog from '~/composables/useImageDialog.js';
 
 export default {
   setup() {
@@ -202,8 +224,16 @@ export default {
       slidesEls1.value = document.querySelectorAll('.flex-gallery__item');
     });
 
+    // todo для диалогового окна для изображений
+    const { isImageShowing, imgSrc, openImage, closeDialog } = useImageDialog();
+
     return {
       setActiveSlide,
+
+      isImageShowing,
+      imgSrc,
+      openImage,
+      closeDialog,
     };
   },
 };
@@ -221,13 +251,17 @@ img {
 }
 
 img.full-img {
-  max-height: 40rem;
-  max-width: 1920px;
+  // max-height: 55rem;
+  max-width: 150rem;
   width: 100%;
 
   object-fit: cover;
 
   margin: 0 auto;
+}
+
+img.mah-55r {
+  max-height: 55rem !important;
 }
 
 .grid-gallery {
@@ -366,7 +400,7 @@ img.full-img {
       flex: 1;
       object-fit: cover;
       cursor: pointer;
-      transition: flex 250ms ease-in-out;
+      transition: flex 400ms ease-in-out;
 
       max-width: unset;
 

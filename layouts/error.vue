@@ -2,12 +2,11 @@
   <BaseContainer>
     <div class="wrapper bg-primary">
       <div class="content">
-        <!-- v-if="error.statusCode === 404" -->
-        <h1>
+        <h1 v-if="error.statusCode === 404">
           Упс, кажется вы заблудились.<br />
           Этой страницы не существует
         </h1>
-        <!-- <h1 v-else>Упс, что-то пошло не так</h1> -->
+        <h1 v-else>Упс, что-то пошло не так</h1>
         <NuxtLink to="/" class="to-home">На главную </NuxtLink>
       </div>
     </div>

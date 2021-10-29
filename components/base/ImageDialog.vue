@@ -1,11 +1,11 @@
 <template>
-  <div class="overlay" @click="closeDialog">
+  <dialog class="overlay" @click="closeDialog">
     <div class="content">
       <img :src="imageSrc" alt="" />
-      <img src="/icons/close.svg" alt="" class="close" />
+      <img src="/icons/close.svg" alt="" class="close" @click="closeDialog" />
       <!-- <span src="/icons/close.svg" alt="" class="close">X</span> -->
     </div>
-  </div>
+  </dialog>
 </template>
 
 <script>
@@ -20,7 +20,13 @@ export default {
   emit: ['close-dialog'],
 
   setup(props, { emit }) {
-    function closeDialog() {
+    function closeDialog(event) {
+      const target =
+        event.target.classList.contains('overlay') ||
+        event.target.classList.contains('close');
+
+      if (!target) return;
+
       emit('close-dialog');
     }
 
@@ -57,15 +63,26 @@ export default {
   .content {
     position: relative;
 
+    margin: 3.5vw;
+    @include mq(xlg) {
+      margin: 0 5vw;
+
+      max-height: 90vh;
+
+      img {
+        max-height: 90vh;
+      }
+    }
+
     img {
-      padding: 3.5vw;
       width: 100%;
+      // height: 100%;
       height: auto;
     }
 
     img.close,
     span.close {
-      --width: 1.5em;
+      --width: 1.25em;
 
       position: absolute;
       // right: var(--width);
@@ -77,6 +94,7 @@ export default {
       height: var(--width);
 
       // transform: translate(calc(var(--width) * -1), var(--width));
+      transform: translate(50%, -50%);
 
       padding: 0 !important;
 
