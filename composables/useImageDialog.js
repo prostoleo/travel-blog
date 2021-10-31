@@ -18,7 +18,6 @@ export default function () {
 
     console.log('target: ', target);
 
-    // body.classList.add('lock');
     header.classList.add('d-none');
 
     imgSrc.value = target.src;
@@ -26,7 +25,6 @@ export default function () {
   }
 
   function closeDialog() {
-    // body.classList.remove('lock');
     header.classList.remove('d-none');
 
     isImageShowing.value = false;

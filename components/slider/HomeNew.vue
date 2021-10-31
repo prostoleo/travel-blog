@@ -134,7 +134,7 @@ export default {
 
         centeredSlides: true,
         centeredSlidesBounds: true,
-        centerInsufficientSlides: true,
+        // centerInsufficientSlides: true,
 
         /*  breakpoints: {
           900: {
@@ -394,7 +394,8 @@ export default {
   width: 100vw !important;
   max-width: 192rem !important;
 
-  @include adaptive-value-min-max(margin-top, 35, 55);
+  @include adaptive-value-min-max(margin-top, 25, 35);
+  @include adaptive-value-min-max(height, 200, 400);
 
   position: relative;
 }
@@ -406,7 +407,7 @@ export default {
   background-repeat: no-repeat;
   background-position: center center;
 
-  @include adaptive-value-min-max(height, 200, 400);
+  // @include adaptive-value-min-max(height, 200, 400);
   // @include adaptive-value-min-max(width, 300, 600);
   @include mq(lg) {
     max-width: 60rem;
@@ -420,10 +421,13 @@ export default {
   padding-bottom: 5%;
   padding-left: 4%;
 
-  transform: scale(0.8, 0.8);
   opacity: 0.5;
 
   transition: all 1000ms ease-in-out;
+
+  @include mq(lg) {
+    transform: scale(0.8, 0.8);
+  }
 
   .slide__link {
     @include adaptive-value-min-max(font-size, 14, 18);

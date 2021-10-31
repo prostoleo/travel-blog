@@ -52,7 +52,7 @@ export default {
     [
       'storyblok-nuxt',
       {
-        accessToken: 'YOUR_PREVIEW_TOKEN',
+        accessToken: process.env.STORYBLOK_KEY,
         cacheProvider: 'memory',
       },
     ],
@@ -90,66 +90,4 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
-
-  /* router: {
-    scrollBehavior(to) {
-      if (process.client) {
-        console.log('document: ', document);
-        console.log('to.hash: ', to.hash);
-        console.log('typeof to.hash: ', typeof to.hash);
-        console.log('document.querySelector: ', document.querySelector);
-        console.log(
-          'document.querySelector(to.hash): ',
-          document.querySelector(to.hash)
-        );
-        if (to.hash) {
-          return window.scrollTo({
-            top:
-              document.querySelector(`.${to.hash.slice(1)}`).offsetTop +
-              window.innerHeight,
-            behavior: 'smooth',
-          });
-        }
-        return window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    },
-  }, */
-
-  /* router: {
-    scrollBehavior: async (to, from, savedPosition) => {
-      if (savedPosition) {
-        return savedPosition;
-      }
-
-      // eslint-disable-next-line require-await
-      const findEl = async (hash, x) => {
-        console.log('findEl: x: ', x);
-        return (
-          document.querySelector(`.${hash}`) ||
-          // document.getElementById(`${hash}`) ||
-          new Promise((resolve, reject) => {
-            if (x > 100) {
-              return resolve();
-            }
-            setTimeout(() => {
-              resolve(findEl(hash, ++x || 1));
-            }, 100);
-          })
-        );
-      };
-
-      if (to.hash) {
-        const el = await findEl(to.hash.slice(1));
-        console.log('el: ', el);
-
-        if ('scrollBehavior' in document.documentElement.style) {
-          return window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
-        } else {
-          return window.scrollTo(0, el.offsetTop);
-        }
-      }
-
-      return { x: 0, y: 0, behavior: 'smooth' };
-    },
-  }, */
 };

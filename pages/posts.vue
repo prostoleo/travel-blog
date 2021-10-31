@@ -279,6 +279,10 @@ section.first {
       // border: 1px solid $text-light;
       position: relative;
 
+      &:last-of-type img:last-of-type {
+        transform: rotate(180deg);
+      }
+
       &::after {
         content: '';
         position: absolute;
