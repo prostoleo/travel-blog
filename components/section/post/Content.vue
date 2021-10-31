@@ -207,10 +207,6 @@ export default {
     const slidesEls1 = ref(null);
 
     const setActiveSlide = (event) => {
-      console.log('sliderEl1.value: ', sliderEl1.value);
-      console.log('slidesEls1.value: ', slidesEls1.value);
-      console.log('event: ', event);
-
       slidesEls1.value.forEach((item) => item.classList.remove('active'));
 
       const { target } = event;

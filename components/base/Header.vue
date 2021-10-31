@@ -88,25 +88,6 @@ export default {
 
     const isMenuOpenComp = computed(() => menuOpen.value);
 
-    // ====================
-    // todo функции для перехода по страницам
-    /* function navigateToNew(event) {
-      event.preventDefault();
-
-      menuOpen.value = false;
-
-      router.push({
-        name: 'Home',
-      });
-
-      const sectionNew = document.getElementById('new');
-      console.log('sectionNew: ', sectionNew);
-
-      sectionNew.scrollIntoView(true, {
-        behavior: 'smooth',
-      });
-    } */
-
     return {
       isMenuOpenComp,
       toggleMenu,

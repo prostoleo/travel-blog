@@ -5,7 +5,6 @@ export default async function (to, from, savedPosition) {
 
   // eslint-disable-next-line require-await
   const findEl = async (hash, x) => {
-    console.log('findEl: x: ', x);
     return (
       document.querySelector(`.${hash}`) ||
       // document.getElementById(`${hash}`) ||
@@ -22,7 +21,6 @@ export default async function (to, from, savedPosition) {
 
   if (to.hash) {
     const el = await findEl(to.hash.slice(1));
-    console.log('el: ', el);
 
     if ('scrollBehavior' in document.documentElement.style) {
       return window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });

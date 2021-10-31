@@ -85,19 +85,14 @@ export default {
     const numberSlidesRef = ref(null);
 
     const activeSlideComp = computed(() => activeSlide.value);
-    console.log('activeSlideComp: ', activeSlideComp);
 
     const viewportWidth = computed(() => window.innerWidth);
-    console.log('viewportWidth: ', viewportWidth);
     const slideWidth = computed(
       () => slidesRef.value?.[0].getBoundingClientRect().width
     );
-    console.log('slideWidth: ', slideWidth);
 
     function setTransform(slides) {
       slides.forEach((slide, i) => {
-        console.log('slide: ', slide);
-
         //* получаем translateX
         let translateX = `translateX(calc(${
           (i - activeSlideComp.value + 1) * 100
@@ -140,11 +135,9 @@ export default {
 
     onMounted(() => {
       const slides = document.querySelectorAll('.slider > *');
-      console.log('slides: ', slides);
       slidesRef.value = slides;
 
       const numberOfSlides = slides.length;
-      console.log('numberOfSlides: ', numberOfSlides);
       numberSlidesRef.value = numberOfSlides;
 
       activeSlide.value = Math.ceil(numberOfSlides / 2);
@@ -155,8 +148,6 @@ export default {
     });
 
     const prevSlide = () => {
-      console.log(' prev ');
-
       //* проверка на каком слайде находимся
       if (activeSlide.value === 1) {
         activeSlide.value = slidesRef.value.length;
@@ -169,8 +160,6 @@ export default {
       addActive();
     };
     const nextSlide = () => {
-      console.log(' next ');
-
       //* проверка на каком слайде находимся
       if (activeSlide.value === slidesRef.value.length) {
         activeSlide.value = 1;
@@ -191,7 +180,6 @@ export default {
     }
 
     function addActive() {
-      console.log('add Active !');
       const el = slidesRef.value?.[activeSlide.value - 1];
 
       el.classList.add('active');

@@ -41,29 +41,11 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-// import { ref, computed, onMounted } from '@nuxtjs/composition-api';
-
 // import style (>= Swiper 6.x)
 import 'swiper/swiper-bundle.css';
-// import 'swiper/swiper.scss';
-// import 'swiper/css/navigation';
 
 // eslint-disable-next-line no-unused-vars
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-
-// eslint-disable-next-line no-unused-vars
-// import Swiper, SwiperSlide from 'swiper';
-// import { Controller, Pagination, Scrollbar, Navigation } from 'swiper';
-// console.log('Pagination: ', Pagination);
-
-// import 'swiper/css';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
-// import 'swiper/css/scrollbar';
-
-// import style (<= Swiper 5.x)
-// import 'swiper/css/swiper.css';
 
 export default {
   name: 'Carousel',
@@ -71,11 +53,6 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
-    // Controller,
-    // Pagination,
-    // Scrollbar,
-    // Navigation,
-    // Controller,
   },
 
   data() {
@@ -120,43 +97,19 @@ export default {
       activeSlide: this.swiper?.activeIndex,
 
       swiperOptions: {
-        /* pagination: {
-          el: '.swiper-pagination',
-        },
-
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        }, */
         slidesPerView: 'auto',
-        // loop: true,
         spaceBetween: 20,
 
         centeredSlides: true,
         centeredSlidesBounds: true,
-        // centerInsufficientSlides: true,
-
-        /*  breakpoints: {
-          900: {
-            // centeredSlides: false,
-            // centeredSlidesBounds: false,
-            centerInsufficientSlides: true,
-          },
-        }, */
 
         on: {
           slideChange: () => {
-            // console.log(' this.swiper.activeIndex ', this.swiper.activeIndex);
-            // console.log(' slideChange swiper ');
-
             const bullets = this.$refs.bullet;
-            // console.log('bullets: ', bullets);
 
             const activeIndex = this.swiper.activeIndex;
 
             const { prevBtn, nextBtn } = this.$refs;
-            // console.log('prevBtn: ', prevBtn);
-            // console.log('nextBtn: ', nextBtn);
 
             prevBtn.classList.remove('disabled');
             nextBtn.classList.remove('disabled');
@@ -178,30 +131,20 @@ export default {
     swiper() {
       return this.$refs.mySwiper.$swiper;
     },
-
-    /* initialSlide() {
-      console.log('this.slides: ', this.slides);
-      return Math.round(this?.slides?.length) ?? 1;
-    }, */
   },
 
   mounted() {
-    // console.log('Current Swiper instance object', this.swiper);
     this.swiper.slideTo(3, 1000, false);
     this.goToSlide(3);
   },
 
   methods: {
     goToPrevSlide() {
-      // console.log('this.swiper.activeIndex: ', this.swiper.activeIndex);
-
       if (this.swiper.activeIndex === 0) return;
 
       this.swiper.slidePrev(1000, false);
     },
     goToNextSlide() {
-      // console.log('this.swiper.activeIndex: ', this.swiper.activeIndex);
-
       if (this.swiper.activeIndex === this.slides.length) return;
 
       this.swiper.slideNext(1000, false);
