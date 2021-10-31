@@ -187,7 +187,7 @@
       </div>
     </section>
     <BaseImageDialog
-      v-if="isImageShowing"
+      v-if="isImageShowingComp"
       :image-src="imgSrc"
       @close-dialog="closeDialog"
     />
@@ -221,12 +221,19 @@ export default {
     });
 
     // todo для диалогового окна для изображений
-    const { isImageShowing, imgSrc, openImage, closeDialog } = useImageDialog();
+    const {
+      isImageShowing,
+      isImageShowingComp,
+      imgSrc,
+      openImage,
+      closeDialog,
+    } = useImageDialog();
 
     return {
       setActiveSlide,
 
       isImageShowing,
+      isImageShowingComp,
       imgSrc,
       openImage,
       closeDialog,
@@ -268,7 +275,7 @@ img.mah-55r {
 
   display: flex;
   // align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
 
   overflow-x: auto !important;
 

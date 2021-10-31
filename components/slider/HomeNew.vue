@@ -98,10 +98,16 @@ export default {
 
       swiperOptions: {
         slidesPerView: 'auto',
-        spaceBetween: 20,
 
         centeredSlides: true,
         centeredSlidesBounds: true,
+        // centerInsufficientSlides: true,
+
+        breakpoints: {
+          900: {
+            spaceBetween: 20,
+          },
+        },
 
         on: {
           slideChange: () => {
@@ -155,91 +161,6 @@ export default {
     },
   },
 };
-
-/* setup(props) {
-    const slides = ref([
-      {
-        imgSrc: '/img/slider-main/1-min.jpg',
-        text: 'Дальний Восток',
-      },
-      {
-        imgSrc: '/img/slider-main/1-min.jpg',
-        text: 'Сибирь',
-      },
-      {
-        imgSrc: '/img/slider-main/1-min.jpg',
-        text: 'Урал',
-      },
-      {
-        imgSrc: '/img/slider-main/1-min.jpg',
-        text: 'Кавказ',
-      },
-      {
-        imgSrc: '/img/slider-main/1-min.jpg',
-        text: 'Север',
-      },
-      {
-        imgSrc: '/img/slider-main/1-min.jpg',
-        text: 'Юг',
-      },
-    ]);
-
-    const swiperOptions = ref({
-      pagination: {
-        el: '.swiper-pagination',
-      },
-
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      slidesPerView: 3,
-      loop: true,
-      spaceBetween: 20,
-
-      centeredSlides: true,
-      centeredSlidesBounds: true,
-
-      breakpoints: {
-        320: {
-          slidesPerView: 2,
-          spaceBetween: 10,
-          // width: 300,
-        },
-        // 450: {
-        //   slidesPerView: 1,
-        //   spaceBetween: 10,
-        //   // width: 300,
-        // },
-        600: {
-          slidesPerView: 3,
-        },
-      },
-    });
-
-    const mySwiper = ref(Swiper);
-
-    const swiper = computed(() => Swiper.$swiper);
-
-    // onMounted(() => {
-    //   swiper.slideTo(3, 1000, false);
-    // });
-
-    const modules = ref(Navigation, Pagination, Scrollbar, Controller);
-
-    return {
-      slides,
-      swiperOptions,
-      mySwiper,
-      swiper,
-
-      modules,
-      // modules: Navigation,
-      // Pagination,
-      // Scrollbar,
-      // Controller,
-    };
-  }, */
 </script>
 
 <style lang="scss" scoped>
@@ -352,11 +273,8 @@ export default {
 
   // @include adaptive-value-min-max(height, 200, 400);
   // @include adaptive-value-min-max(width, 300, 600);
-  @include mq(lg) {
-    max-width: 60rem;
-  }
-
   // margin: 0.5%;
+  // width: 100vw;
 
   display: flex;
   align-items: flex-end;
@@ -370,6 +288,9 @@ export default {
 
   @include mq(lg) {
     transform: scale(0.8, 0.8);
+    max-width: 60rem;
+
+    width: 100%;
   }
 
   .slide__link {

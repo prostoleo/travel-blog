@@ -1,17 +1,12 @@
 <template>
   <div>
-    <BaseHeader />
+    <BaseHeader ref="baseHeader" />
     <main>
       <Nuxt />
     </main>
     <BaseFooter />
   </div>
 </template>
-
-<script>
-// import Container from "../components/base/Container.vue";
-export default {};
-</script>
 
 <style lang="scss" scoped>
 div {

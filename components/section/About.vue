@@ -9,12 +9,8 @@
 
         <div class="rows">
           <div class="row">
-            <img
-              src="/img/about/1.jpg"
-              class="row__img full-img"
-              alt=""
-              @click="openImage"
-            />
+            <img src="/img/about/1.jpg" class="row__img" alt="" />
+            <!-- @click="openImage" -->
             <div class="row__content">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. In
               similique reprehenderit mollitia eum rem quisquam nisi,
@@ -27,12 +23,8 @@
           </div>
 
           <div class="row">
-            <img
-              src="/img/about/2.jpg"
-              class="row__img full-img"
-              alt=""
-              @click="openImage"
-            />
+            <img src="/img/about/2.jpg" class="row__img" alt="" />
+            <!-- @click="openImage" -->
             <div class="row__content">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. In
               similique reprehenderit mollitia eum rem quisquam nisi,
@@ -46,33 +38,33 @@
               iste fugiat aliquam suscipit.
             </div>
           </div>
-
-          <BaseImageDialog
-            v-if="isImageShowing"
-            :image-src="imgSrc"
-            @close-dialog="closeDialog"
-          />
         </div>
       </div>
     </BaseContainer>
+
+    <!-- <BaseImageDialog
+      :is-open="isImageShowing"
+      :image-src="imgSrc"
+      @close-dialog="closeDialog"
+    /> -->
   </section>
 </template>
 
 <script>
 // import { ref } from '@nuxtjs/composition-api';
 
-import useImageDialog from '~/composables/useImageDialog.js';
+// import useImageDialog from '~/composables/useImageDialog.js';
 
 export default {
   setup() {
-    const { isImageShowing, imgSrc, openImage, closeDialog } = useImageDialog();
+    /* const { isImageShowing, imgSrc, openImage, closeDialog } = useImageDialog();
 
     return {
       isImageShowing,
       imgSrc,
       openImage,
       closeDialog,
-    };
+    }; */
   },
 };
 </script>

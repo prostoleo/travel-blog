@@ -1,16 +1,21 @@
 <template>
-  <dialog class="overlay" @click="closeDialog">
+  <div class="overlay" @click="closeDialog">
     <div class="content">
       <img :src="imageSrc" alt="" />
       <img src="/icons/close.svg" alt="" class="close" @click="closeDialog" />
       <!-- <span src="/icons/close.svg" alt="" class="close">X</span> -->
     </div>
-  </dialog>
+  </div>
 </template>
 
 <script>
 export default {
   props: {
+    /* isOpen: {
+      type: Boolean,
+      required: true,
+      default: false,
+    }, */
     imageSrc: {
       type: String,
       required: true,

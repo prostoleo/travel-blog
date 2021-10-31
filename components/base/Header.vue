@@ -167,6 +167,7 @@ export default {
     background: transparent;
     transform: translateY(0%);
     z-index: unset;
+    padding: 1rem 0;
 
     margin-left: auto;
     width: max-content;

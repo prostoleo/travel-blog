@@ -20,17 +20,14 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    // 'ant-design-vue/dist/antd.css',
-    '~/assets/css/normalize.css',
-  ],
+  css: ['~/assets/css/normalize.css'],
 
   styleResources: {
     scss: ['~/assets/scss/main.scss'],
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/antd-ui'],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -42,6 +39,7 @@ export default {
     '@nuxtjs/fontawesome',
     '@nuxtjs/google-fonts',
     '@nuxtjs/composition-api/module',
+    '@aceforth/nuxt-netlify',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -74,6 +72,10 @@ export default {
     preload: true,
   },
 
+  generate: {
+    fallback: true,
+  },
+
   fontawesome: {
     icons: {},
   },
@@ -86,6 +88,12 @@ export default {
   server: {
     port: 7777,
     host: '0.0.0.0',
+  },
+
+  netlify: {
+    headers: {
+      '/*': ['Access-Control-Allow-Origin: *'],
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
