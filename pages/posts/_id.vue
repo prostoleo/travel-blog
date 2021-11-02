@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <div v-if="fetchState.pending">ожидание...</div>
+  <div v-else>
+    <!-- <pre>
+      {{ post }}
+    </pre> -->
+    <!-- <pre>
+      {{ posts }}
+    </pre> -->
+
     <section class="first">
       <BaseContainer>
         <div class="content-wrapper">
@@ -20,20 +28,26 @@
           </div>
 
           <div class="content-text">
-            <h1 class="title">Магадан</h1>
+            <h1 class="title">{{ post.story.content.title }}</h1>
 
             <div class="post-info">
               <div class="post-info__row row">
                 <img src="/icons/date.svg" alt="" class="row__img" />
-                <span class="row__text">Пн, 18 октября 2021 г.</span>
+                <span class="row__text">{{ formatDate() }}</span>
               </div>
               <div class="post-info__row row">
                 <img src="/icons/author.svg" alt="" class="row__img" />
-                <span class="row__text">Автор, Федор Федоров</span>
+                <span class="row__text"
+                  >Автор, <strong>{{ post.story.content.author }}</strong></span
+                >
               </div>
               <div class="post-info__row row">
                 <img src="/icons/time.svg" alt="" class="row__img" />
-                <span class="row__text">Время на чтение: 12 мин.</span>
+                <span class="row__text"
+                  >Время на чтение:
+                  <strong>{{ post.story.content.time_to_read }}</strong>
+                  мин.</span
+                >
               </div>
             </div>
           </div>
@@ -46,9 +60,105 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import {
+  ref,
+  useFetch,
+  useRoute,
+  useRouter,
+  useContext,
+  // useAsync,
+  // onMounted,
+  // useStore,
+  // computed,
+} from '@nuxtjs/composition-api';
+
+import StoryblokClient from 'storyblok-js-client';
+
+import { STORYBLOK_KEY } from '~/config/config.js';
+
 export default {
-  setup() {
-    return {};
+  name: 'Home',
+
+  setup(props) {
+    const context = useContext();
+    console.log('context: ', context);
+
+    const route = useRoute();
+    const router = useRouter();
+    console.log('router: ', router);
+    console.log('route.value.params.id: ', route.value.params.id);
+
+    const postId = route.value.params.id;
+
+    const Storyblok = new StoryblokClient({
+      accessToken: STORYBLOK_KEY,
+    });
+    console.log('Storyblok: ', Storyblok);
+
+    // const store = useStore();
+    const post = ref(null);
+    const posts = ref(null);
+
+    const { fetch, fetchState } = useFetch(async () => {
+      // data.value = await $axios.$get(
+      //   `https://api.storyblok.com/v1/cdn/stories/test?version=draft&token=gmlwyE5LJpGMoSrWXvgA3Att`
+      // );
+      // data.value = await $storyapi
+      post.value = await Storyblok.get(`cdn/stories/posts/${postId}`, {
+        version: 'draft',
+      })
+        .then((res) => {
+          console.log('res.data: ', res.data);
+          return res.data;
+        })
+        .catch((err) => {
+          console.log('err.response: ', err.response);
+
+          // eslint-disable-next-line
+          if (err.response.status == 404) {
+            router.replace({
+              path: '/error',
+              name: 'NotFound',
+              params: { notFound: 'not-found' },
+            });
+            /* context.redirect(err.status, '/not-found'); */
+            console.log('404 !');
+          }
+        });
+
+      // todo все посты получаем
+      /* posts.value = await Storyblok.get('cdn/stories', {
+        version: 'draft',
+        starts_with: 'posts',
+      })
+        .then((res) => {
+          console.log('res.data: ', res.data);
+          return res.data;
+        })
+        .catch((err) => console.warn(err)); */
+    });
+
+    // Manually trigger a refetch
+    fetch();
+
+    const formatDate = (date) => {
+      return new Intl.DateTimeFormat(navigator.locale, {
+        weekday: 'short',
+        month: 'long',
+        year: 'numeric',
+        day: 'numeric',
+      }).format(date);
+    };
+
+    return {
+      post,
+      posts,
+      fetch,
+      fetchState,
+
+      formatDate,
+    };
   },
 };
 </script>

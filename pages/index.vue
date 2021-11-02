@@ -6,10 +6,10 @@
     <!-- <pre>
       {{ data }}
     </pre> -->
-    <SectionHero :hero-data="data.stories[0].content.hero_page[0]" />
+    <SectionHero :hero-data="data.story.content.hero_page[0]" />
     <SectionNew />
     <SectionDirections />
-    <SectionAbout :about-data="data.stories[0].content.hero_page[1]" />
+    <SectionAbout :about-data="data.story.content.hero_page[1]" />
   </div>
 </template>
 

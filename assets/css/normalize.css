@@ -6,6 +6,10 @@
   font-family: 'Open Sans', Arial, sans-serif;
 }
 
+:root {
+  --text-dark: hsl(211, 53%, 15%);
+}
+
 html {
   font-size: 62.5% !important;
 }
@@ -56,4 +60,28 @@ h4,
 h5,
 h6 {
   margin-bottom: 1.25em;
+}
+
+h2 {
+  font-size: calc(24px + 16 * ((100vw - 320px) / 910));
+  font-weight: 700;
+  color: var(--text-dark);
+
+  position: relative;
+
+  padding-top: 1.5em;
+}
+
+h2::before {
+  content: '';
+  position: absolute;
+
+  top: -1.5em;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 25%;
+
+  background: url(~/static/icons/divider.svg);
 }
