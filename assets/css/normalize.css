@@ -23,3 +23,37 @@ body {
 body.lock {
   overflow-y: hidden !important;
 }
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ol {
+  margin-left: 2em;
+  margin-bottom: 1.5em;
+}
+
+p {
+  /* max-width: 65ch; */
+  margin-bottom: 1.5em;
+}
+
+blockquote {
+  padding-left: 0.75em;
+
+  border-left: 3px solid hsla(200, 100%, 42%, 0.6);
+}
+
+pre {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 1.25em;
+}

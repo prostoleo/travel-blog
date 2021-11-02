@@ -356,8 +356,8 @@ img.mah-55r {
 
   &__item {
     width: 100%;
-    max-width: 30%;
-    flex: 1 0 30%;
+    max-width: 47%;
+    flex: 1 0 47%;
 
     & > .img {
       @include adaptive-value-min-max(height, 200, 500);
