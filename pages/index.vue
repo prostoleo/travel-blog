@@ -6,10 +6,10 @@
     <!-- <pre>
       {{ data }}
     </pre> -->
-    <SectionHero :hero-data="data.story.content.hero_page[0]" />
+    <SectionHero :hero-data="data.content.hero_page[0]" />
     <SectionNew />
     <SectionDirections />
-    <SectionAbout :about-data="data.story.content.hero_page[1]" />
+    <SectionAbout :about-data="data.content.hero_page[1]" />
   </div>
 </template>
 
@@ -46,13 +46,35 @@ export default {
       // );
       // data.value = await $storyapi
       data.value = await Storyblok.get('cdn/stories/', {
-        version: 'draft',
+        // prettier-ignore
+        "version": "draft",
+        // prettier-ignore
+        "filter_query": {
+          // // prettier-ignore
+          // "full_slug": {
+          //   // prettier-ignore
+          //   "is": 'Home',
+          // },
+          // prettier-ignore
+          "id": {
+            // prettier-ignore
+            "is": '81451178',
+          },
+        },
       })
         .then((res) => {
           console.log('res.data: ', res.data);
-          return res.data;
+
+          const homeData = res.data.stories.find(
+            (story) => story.name === 'Home'
+          );
+
+          return homeData;
+          // return res.data;
         })
-        .catch((err) => console.warn(err));
+        .catch((err) => {
+          console.log(`💣💣💣 - ${err.response}`);
+        });
     });
 
     // Manually trigger a refetch

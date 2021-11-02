@@ -1,6 +1,6 @@
 <template>
   <div v-if="fetchState.pending">ожидание...</div>
-  <div v-else>
+  <div v-else v-editable="post.story">
     <!-- <pre>
       {{ post }}
     </pre> -->
@@ -55,7 +55,7 @@
       </BaseContainer>
     </section>
 
-    <SectionPostContent />
+    <SectionPostContent :post="post" />
   </div>
 </template>
 
@@ -74,6 +74,7 @@ import {
 } from '@nuxtjs/composition-api';
 
 import StoryblokClient from 'storyblok-js-client';
+import markdown from 'markdown-it';
 
 import { STORYBLOK_KEY } from '~/config/config.js';
 
@@ -115,6 +116,7 @@ export default {
         .catch((err) => {
           console.log('err.response: ', err.response);
 
+          // todo если нет такого поста - перекидываем на страницу с ошибкой
           // eslint-disable-next-line
           if (err.response.status == 404) {
             router.replace({
@@ -158,6 +160,8 @@ export default {
       fetchState,
 
       formatDate,
+
+      markdown,
     };
   },
 };
