@@ -8,7 +8,7 @@ export default {
   head: {
     title: 'travel-blog',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'ru',
     },
     meta: [
       { charset: 'utf-8' },
@@ -81,8 +81,14 @@ export default {
   },
 
   loading: {
-    color: 'goldenrod',
+    color: 'hsla(200, 100%, 42%, 60%);',
     height: '3px',
+  },
+
+  loadingIndicator: {
+    name: 'cube-grid',
+    color: 'hsla(200, 100%, 42%, 60%)',
+    background: 'white',
   },
 
   server: {

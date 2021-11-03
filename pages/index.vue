@@ -1,8 +1,10 @@
 <template>
-  <p v-if="fetchState.pending">ожидание...</p>
-  <p v-else-if="fetchState.error">ошибка...</p>
+  <div v-if="fetchState.pending">
+    <nuxt-loading />
+  </div>
+  <div v-else-if="fetchState.error">ошибка...</div>
   <div v-else>
-    <button @click="fetch">refetch</button>
+    <!-- <button @click="fetch">refetch</button> -->
     <!-- <pre>
       {{ data }}
     </pre> -->

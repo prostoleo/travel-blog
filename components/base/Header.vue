@@ -105,7 +105,8 @@ export default {
 
   background: $white;
 
-  position: sticky;
+  // position: sticky;
+  position: relative;
   top: 0;
   z-index: 1000;
   isolation: isolate;

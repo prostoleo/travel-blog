@@ -8,6 +8,7 @@
 
 :root {
   --text-dark: hsl(211, 53%, 15%);
+  /* --text-dark: hsla(0, 0%, 0%, 0.4); */
 }
 
 html {
@@ -94,6 +95,8 @@ h2::before {
 
 .text-wrapper img {
   margin: 0 0 2em;
+
+  cursor: pointer;
 }
 
 .text-wrapper img:last-child {

@@ -1,6 +1,6 @@
 <template>
   <div class="post-container">
-    <section class="first">
+    <section v-if="post.story.content.markdown_block" class="first">
       <BaseContainer>
         <div
           v-for="(
@@ -8,6 +8,7 @@
           ) in post.story.content.markdown_block.slice(0, 3)"
           :key="index"
           class="text-wrapper"
+          @click="openImage"
           v-html="markdown().render(markdown_item.markdown)"
         ></div>
       </BaseContainer>
@@ -80,13 +81,13 @@
         :id="`gallery-item-${index + 1}`"
         :key="index"
         class="grid-gallery__item full-img"
-        :src="gallery_item.image.filename"
+        :src="`${gallery_item.image.filename}`"
         @click="openImage"
       />
     </div>
 
     <section class="second">
-      <BaseContainer>
+      <BaseContainer v-if="post.story.content.markdown_block">
         <!-- <div class="title">
           <img src="/icons/divider.svg" alt="разделитель" />
           <h2>Подзаголовок</h2>
@@ -106,6 +107,7 @@
           ) in post.story.content.markdown_block.slice(3)"
           :key="index"
           class="text-wrapper"
+          @click="openImage"
           v-html="markdown().render(markdown_item.markdown)"
         ></div>
       </BaseContainer>
@@ -121,7 +123,7 @@
         >
           <div
             class="img"
-            :style="`background-image: url(${gallery_item.image.filename})`"
+            :style="`background-image: url(${gallery_item.image.filename}/m/)`"
           >
             <h3 class="flex-gallery__title">
               {{ gallery_item.title }}
@@ -211,9 +213,15 @@ img.full-img {
   max-width: 150rem;
   width: 100%;
 
+  // max-height: 90vh;
+
   object-fit: cover;
 
   margin: 0 auto;
+
+  @include mq(lg) {
+    height: 100%;
+  }
 }
 
 img.mah-55r {
@@ -297,21 +305,29 @@ img.mah-55r {
 }
 
 .flex-gallery {
-  max-width: 100%;
+  // max-width: 100%;
   display: flex;
+  // flex-direction: column;
 
-  overflow-x: auto;
+  overflow-x: auto !important;
 
   height: 100%;
   max-height: 50rem;
 
   gap: 1.5rem;
-  margin-top: 2em;
+  // margin-top: 2em;
+  margin: 2em auto 0 auto;
 
   &__item {
-    width: 100%;
+    /* width: 100%;
     max-width: 47%;
-    flex: 1 0 47%;
+    flex: 1 0 47%; */
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 75%;
+
+    /* object-fit: cover;
+    @include adaptive-value-min-max(width, 250, 400); */
 
     & > .img {
       @include adaptive-value-min-max(height, 200, 500);

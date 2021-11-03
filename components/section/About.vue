@@ -22,27 +22,33 @@
               class="row__content prose"
               v-html="markdown().render(row.text)"
             ></div>
-            <img :src="row.image.filename" class="row__img" alt="" />
+            <img
+              :src="row.image.filename"
+              class="row__img"
+              alt=""
+              @click="openImage"
+            />
             <!-- @click="openImage" -->
           </div>
         </div>
       </div>
     </BaseContainer>
 
-    <!-- <BaseImageDialog
-      :is-open="isImageShowing"
+    <BaseImageDialog
+      v-if="isImageShowingComp"
       :image-src="imgSrc"
       @close-dialog="closeDialog"
-    /> -->
+    />
   </section>
 </template>
 
 <script>
 // import { ref } from '@nuxtjs/composition-api';
 
-// import useImageDialog from '~/composables/useImageDialog.js';
 import RichTextResolver from 'storyblok-js-client/dist/rich-text-resolver.es';
 import markdown from 'markdown-it';
+import useImageDialog from '~/composables/useImageDialog.js';
+
 console.log('markdown: ', markdown);
 
 export default {
@@ -56,18 +62,28 @@ export default {
 
   setup() {
     const resolver = new RichTextResolver();
-    /* const { isImageShowing, imgSrc, openImage, closeDialog } = useImageDialog();
-
-    return {
+    const {
       isImageShowing,
+      isImageShowingComp,
       imgSrc,
       openImage,
       closeDialog,
-    }; */
+    } = useImageDialog();
+
     return {
+      isImageShowing,
+      isImageShowingComp,
+      imgSrc,
+      openImage,
+      closeDialog,
+
       resolver,
       markdown,
     };
+    /* return {
+      resolver,
+      markdown,
+    }; */
   },
 };
 </script>
@@ -152,6 +168,8 @@ section {
         .row__img {
           max-height: 50rem;
           object-fit: cover;
+
+          cursor: pointer;
 
           /* // img {
           } */

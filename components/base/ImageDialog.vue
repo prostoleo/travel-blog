@@ -75,17 +75,18 @@ export default {
     @include mq(xlg) {
       margin: 0 5vw;
 
-      max-height: 90vh;
+      /* max-height: 90vh;
 
       img {
         max-height: 90vh;
-      }
+      } */
     }
 
     img {
       width: 100%;
       // height: 100%;
       height: auto;
+      max-height: 90vh;
 
       cursor: unset;
       z-index: 100;

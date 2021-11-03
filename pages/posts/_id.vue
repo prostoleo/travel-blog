@@ -1,5 +1,8 @@
 <template>
-  <div v-if="fetchState.pending">ожидание...</div>
+  <div v-if="fetchState.pending">
+    <nuxt-loading />
+  </div>
+  <!--  -->
   <div v-else v-editable="post.story">
     <!-- <pre>
       {{ post }}
@@ -8,7 +11,12 @@
       {{ posts }}
     </pre> -->
 
-    <section class="first">
+    <section ref="firstSection" class="first">
+      <img
+        :src="`${post.story.content.bg.filename}/m/filters:brightness(-40)`"
+        alt=""
+        class="bg"
+      />
       <BaseContainer>
         <div class="content-wrapper">
           <div class="breadcrumbs">
@@ -21,10 +29,12 @@
               <img src="/icons/shevron.svg" alt="" />
             </nuxt-link>
             <nuxt-link to="/directions/1" class="breadcrumb-item">
-              Дальний Восток
+              {{ post.story.content.direction }}
               <img src="/icons/shevron.svg" alt="" />
             </nuxt-link>
-            <span class="breadcrumb-item"> Магадан </span>
+            <span class="breadcrumb-item">
+              {{ post.story.content.title }}
+            </span>
           </div>
 
           <div class="content-text">
@@ -63,12 +73,13 @@
 // eslint-disable-next-line no-unused-vars
 import {
   ref,
+  watch,
   useFetch,
   useRoute,
   useRouter,
   useContext,
   // useAsync,
-  // onMounted,
+  onMounted,
   // useStore,
   // computed,
 } from '@nuxtjs/composition-api';
@@ -81,9 +92,11 @@ import { STORYBLOK_KEY } from '~/config/config.js';
 export default {
   name: 'Home',
 
-  setup(props) {
+  setup(props, { root }) {
     const context = useContext();
     console.log('context: ', context);
+
+    console.log('root: ', root);
 
     const route = useRoute();
     const router = useRouter();
@@ -101,6 +114,12 @@ export default {
     const post = ref(null);
     const posts = ref(null);
 
+    const firstSection = ref(null);
+
+    onMounted(() => {
+      console.log('firstSection.value: ', firstSection.value);
+    });
+
     const { fetch, fetchState } = useFetch(async () => {
       // data.value = await $axios.$get(
       //   `https://api.storyblok.com/v1/cdn/stories/test?version=draft&token=gmlwyE5LJpGMoSrWXvgA3Att`
@@ -111,6 +130,23 @@ export default {
       })
         .then((res) => {
           console.log('res.data: ', res.data);
+          console.log('document: ', document);
+          console.log('document.querySelector: ', document.querySelector);
+
+          /* const element = document.querySelector('section.first');
+
+          addBackground(
+            element,
+            res.data.story.content.bg.filename,
+            'hsla(0, 0%, 0%, 0.4)',
+            {
+              mode: 'darken',
+              size: 'cover',
+              position: 'center center',
+              repeat: 'no-repeat',
+            }
+          ); */
+
           return res.data;
         })
         .catch((err) => {
@@ -144,6 +180,43 @@ export default {
     // Manually trigger a refetch
     fetch();
 
+    // todo для добавления нужного фона к изображению
+    // eslint-disable-next-line no-unused-vars
+    const addBackground = (el, imgPath, colorOverlay, options) => {
+      console.log('el: ', el);
+
+      el.style.background = `url(${imgPath}) ${colorOverlay})`;
+
+      el.style.backgroundBlendMode = options?.mode ?? 'darken';
+
+      el.style.backgroundSize = options?.size ?? 'cover';
+
+      el.style.backgroundPosition = options?.position ?? 'center center';
+
+      el.style.backgroundRepeat = options?.repeat ?? 'no-repeat';
+    };
+
+    watch(fetchState, (val, oldVal) => {
+      console.log({ val, oldVal });
+
+      /* if (val !== oldVal && !val.pending && !val.error) {
+        // console.log(' зашел ! ');
+
+        addBackground(
+          firstSection,
+          post.value.story.content.bg.filename,
+          'hsla(0, 0%, 0%, 0.4)',
+          {
+            mode: 'darken',
+            size: 'cover',
+            position: 'center center',
+            repeat: 'no-repeat',
+          }
+        );
+      } */
+    });
+
+    // todo для форматирования даты поста
     const formatDate = (date) => {
       return new Intl.DateTimeFormat(navigator.locale, {
         weekday: 'short',
@@ -162,6 +235,8 @@ export default {
       formatDate,
 
       markdown,
+
+      firstSection,
     };
   },
 };
@@ -169,17 +244,52 @@ export default {
 
 <style lang="scss" scoped>
 section.first {
-  background: url(/img/post-bg/magadan-cover.jpg) $overlay;
+  /* background: url(/img/post-bg/magadan-cover.jpg) $overlay;
   background-blend-mode: darken;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: center center; */
 
   @include adaptive-value-min-max(padding-top, 35, 55);
   @include adaptive-value-min-max(padding-bottom, 125, 175);
 
   position: relative;
   z-index: 1;
+
+  img.bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: -1;
+    isolation: isolate;
+
+    // filter: brightness(0.5);
+
+    /* &::before {
+      content: '';
+      position: absolute;
+
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: hsla(0, 0%, 0%, 0.4);
+      mix-blend-mode: darken;
+      z-index: 1;
+    } */
+  }
 
   .content-wrapper {
     .breadcrumbs {
