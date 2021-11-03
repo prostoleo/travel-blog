@@ -129,24 +129,6 @@ export default {
         version: 'draft',
       })
         .then((res) => {
-          console.log('res.data: ', res.data);
-          console.log('document: ', document);
-          console.log('document.querySelector: ', document.querySelector);
-
-          /* const element = document.querySelector('section.first');
-
-          addBackground(
-            element,
-            res.data.story.content.bg.filename,
-            'hsla(0, 0%, 0%, 0.4)',
-            {
-              mode: 'darken',
-              size: 'cover',
-              position: 'center center',
-              repeat: 'no-repeat',
-            }
-          ); */
-
           return res.data;
         })
         .catch((err) => {

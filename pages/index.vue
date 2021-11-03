@@ -8,10 +8,16 @@
     <!-- <pre>
       {{ data }}
     </pre> -->
-    <SectionHero :hero-data="data.content.hero_page[0]" />
-    <SectionNew />
+    <!-- <pre>
+      {{ directions }}
+    </pre> -->
+    <!-- <pre>
+      {{ postsForCards }}
+    </pre> -->
+    <SectionHero :hero-data="data.stories[0].content.hero_page[0]" />
+    <SectionNew :new-data="postsForCards" />
     <SectionDirections />
-    <SectionAbout :about-data="data.content.hero_page[1]" />
+    <SectionAbout :about-data="data.stories[0].content.hero_page[1]" />
   </div>
 </template>
 
@@ -20,6 +26,7 @@
 import {
   ref,
   useFetch,
+  provide,
   // useContext,
   // useAsync,
   // onMounted,
@@ -41,6 +48,8 @@ export default {
 
     // const store = useStore();
     const data = ref(null);
+    const directions = ref(null);
+    const postsForCards = ref(null);
 
     const { fetch, fetchState } = useFetch(async () => {
       // data.value = await $axios.$get(
@@ -48,30 +57,44 @@ export default {
       // );
       // data.value = await $storyapi
       data.value = await Storyblok.get('cdn/stories/', {
-        // prettier-ignore
-        "version": "draft",
-        // prettier-ignore
-        "filter_query": {
-          // // prettier-ignore
-          // "full_slug": {
-          //   // prettier-ignore
-          //   "is": 'Home',
-          // },
-          // prettier-ignore
-          "id": {
-            // prettier-ignore
-            "is": '81451178',
-          },
-        },
+        version: 'draft',
+        starts_with: 'home',
       })
         .then((res) => {
           console.log('res.data: ', res.data);
 
-          const homeData = res.data.stories.find(
-            (story) => story.name === 'Home'
-          );
+          return res.data;
+          // return res.data;
+        })
+        .catch((err) => {
+          console.log(`💣💣💣 - ${err.response}`);
+        });
 
-          return homeData;
+      // todo направления
+      directions.value = await Storyblok.get('cdn/stories/', {
+        version: 'draft',
+        starts_with: 'directions',
+      })
+        .then((res) => {
+          console.log('res.data: Directions ', res.data);
+
+          return res.data;
+          // return res.data;
+        })
+        .catch((err) => {
+          console.log(`💣💣💣 - ${err.response}`);
+        });
+
+      // todo для карточек
+      postsForCards.value = await Storyblok.get('cdn/stories', {
+        version: 'draft',
+        starts_with: 'posts',
+        excluding_fields: 'markdown_block,flex_gallery,grid_gallery',
+      })
+        .then((res) => {
+          console.log('res.data: - Posts preview ', res.data);
+
+          return res.data;
           // return res.data;
         })
         .catch((err) => {
@@ -81,6 +104,9 @@ export default {
 
     // Manually trigger a refetch
     fetch();
+
+    provide('postsForCards', postsForCards);
+    provide('directions', directions);
 
     /* const data = useAsync(() => {
       return Storyblok.get(`cdn/stories/home`, {
@@ -108,6 +134,9 @@ export default {
 
     return {
       data,
+      directions,
+      postsForCards,
+
       fetch,
       fetchState,
     };

@@ -1,7 +1,7 @@
 <template>
   <div>
     <SectionDirectionsFirst />
-    <SectionDirectionsSecond />
+    <!-- <SectionDirectionsSecond /> -->
   </div>
 </template>
 

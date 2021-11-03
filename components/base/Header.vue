@@ -2,7 +2,9 @@
   <header class="header">
     <BaseContainer>
       <div class="header__content">
-        <nuxt-link to="/" class="header__logo"> logo </nuxt-link>
+        <nuxt-link to="/" class="header__logo">
+          <img src="/icons/logo.svg" alt="" width="45" />
+        </nuxt-link>
 
         <nav
           ref="nav"

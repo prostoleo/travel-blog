@@ -7,17 +7,36 @@
           <h2>Направления</h2>
         </div>
 
+        <!-- <pre>
+          {{ directions }}
+        </pre> -->
+
         <!-- <SliderHome /> -->
       </div>
     </BaseContainer>
-    <SliderHomeNew />
+    <SliderHomeNew :directions="directions" />
   </section>
 </template>
 
 <script>
+import { inject } from '@nuxtjs/composition-api';
+
 export default {
+  /* props: {
+    directionsData: {
+      type: Object,
+      required: true,
+    },
+  }, */
+
   setup() {
-    return {};
+    const postsForCards = inject('postsForCards');
+    const directions = inject('directions');
+
+    return {
+      postsForCards,
+      directions,
+    };
   },
 };
 </script>

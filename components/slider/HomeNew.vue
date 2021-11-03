@@ -15,9 +15,14 @@
       :pagination="true"
       :navigation="true"
     >
-      <swiper-slide v-for="(slide, index) in slides" :key="index">
-        <nuxt-link :to="slide.path" class="slide__link">
-          {{ slide.text }}
+      <swiper-slide
+        v-for="(slide, index) in directions.stories"
+        :key="index"
+        :style="`background: url(${slide.content.bg.filename}/m/); background-size: cover; background-position: center center; bacground-repeat: no-repeat`"
+      >
+        <nuxt-link :to="`/${slide.full_slug}`" class="slide__link">
+          {{ slide.content.title }}
+          <!-- {{ slide.content.bg.filename }} -->
         </nuxt-link>
       </swiper-slide>
 
@@ -30,7 +35,7 @@
     </swiper>
     <div ref="myPagination" class="my-pagination">
       <div
-        v-for="(slide, index) in slides"
+        v-for="index in directions.stories.length"
         ref="bullet"
         :key="index"
         class="bullet"
@@ -53,6 +58,13 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
+  },
+
+  props: {
+    directions: {
+      type: Object,
+      required: true,
+    },
   },
 
   data() {
@@ -265,11 +277,11 @@ export default {
 }
 
 .swiper-slide {
-  background: url(/img/slider-main/1-min.jpg) $overlay;
-  background-blend-mode: darken;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+  // background: url(/img/slider-main/1-min.jpg) $overlay;
+  // background-blend-mode: darken;
+  // background-size: cover;
+  // background-repeat: no-repeat;
+  // background-position: center center;
 
   // @include adaptive-value-min-max(height, 200, 400);
   // @include adaptive-value-min-max(width, 300, 600);

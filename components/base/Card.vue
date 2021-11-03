@@ -1,26 +1,36 @@
 <template>
   <div class="card">
     <header class="card__header">
-      <img src="/img/post-bg/magadan-cover.jpg" alt="Горы около Магадана" />
+      <img
+        :src="`${cardData.content.bg.filename}/m/`"
+        alt="Горы около Магадана"
+      />
     </header>
     <div class="card__content">
-      <span class="card__badge"> Дальний Восток </span>
+      <span class="card__badge"> {{ cardData.content.direction }} </span>
 
-      <h3 class="card__title">Магадан</h3>
+      <h3 class="card__title">{{ cardData.content.title }}</h3>
 
       <p class="card__preview-text">
-        Сегодня я поведаю Вам о таком, легендарном месте, как Магадан. У этого
-        города не слишком славная репутация, однако он способен будет Вас
-        удивить.
+        {{ cardData.content.preview_text }}
       </p>
 
-      <nuxt-link to="/posts/1" class="card__link">Читать далее</nuxt-link>
+      <nuxt-link :to="`/posts/${cardData.slug}`" class="card__link"
+        >Читать далее</nuxt-link
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    cardData: {
+      type: Object,
+      required: true,
+    },
+  },
+
   setup() {
     return {};
   },
@@ -31,6 +41,8 @@ export default {
 .card {
   background: $primary-Xlight;
   // padding: 1.5em;
+  display: flex;
+  flex-direction: column;
 
   // .card__header
 
@@ -52,12 +64,17 @@ export default {
   &__content {
     padding: 1.5em;
     padding-bottom: 1.75em;
+
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    height: 100%;
   }
 
   // .card__badge
   &__badge {
     padding: 0.25em 0.5em;
     display: inline-block;
+    width: max-content;
 
     background: $secondary-opacity60;
 
@@ -70,6 +87,8 @@ export default {
     @include adaptive-value-min-max(font-size, 20, 32);
 
     margin: 0.5em 0 0.8em;
+
+    align-self: flex-start;
   }
 
   // .card__preview-text
@@ -94,6 +113,8 @@ export default {
     position: relative;
 
     padding-bottom: 0.25em;
+
+    align-self: flex-end;
 
     &::before {
       position: absolute;
