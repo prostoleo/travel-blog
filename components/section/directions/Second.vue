@@ -2,15 +2,30 @@
   <section>
     <BaseContainer>
       <div class="card-wrapper">
-        <BaseCard v-for="index in 7" :key="index" />
+        <BaseCard
+          v-for="(post, index) in posts"
+          :key="index"
+          :card-data="post"
+        />
       </div>
     </BaseContainer>
   </section>
 </template>
 
 <script>
+// import { inject } from '@nuxtjs/composition-api';
+
 export default {
+  props: {
+    posts: {
+      type: Array,
+      required: true,
+    },
+  },
+
   setup() {
+    // const directions = inject('directions');
+
     return {};
   },
 };
@@ -31,7 +46,7 @@ section {
     width: 100%;
 
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
     gap: 3rem;
   }
 }

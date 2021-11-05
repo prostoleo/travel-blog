@@ -1,6 +1,6 @@
 <template>
   <div v-if="fetchState.pending">
-    <nuxt-loading />
+    <nuxt-loader />
   </div>
   <!--  -->
   <div v-else v-editable="post.story">
@@ -28,7 +28,11 @@
               Направления
               <img src="/icons/shevron.svg" alt="" />
             </nuxt-link>
-            <nuxt-link to="/directions/1" class="breadcrumb-item">
+            <!-- :to="path"  -->
+            <nuxt-link
+              :to="`/${post.rels[0].full_slug}`"
+              class="breadcrumb-item"
+            >
               {{ post.story.content.direction }}
               <img src="/icons/shevron.svg" alt="" />
             </nuxt-link>
@@ -55,7 +59,7 @@
                 <img src="/icons/time.svg" alt="" class="row__img" />
                 <span class="row__text"
                   >Время на чтение:
-                  <strong>{{ post.story.content.time_to_read }}</strong>
+                  <strong>{{ minutes }}</strong>
                   мин.</span
                 >
               </div>
@@ -73,7 +77,6 @@
 // eslint-disable-next-line no-unused-vars
 import {
   ref,
-  watch,
   useFetch,
   useRoute,
   useRouter,
@@ -100,21 +103,24 @@ export default {
 
     const route = useRoute();
     const router = useRouter();
-    console.log('router: ', router);
-    console.log('route.value.params.id: ', route.value.params.id);
+    // console.log('router: ', router);
+    // console.log('route.value.params.id: ', route.value.params.id);
 
     const postId = route.value.params.id;
 
     const Storyblok = new StoryblokClient({
       accessToken: STORYBLOK_KEY,
     });
-    console.log('Storyblok: ', Storyblok);
 
     // const store = useStore();
     const post = ref(null);
-    const posts = ref(null);
 
     const firstSection = ref(null);
+
+    const minutes = ref(null);
+
+    /* const path = ref(null);
+    console.log('path: ', path); */
 
     onMounted(() => {
       console.log('firstSection.value: ', firstSection.value);
@@ -127,8 +133,11 @@ export default {
       // data.value = await $storyapi
       post.value = await Storyblok.get(`cdn/stories/posts/${postId}`, {
         version: 'draft',
+        resolve_relations: 'Post.direction_info',
       })
         .then((res) => {
+          console.log('res.data: ', res.data);
+
           return res.data;
         })
         .catch((err) => {
@@ -147,56 +156,40 @@ export default {
           }
         });
 
-      // todo все посты получаем
-      /* posts.value = await Storyblok.get('cdn/stories', {
-        version: 'draft',
-        starts_with: 'posts',
-      })
-        .then((res) => {
-          console.log('res.data: ', res.data);
-          return res.data;
-        })
-        .catch((err) => console.warn(err)); */
+      minutesToRead();
+
+      /* path.value = post.value.rels.find((rel) => {
+        console.log('rel.uuid: ', rel.uuid);
+        console.log(
+          'post.value.story.content.direction_info: ',
+          post.value.story.content.direction_info.value.uuid
+        );
+
+        return rel.uuid === post.value.story.content.direction_info
+          ? rel.full_slug
+          : '';
+      });
+      console.log('path.value: ', path.value); */
     });
 
     // Manually trigger a refetch
     fetch();
 
-    // todo для добавления нужного фона к изображению
-    // eslint-disable-next-line no-unused-vars
-    const addBackground = (el, imgPath, colorOverlay, options) => {
-      console.log('el: ', el);
+    // todo вычисляем сколько минут на чтение
+    function minutesToRead() {
+      const wpm = 200;
 
-      el.style.background = `url(${imgPath}) ${colorOverlay})`;
+      const totalText = post.value.story.content.markdown_block
+        .map((m) => m.markdown)
+        .join(' ');
 
-      el.style.backgroundBlendMode = options?.mode ?? 'darken';
+      const words = totalText.trim().split(/\s+/).length;
+      console.log('words: ', words);
 
-      el.style.backgroundSize = options?.size ?? 'cover';
+      const time = Math.round(words / wpm);
 
-      el.style.backgroundPosition = options?.position ?? 'center center';
-
-      el.style.backgroundRepeat = options?.repeat ?? 'no-repeat';
-    };
-
-    watch(fetchState, (val, oldVal) => {
-      console.log({ val, oldVal });
-
-      /* if (val !== oldVal && !val.pending && !val.error) {
-        // console.log(' зашел ! ');
-
-        addBackground(
-          firstSection,
-          post.value.story.content.bg.filename,
-          'hsla(0, 0%, 0%, 0.4)',
-          {
-            mode: 'darken',
-            size: 'cover',
-            position: 'center center',
-            repeat: 'no-repeat',
-          }
-        );
-      } */
-    });
+      minutes.value = time;
+    }
 
     // todo для форматирования даты поста
     const formatDate = (date) => {
@@ -210,11 +203,12 @@ export default {
 
     return {
       post,
-      posts,
       fetch,
       fetchState,
 
       formatDate,
+      minutes,
+      // path,
 
       markdown,
 

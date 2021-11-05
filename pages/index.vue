@@ -1,8 +1,7 @@
 <template>
   <div v-if="fetchState.pending">
-    <nuxt-loading />
+    <nuxt-loader />
   </div>
-  <div v-else-if="fetchState.error">ошибка...</div>
   <div v-else>
     <!-- <button @click="fetch">refetch</button> -->
     <!-- <pre>
@@ -30,7 +29,7 @@ import {
   // useContext,
   // useAsync,
   // onMounted,
-  // useStore,
+  useStore,
   // computed,
 } from '@nuxtjs/composition-api';
 
@@ -42,6 +41,8 @@ export default {
   name: 'Home',
 
   setup(props, context) {
+    const store = useStore();
+
     const Storyblok = new StoryblokClient({
       accessToken: STORYBLOK_KEY,
     });
@@ -78,6 +79,8 @@ export default {
         .then((res) => {
           console.log('res.data: Directions ', res.data);
 
+          store.dispatch('addDirections', res.data);
+
           return res.data;
           // return res.data;
         })
@@ -93,6 +96,8 @@ export default {
       })
         .then((res) => {
           console.log('res.data: - Posts preview ', res.data);
+
+          store.dispatch('addPostsForCards', res.data);
 
           return res.data;
           // return res.data;

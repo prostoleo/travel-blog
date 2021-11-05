@@ -44,6 +44,8 @@ export default {
   display: flex;
   flex-direction: column;
 
+  max-width: 50rem;
+
   // .card__header
 
   &__header {
@@ -115,6 +117,7 @@ export default {
     padding-bottom: 0.25em;
 
     align-self: flex-end;
+    justify-self: flex-start;
 
     &::before {
       position: absolute;

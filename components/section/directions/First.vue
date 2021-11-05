@@ -11,21 +11,18 @@
             Направления
             <img src="/icons/shevron.svg" alt="" />
           </nuxt-link>
-          <span class="breadcrumb-item"> Дальний Восток </span>
+          <span class="breadcrumb-item">
+            {{ direction.content.title }}
+          </span>
         </div>
 
         <div class="content-text">
-          <h1 class="title">Дальний Восток</h1>
+          <h1 class="title">
+            {{ direction.content.title }}
+          </h1>
 
           <p class="text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam
-            dolores nam enim debitis quaerat illum soluta voluptate veritatis
-            corrupti, veniam nostrum quae! Quis aspernatur in accusamus itaque
-            beatae? Debitis voluptatibus laborum quam? Error, praesentium dicta!
-          </p>
-          <p class="text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam
-            dolores nam enim debitis quaerat.
+            {{ direction.content.text }}
           </p>
         </div>
       </div>
@@ -35,6 +32,13 @@
 
 <script>
 export default {
+  props: {
+    direction: {
+      type: Object,
+      required: true,
+    },
+  },
+
   setup() {
     return {};
   },
