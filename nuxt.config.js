@@ -1,3 +1,5 @@
+// import { dynamicRoutes } from './helpers/routes';
+
 export default {
   ssr: false,
 
@@ -72,8 +74,12 @@ export default {
     preload: true,
   },
 
+  // * для SSG
   generate: {
     fallback: true,
+
+    // * воздаем динамические пути
+    // routes: dynamicRoutes,
   },
 
   fontawesome: {

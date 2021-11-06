@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-if="fetchState.pending"></div>
+  <div v-else>
     <section class="first">
       <BaseContainer>
         <div class="content-wrapper">
@@ -51,7 +52,11 @@
       <BaseContainer>
         <h2 class="title">Все посты</h2>
         <div class="content">
-          <BaseCard v-for="index in 17" :key="index" />
+          <BaseCard
+            v-for="post in posts.stories"
+            :key="post.id"
+            :card-data="post"
+          />
         </div>
       </BaseContainer>
     </section>
@@ -59,9 +64,63 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import { ref, useFetch } from '@nuxtjs/composition-api';
+
+import StoryblokClient from 'storyblok-js-client';
+
+import { STORYBLOK_KEY } from '~/config/config.js';
+
 export default {
-  setup() {
-    return {};
+  name: 'Home',
+
+  setup(props, { root }) {
+    const Storyblok = new StoryblokClient({
+      accessToken: STORYBLOK_KEY,
+    });
+
+    const posts = ref(null);
+
+    const { fetch, fetchState } = useFetch(async () => {
+      // data.value = await $axios.$get(
+      //   `https://api.storyblok.com/v1/cdn/stories/test?version=draft&token=gmlwyE5LJpGMoSrWXvgA3Att`
+      // );
+      // data.value = await $storyapi
+      posts.value = await Storyblok.get(`cdn/stories`, {
+        version: 'draft',
+        starts_with: 'posts',
+        // resolve_relations: 'Post.direction_info',
+      })
+        .then((res) => {
+          console.log('res.data: ', res.data);
+
+          return res.data;
+        })
+        .catch((err) => {
+          console.log('err.response: ', err.response);
+
+          // todo если нет такого поста - перекидываем на страницу с ошибкой
+          // eslint-disable-next-line
+          /* if (err.response.status == 404) {
+            router.replace({
+              path: '/error',
+              name: 'NotFound',
+              params: { notFound: 'not-found' },
+            });
+            // context.redirect(err.status, '/not-found');
+            console.log('404 !');
+          } */
+        });
+    });
+
+    // Manually trigger a refetch
+    fetch();
+
+    return {
+      posts,
+      fetch,
+      fetchState,
+    };
   },
 };
 </script>
@@ -329,7 +388,7 @@ section.second {
   @include adaptive-value-min-max(padding-top, 45, 75);
   @include adaptive-value-min-max(padding-bottom, 45, 75);
 
-  @include adaptive-value-min-max(margin-top, -125, -150);
+  @include adaptive-value-min-max(margin-top, -155, -175);
 
   position: relative;
   z-index: 2;
@@ -340,7 +399,11 @@ section.second {
     color: $text-light;
     font-weight: 700;
 
-    margin-bottom: 0.5em;
+    margin-bottom: 0.85em;
+
+    &:before {
+      display: none;
+    }
   }
 
   .content {

@@ -210,8 +210,8 @@ img {
 
 img.full-img {
   // max-height: 55rem;
-  max-width: 150rem;
-  width: 100%;
+  // max-width: 150rem;
+  // width: 100%;
 
   // max-height: 90vh;
 
@@ -232,7 +232,7 @@ img.mah-55r {
   padding: 0 1rem;
   @include adaptive-value-min-max(margin-top, 25, 45);
   // max-width: 1920px;
-  // width: 100%;
+  width: 100%;
 
   display: flex;
   // align-items: center;

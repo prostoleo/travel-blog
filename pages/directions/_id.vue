@@ -36,20 +36,6 @@ export default {
     const postsForCards = ref(null);
 
     const { fetch, fetchState } = useFetch(async () => {
-      /* data.value = await Storyblok.get('cdn/stories/', {
-        version: 'draft',
-        starts_with: 'home',
-      })
-        .then((res) => {
-          console.log('res.data: ', res.data);
-
-          return res.data;
-          // return res.data;
-        })
-        .catch((err) => {
-          console.log(`💣💣💣 - ${err.response}`);
-        }); */
-
       // todo направления
       direction.value = await Storyblok.get('cdn/stories/', {
         version: 'draft',
