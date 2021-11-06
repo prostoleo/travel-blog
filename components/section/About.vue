@@ -49,8 +49,6 @@ import RichTextResolver from 'storyblok-js-client/dist/rich-text-resolver.es';
 import markdown from 'markdown-it';
 import useImageDialog from '~/composables/useImageDialog.js';
 
-console.log('markdown: ', markdown);
-
 export default {
   props: {
     aboutData: {

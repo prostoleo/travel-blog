@@ -7,7 +7,10 @@
       />
     </header>
     <div class="card__content">
-      <span class="card__badge"> {{ cardData.content.direction }} </span>
+      <div class="card__upper">
+        <span class="card__badge"> {{ cardData.content.direction }} </span>
+        <span class="card__time"> {{ formatDate(cardTime) }} </span>
+      </div>
 
       <h3 class="card__title">{{ cardData.content.title }}</h3>
 
@@ -23,6 +26,7 @@
 </template>
 
 <script>
+import { computed } from '@vue/composition-api';
 export default {
   props: {
     cardData: {
@@ -31,8 +35,27 @@ export default {
     },
   },
 
-  setup() {
-    return {};
+  setup(props) {
+    const cardTime = computed(() => {
+      return props.cardData.first_published_at ?? props.cardData.created_at;
+    });
+
+    const formatDate = (date) => {
+      // console.log('date: ', date);
+
+      return Intl.DateTimeFormat(navigator.locale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
+        minute: '2-digit',
+        hour: '2-digit',
+      }).format(new Date(date));
+    };
+
+    return {
+      cardTime,
+      formatDate,
+    };
   },
 };
 </script>
@@ -73,7 +96,16 @@ export default {
   }
 
   // .card__badge
-  &__badge {
+  &__upper {
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+  }
+
+  // .card__badge
+  &__badge,
+  &__time {
     padding: 0.25em 0.5em;
     display: inline-block;
     width: max-content;
@@ -81,6 +113,16 @@ export default {
     background: $secondary-opacity60;
 
     @include adaptive-value-min-max(font-size, 12.5, 16);
+  }
+
+  // .card__time
+  &__time {
+    // background: $text-dark;
+    // color: $text-light;
+    background: transparent;
+    color: $text-dark;
+
+    // opacity: 0.8;
   }
 
   // .card__title

@@ -19,26 +19,53 @@
           </div>
 
           <div class="search-filter__wrapper">
-            <div class="search__block search">
-              <input id="search-input" class="search__input" type="search" />
-              <label for="search-input" class="search__label">Поиск...</label>
+            <form class="search__block search">
+              <input
+                id="search-input"
+                v-model="searchQuery"
+                class="search__input"
+                type="search"
+              />
+              <!-- @input="searchPost" -->
+              <label
+                for="search-input"
+                class="search__label"
+                :class="searchQuery && searchQuery.length > 0 ? 'active' : ''"
+                >Поиск...</label
+              >
               <button class="btn search__btn">
                 <img src="/icons/search.svg" alt="" />
               </button>
-            </div>
+            </form>
 
-            <div class="filter__block filter">
-              <button id="btn-alphabet-up" class="btn filter__btn">
+            <div class="filter__block filter" @click="sortPosts">
+              <button
+                id="btn-alphabet-up"
+                class="btn filter__btn"
+                :class="{ active: !!sortInfo.alphabet }"
+              >
                 <img src="/icons/alphabet.svg" alt="" />
               </button>
-              <button id="btn-alphabet-reverse" class="btn filter__btn">
+              <button
+                id="btn-alphabet-reverse"
+                class="btn filter__btn"
+                :class="{ active: !!sortInfo.alphabetReverse }"
+              >
                 <img src="/icons/alphabet-reverse.svg" alt="" />
               </button>
-              <button id="btn-date-up" class="btn filter__btn">
+              <button
+                id="btn-date-up"
+                class="btn filter__btn"
+                :class="{ active: !!sortInfo.dateUp }"
+              >
                 <img src="/icons/date.svg" alt="" />
                 <img src="/icons/arrow-slim.svg" alt="" />
               </button>
-              <button id="btn-date-down" class="btn filter__btn">
+              <button
+                id="btn-date-down"
+                class="btn filter__btn"
+                :class="{ active: !!sortInfo.dateDown }"
+              >
                 <img src="/icons/date.svg" alt="" />
                 <img src="/icons/arrow-slim.svg" alt="" />
               </button>
@@ -50,10 +77,15 @@
 
     <section class="second">
       <BaseContainer>
-        <h2 class="title">Все посты</h2>
+        <h2 class="title">
+          {{ postsTitle.title }}
+          <span v-if="postsTitle.query" class="hightlight">
+            {{ postsTitle.query }}
+          </span>
+        </h2>
         <div class="content">
           <BaseCard
-            v-for="post in posts.stories"
+            v-for="post in postsToShow"
             :key="post.id"
             :card-data="post"
           />
@@ -65,7 +97,7 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import { ref, useFetch } from '@nuxtjs/composition-api';
+import { computed, reactive, ref, useFetch } from '@nuxtjs/composition-api';
 
 import StoryblokClient from 'storyblok-js-client';
 
@@ -92,9 +124,9 @@ export default {
         // resolve_relations: 'Post.direction_info',
       })
         .then((res) => {
-          console.log('res.data: ', res.data);
+          // console.log('res.data.stories: ', res.data.stories);
 
-          return res.data;
+          return res.data.stories;
         })
         .catch((err) => {
           console.log('err.response: ', err.response);
@@ -116,10 +148,175 @@ export default {
     // Manually trigger a refetch
     fetch();
 
+    // ==========================
+    // todo функционал поиска
+    const searchQuery = ref(null);
+
+    const postsToShow = computed(() => {
+      // console.log('searchQuery.value: ', searchQuery.value);
+
+      if (searchQuery.value) {
+        // return
+        const postsToShowLocal = posts.value.filter((story) => {
+          return (
+            story.content.title
+              .toLowerCase()
+              .includes(searchQuery.value.toLowerCase()) ||
+            story.content.preview_text
+              .toLowerCase()
+              .includes(searchQuery.value.toLowerCase())
+          );
+        });
+        console.log('postsToShowLocal: ', postsToShowLocal);
+
+        return postsToShowLocal;
+      }
+
+      return posts.value;
+    });
+
+    const postsTitle = computed(() => {
+      if (searchQuery.value) {
+        return {
+          title: `Посты по запросу: `,
+          query: searchQuery.value,
+        };
+      }
+
+      if (searchQuery.value && postsToShow.length === 0) {
+        return {
+          title: `Ничего не удалось найти по запросу: `,
+          query: searchQuery.value,
+        };
+      }
+
+      return {
+        title: `Все посты`,
+        query: '',
+      };
+    });
+
+    //* сортировка
+    const sortInfo = reactive({
+      alphabet: false,
+      alphabetReverse: false,
+      dateUp: false,
+      dateDown: false,
+    });
+
+    function returnToFalse() {
+      console.log('sortInfo: ', sortInfo);
+      console.log('Object.entries(sortInfo): ', Object.entries(sortInfo));
+
+      Object.entries(sortInfo).forEach(([key, val]) => {
+        console.log('{key, val}: ', { key, val });
+        // console.log('s: ', s);
+        // console.log('sortInfo[s]: ', sortInfo[s]);
+        sortInfo[key] = false;
+      });
+    }
+
+    function sortPosts(event) {
+      const target = event.target.closest('.filter__btn');
+
+      if (!target) {
+        return;
+      }
+
+      console.log('target: ', target);
+
+      let nextVal;
+
+      switch (target.id) {
+        case 'btn-alphabet-up':
+          nextVal = !sortInfo.alphabet;
+
+          returnToFalse();
+          sortInfo.alphabet = nextVal;
+
+          break;
+        case 'btn-alphabet-reverse':
+          nextVal = !sortInfo.alphabetReverse;
+          returnToFalse();
+          sortInfo.alphabetReverse = nextVal;
+
+          break;
+        case 'btn-date-up':
+          nextVal = !sortInfo.dateUp;
+          returnToFalse();
+          sortInfo.dateUp = nextVal;
+
+          break;
+        case 'btn-date-down':
+          nextVal = !sortInfo.dateDown;
+          returnToFalse();
+          sortInfo.dateDown = nextVal;
+
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    const sortedPosts = computed(() => {
+      let sorted = null;
+      console.log('postsToShow: ', postsToShow);
+
+      if (sortInfo.alphabet) {
+        sorted = postsToShow.sort((a, b) => {
+          console.log('a: ', a);
+          console.log('b: ', b);
+
+          return a.content.title.localeCompare(b.content.title);
+        });
+      }
+      if (sortInfo.alphabetReverse) {
+        sorted = postsToShow.sort((a, b) =>
+          b.content.title.localeCompare(a.content.title)
+        );
+      }
+      if (sortInfo.dateUp) {
+        sorted = postsToShow.sort(
+          (a, b) =>
+            +new Date(a.first_published_at ?? a.created_at) -
+            +new Date(b.first_published_at ?? a.created_at)
+        );
+      }
+      if (sortInfo.alphabet) {
+        sorted = postsToShow.sort(
+          (a, b) =>
+            +new Date(b.first_published_at ?? a.created_at) -
+            +new Date(a.first_published_at ?? a.created_at)
+        );
+      }
+      console.log('sorted: ', sorted);
+
+      return sorted;
+    });
+
+    /* const contentToShow = computed(() => {
+      console.log('sortedPosts: ', sortedPosts);
+      console.log('postsToShow: ', postsToShow);
+      // return sortedPosts ?? postsToShow;
+    }); */
+
     return {
-      posts,
       fetch,
       fetchState,
+
+      posts,
+      // postsToShow: sortedPosts ?? postsToShow,
+      postsToShow,
+      // contentToShow,
+      postsTitle,
+
+      // searchPost,
+      searchQuery,
+
+      sortInfo,
+      sortPosts,
     };
   },
 };
@@ -292,6 +489,11 @@ section.first {
       opacity: 0.8;
 
       transition: all 150ms ease-in-out;
+
+      &.active {
+        transform: translate(-20%, -175%);
+        opacity: 0.8;
+      }
     }
 
     // .search__btn
@@ -342,6 +544,11 @@ section.first {
         transform: rotate(180deg);
       }
 
+      &:hover,
+      &:focus {
+        opacity: 0.7;
+      }
+
       &::after {
         content: '';
         position: absolute;
@@ -385,21 +592,30 @@ section.first {
 }
 
 section.second {
-  @include adaptive-value-min-max(padding-top, 45, 75);
+  // @include adaptive-value-min-max(padding-top, 45, 75);
   @include adaptive-value-min-max(padding-bottom, 45, 75);
 
-  @include adaptive-value-min-max(margin-top, -155, -175);
+  @include adaptive-value-min-max(margin-top, -105, -145);
 
   position: relative;
   z-index: 2;
 
   h2.title {
-    @include adaptive-value-min-max(font-size, 24, 40);
+    @include adaptive-value-min-max(font-size, 18, 32);
 
     color: $text-light;
-    font-weight: 700;
+    font-weight: 600;
 
     margin-bottom: 0.85em;
+
+    span.hightlight {
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1;
+      background: rgb(195, 172, 40);
+
+      padding: 0.15em;
+    }
 
     &:before {
       display: none;
