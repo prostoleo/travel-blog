@@ -1,4 +1,4 @@
-// import { dynamicRoutes } from './helpers/routes';
+import { dynamicRoutes } from './helpers/routes';
 
 export default {
   ssr: false,
@@ -79,7 +79,7 @@ export default {
     fallback: true,
 
     // * воздаем динамические пути
-    // routes: dynamicRoutes,
+    routes: dynamicRoutes,
   },
 
   fontawesome: {

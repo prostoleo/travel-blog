@@ -1,10 +1,7 @@
 <template>
   <div class="card">
     <header class="card__header">
-      <img
-        :src="`${cardData.content.bg.filename}/m/`"
-        alt="Горы около Магадана"
-      />
+      <img :src="`${cardData.content.bg.filename}/m/`" />
     </header>
     <div class="card__content">
       <div class="card__upper">

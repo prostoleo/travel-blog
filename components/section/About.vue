@@ -23,7 +23,7 @@
               v-html="markdown().render(row.text)"
             ></div>
             <img
-              :src="row.image.filename"
+              :src="`${row.image.filename}/m/`"
               class="row__img"
               alt=""
               @click="openImage"
@@ -36,7 +36,7 @@
 
     <BaseImageDialog
       v-if="isImageShowingComp"
-      :image-src="imgSrc"
+      :image-src="`${imgSrc}`"
       @close-dialog="closeDialog"
     />
   </section>
@@ -45,7 +45,7 @@
 <script>
 // import { ref } from '@nuxtjs/composition-api';
 
-import RichTextResolver from 'storyblok-js-client/dist/rich-text-resolver.es';
+// import RichTextResolver from 'storyblok-js-client/dist/rich-text-resolver.es';
 import markdown from 'markdown-it';
 import useImageDialog from '~/composables/useImageDialog.js';
 
@@ -59,7 +59,6 @@ export default {
   },
 
   setup() {
-    const resolver = new RichTextResolver();
     const {
       isImageShowing,
       isImageShowingComp,
@@ -75,7 +74,6 @@ export default {
       openImage,
       closeDialog,
 
-      resolver,
       markdown,
     };
     /* return {

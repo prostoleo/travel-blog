@@ -81,7 +81,7 @@
         :id="`gallery-item-${index + 1}`"
         :key="index"
         class="grid-gallery__item full-img"
-        :src="`${gallery_item.image.filename}`"
+        :src="`${gallery_item.image.filename}/m/`"
         @click="openImage"
       />
     </div>
