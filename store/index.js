@@ -1,9 +1,11 @@
-// export const strict = false;
+export const strict = false;
 
 // * state
 export const state = () => ({
   postsForCards: null,
   directions: null,
+  allPosts: null,
+  postsPagePosts: null,
 });
 
 // todo getters
@@ -16,6 +18,12 @@ export const getters = {
   },
   getDirections: (state) => {
     return state.directions;
+  },
+  getAllPosts: (state) => {
+    return state.allPosts;
+  },
+  getPostsPagePosts: (state) => {
+    return state.postsPagePosts;
   },
 };
 
@@ -37,6 +45,16 @@ export const actions = {
     // this.weather = unref(weather);
 
     context.commit('addDirections', payload);
+  },
+  addAllPosts(context, payload) {
+    console.log('payload: addAllPosts action', payload);
+
+    context.commit('addAllPosts', payload);
+  },
+  addPostsPagePosts(context, payload) {
+    console.log('payload: addPostsPagePosts action', payload);
+
+    context.commit('addPostsPagePosts', payload);
   },
 };
 
@@ -60,5 +78,13 @@ export const mutations = {
 
     state.directions = payload;
     console.log('state.directions in mutation: ', state.directions);
+  },
+  addAllPosts(state, payload) {
+    state.allPosts = payload;
+    console.log('state.allPosts in mutation: ', state.allPosts);
+  },
+  addPostsPagePosts(state, payload) {
+    state.postsPagePosts = payload;
+    console.log('state.postsPagePosts in mutation: ', state.postsPagePosts);
   },
 };
