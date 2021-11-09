@@ -3,16 +3,6 @@
     <nuxt-loader name="cube-loader" />
   </div>
   <div v-else>
-    <!-- <button @click="fetch">refetch</button> -->
-    <!-- <pre>
-      {{ data }}
-    </pre> -->
-    <!-- <pre>
-      {{ directions }}
-    </pre> -->
-    <!-- <pre>
-      {{ postsForCards }}
-    </pre> -->
     <SectionHero :hero-data="data.stories[0].content.hero_page[0]" />
     <SectionNew :new-data="postsForCards" />
     <SectionDirections />
@@ -21,17 +11,7 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import {
-  ref,
-  useFetch,
-  provide,
-  // useContext,
-  // useAsync,
-  // onMounted,
-  useStore,
-  // computed,
-} from '@nuxtjs/composition-api';
+import { ref, useFetch, provide, useStore } from '@nuxtjs/composition-api';
 
 import StoryblokClient from 'storyblok-js-client';
 
@@ -53,12 +33,9 @@ export default {
     const postsForCards = ref(null);
 
     const { fetch, fetchState } = useFetch(async () => {
-      // data.value = await $axios.$get(
-      //   `https://api.storyblok.com/v1/cdn/stories/test?version=draft&token=gmlwyE5LJpGMoSrWXvgA3Att`
-      // );
-      // data.value = await $storyapi
       data.value = await Storyblok.get('cdn/stories/', {
-        version: 'draft',
+        // version: 'draft',
+        version: 'published',
         starts_with: 'home',
       })
         .then((res) => {
@@ -71,7 +48,8 @@ export default {
 
       // todo направления
       directions.value = await Storyblok.get('cdn/stories/', {
-        version: 'draft',
+        // version: 'draft',
+        version: 'published',
         starts_with: 'directions',
       })
         .then((res) => {
@@ -86,9 +64,11 @@ export default {
 
       // todo для карточек
       postsForCards.value = await Storyblok.get('cdn/stories', {
-        version: 'draft',
+        // version: 'draft',
+        version: 'published',
         starts_with: 'posts',
         excluding_fields: 'markdown_block,flex_gallery,grid_gallery',
+        sort_by: 'published_at:desc',
       })
         .then((res) => {
           store.dispatch('addPostsForCards', res.data);

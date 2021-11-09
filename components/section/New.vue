@@ -13,7 +13,7 @@
 
         <div class="card-wrapper">
           <BaseCard
-            v-for="(cardData, index) in newData.stories"
+            v-for="(cardData, index) in newData.stories.slice(0, 6)"
             :key="index"
             :card-data="cardData"
           />
@@ -32,10 +32,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-
-  setup() {
-    return {};
   },
 };
 </script>

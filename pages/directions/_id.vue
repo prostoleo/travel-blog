@@ -27,15 +27,14 @@ export default {
       accessToken: STORYBLOK_KEY,
     });
 
-    // const store = useStore();
-    // const data = ref(null);
     const direction = ref(null);
     const postsForCards = ref(null);
 
     const { fetch, fetchState } = useFetch(async () => {
       // todo направления
       direction.value = await Storyblok.get('cdn/stories/', {
-        version: 'draft',
+        // version: 'draft',
+        version: 'published',
         starts_with: 'directions/',
         by_slugs: route.value.path.slice(1),
 
@@ -59,7 +58,8 @@ export default {
 
       // todo для карточек
       postsForCards.value = await Storyblok.get('cdn/stories', {
-        version: 'draft',
+        // version: 'draft',
+        version: 'published',
         starts_with: 'posts/',
         excluding_fields: 'markdown_block,flex_gallery,grid_gallery',
         filter_query: {

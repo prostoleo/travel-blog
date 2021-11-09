@@ -104,7 +104,8 @@ export default {
 
     const { fetch, fetchState } = useFetch(async () => {
       post.value = await Storyblok.get(`cdn/stories/posts/${postId}`, {
-        version: 'draft',
+        // version: 'draft',
+        version: 'published',
         resolve_relations: 'Post.direction_info',
       })
         .then((res) => {

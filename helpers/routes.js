@@ -12,13 +12,15 @@ export const dynamicRoutes = async () => {
   });
 
   const resForPosts = await Storyblok.get(`cdn/stories`, {
-    version: 'draft',
+    // version: 'draft',
+    version: 'published',
     starts_with: 'posts/',
     resolve_relations: 'Post.direction_info',
   }).then((res) => res.data);
 
   const resForDirections = await Storyblok.get(`cdn/stories`, {
-    version: 'draft',
+    // version: 'draft',
+    version: 'published',
     starts_with: 'directions/',
   }).then((res) => res.data);
 

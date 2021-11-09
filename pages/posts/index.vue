@@ -26,16 +26,12 @@
                 class="search__input"
                 type="search"
               />
-              <!-- @input="searchPost" -->
               <label
                 for="search-input"
                 class="search__label"
                 :class="searchQuery && searchQuery.length > 0 ? 'active' : ''"
                 >Поиск...</label
               >
-              <!-- <button class="btn search__btn">
-                <img src="/icons/search.svg" alt="" />
-              </button> -->
             </div>
 
             <div class="filter__block filter" @click="handleSortPosts">
@@ -133,12 +129,9 @@ export default {
     // const sortedPosts = ref(null);
 
     const { fetch, fetchState } = useFetch(async () => {
-      // data.value = await $axios.$get(
-      //   `https://api.storyblok.com/v1/cdn/stories/test?version=draft&token=gmlwyE5LJpGMoSrWXvgA3Att`
-      // );
-      // data.value = await $storyapi
       posts.value = await Storyblok.get(`cdn/stories`, {
-        version: 'draft',
+        // version: 'draft',
+        version: 'published',
         starts_with: 'posts',
       })
         .then((res) => {
