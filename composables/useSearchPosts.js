@@ -36,9 +36,20 @@ const useSearchPosts = () => {
 
   //* для отображения подзаголовка постов
   const postsTitle = computed(() => {
-    console.log('searchedPosts.value: ', searchedPosts.value);
-    console.log('searchedPosts.value.length: ', searchedPosts?.value?.length);
-    console.log('searchQuery?.value: ', searchQuery?.value);
+    if (!searchQuery.value) {
+      return {
+        title: `Все посты`,
+        query: '',
+      };
+    }
+    console.log('searchedPosts: ', searchedPosts);
+
+    if (searchQuery.value && searchedPosts.value.length === 0) {
+      return {
+        title: `Ничего не удалось найти по запросу: `,
+        query: searchQuery.value,
+      };
+    }
 
     if (searchQuery.value) {
       return {
@@ -46,19 +57,6 @@ const useSearchPosts = () => {
         query: searchQuery.value,
       };
     }
-
-    if (searchQuery?.value && searchedPosts?.value?.length === 0) {
-      console.log(' ничего не удалось найти ');
-      return {
-        title: `Ничего не удалось найти по запросу: `,
-        query: searchQuery.value,
-      };
-    }
-
-    return {
-      title: `Все посты`,
-      query: '',
-    };
   });
 
   return {

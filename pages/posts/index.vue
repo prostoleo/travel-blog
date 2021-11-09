@@ -83,6 +83,7 @@
             {{ postsTitle.query }}
           </span>
         </h2>
+        <!-- <p v-if="nonePostsFound">ыыыыы</p> -->
         <div class="content">
           <!-- v-for="post in postsToShow" -->
           <BaseCard
@@ -377,6 +378,10 @@ export default {
       // return store.getters.getPostsPagePosts;
     });
 
+    const nonePostsFound = computed(
+      () => contentToShow?.value?.length === 0 || contentToShow?.length === 0
+    );
+
     return {
       fetch,
       fetchState,
@@ -393,6 +398,7 @@ export default {
 
       sortInfo,
       handleSortPosts,
+      nonePostsFound,
     };
   },
 };
