@@ -1,7 +1,7 @@
 <template>
   <div class="overlay" @click="closeDialog">
     <div class="content">
-      <img :src="imageSrc" alt="" />
+      <img :src="imageSrc" alt="" class="image" />
       <img src="/icons/close.svg" alt="" class="close" @click="closeDialog" />
       <!-- <span src="/icons/close.svg" alt="" class="close">X</span> -->
     </div>
@@ -68,21 +68,28 @@ export default {
   .content {
     position: relative;
 
+    z-index: 1;
+    isolation: isolate;
+
     margin: 3.5vw;
     @include mq(xlg) {
       margin: 0 5vw;
 
-      max-height: 90vh;
+      /* max-height: 90vh;
 
       img {
         max-height: 90vh;
-      }
+      } */
     }
 
     img {
       width: 100%;
       // height: 100%;
       height: auto;
+      max-height: 90vh;
+
+      cursor: unset;
+      z-index: 100;
     }
 
     img.close,

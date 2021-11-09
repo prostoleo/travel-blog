@@ -7,8 +7,16 @@
           <h2>Новые приключения</h2>
         </div>
 
+        <!-- <pre>
+          {{ newData }}
+        </pre> -->
+
         <div class="card-wrapper">
-          <BaseCard v-for="index in 9" :key="index" />
+          <BaseCard
+            v-for="(cardData, index) in newData.stories.slice(0, 6)"
+            :key="index"
+            :card-data="cardData"
+          />
         </div>
       </div>
     </BaseContainer>
@@ -19,8 +27,11 @@
 export default {
   name: 'New',
 
-  setup() {
-    return {};
+  props: {
+    newData: {
+      type: Object,
+      required: true,
+    },
   },
 };
 </script>
@@ -32,7 +43,7 @@ section {
 
   .content {
     display: grid;
-    justify-content: center;
+    // justify-content: center;
 
     .title {
       text-align: center;
@@ -54,6 +65,10 @@ section {
 
         font-weight: 700;
         color: $title-dark;
+
+        &::before {
+          display: none;
+        }
       }
     }
 

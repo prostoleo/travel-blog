@@ -7,7 +7,7 @@ export default function () {
   // const header = document.querySelector('header.header');
 
   function openImage(event) {
-    const target = event.target.closest('.full-img');
+    const target = event.target.closest('img');
 
     if (!target) return;
 

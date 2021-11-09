@@ -1,88 +1,45 @@
 <template>
   <div class="post-container">
-    <section class="first">
+    <section v-if="post.story.content.markdown_block" class="first">
       <BaseContainer>
-        <div class="text-wrapper">
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur
-            dolor nostrum dolorem ipsa eveniet, nulla saepe unde autem deserunt
-            vero quis, repellendus delectus iste ab facilis perferendis
-            voluptatem odio asperiores veritatis officia eligendi, labore
-            expedita adipisci? Mollitia minima ut dolorum.
-          </p>
-
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Consectetur reprehenderit incidunt nisi velit autem ex vitae officia
-            odit deleniti adipisci, nemo ad asperiores commodi possimus sapiente
-            dolorem. Iusto alias porro fugit provident mollitia pariatur ducimus
-            laborum, quo blanditiis saepe veritatis error ea corporis
-            accusantium quos eaque quae reiciendis ad beatae aspernatur natus
-            accusamus incidunt. Fugit, neque magni, dolor magnam nostrum eum
-            obcaecati, sequi ducimus natus eveniet repudiandae fugiat quos
-            iusto. Maiores incidunt est tenetur ipsum exercitationem optio enim
-            temporibus, quam in ratione ullam odio repellat iste necessitatibus
-            tempore officiis? Obcaecati aperiam ipsa deleniti, delectus iure
-            fugiat accusantium aliquid repellat, esse libero illo, tenetur
-            doloremque vel ab perspiciatis unde odit nam dolore molestias quam
-            architecto. Aspernatur provident recusandae nihil pariatur molestias
-            eaque deserunt voluptate, reprehenderit maxime illo voluptates
-            architecto laudantium qui harum dolor, accusantium quisquam ad quam.
-          </p>
-          <p>
-            Ex esse deserunt laborum pariatur suscipit dolorem culpa atque,
-            nostrum vel at minima iure doloremque minus adipisci sapiente
-            perspiciatis magnam alias. Beatae neque tempore nobis itaque
-            repellendus! Sit corrupti, vel ipsam mollitia quia eveniet adipisci
-            iste explicabo animi, exercitationem et aut. Minus nesciunt adipisci
-            eaque? Eos culpa soluta perspiciatis eius accusamus alias illo.
-          </p>
-        </div>
+        <div
+          v-for="(
+            markdown_item, index
+          ) in post.story.content.markdown_block.slice(0, 3)"
+          :key="index"
+          class="text-wrapper"
+          @click="openImage"
+          v-html="markdown().render(markdown_item.markdown)"
+        ></div>
       </BaseContainer>
 
-      <img
+      <!-- <img
         src="/img/post-bg/girl.jpg"
         alt=""
         class="full-img mah-55r"
         @click="openImage"
-      />
+      /> -->
     </section>
-    <section class="second">
+    <!-- <section class="second">
       <BaseContainer>
-        <div class="title">
-          <img src="/icons/divider.svg" alt="разделитель" />
-          <h2>Подзаголовок</h2>
-        </div>
-        <div class="text-wrapper">
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur
-            dolor nostrum dolorem ipsa eveniet, nulla saepe unde autem deserunt
-            vero quis, repellendus delectus iste ab facilis perferendis
-            voluptatem odio asperiores veritatis officia eligendi, labore
-            expedita adipisci? Mollitia minima ut dolorum.
-          </p>
-          <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illo
-            eveniet non quo odio illum sapiente nulla, magnam eum quidem quis!
-          </p>
-          <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illo
-            eveniet non quo odio illum sapiente nulla, magnam eum quidem quis!
-          </p>
+        
+        <div
+          class="text-wrapper"
+          v-html="markdown().render(post.story.content.markdown_2)"
+        >
+          
         </div>
       </BaseContainer>
 
-      <img
-        src="/img/post-bg/park.jpg"
-        alt=""
-        class="full-img mah-55r"
-        @click="openImage"
-      />
-    </section>
+      
+    </section> -->
 
-    <section class="second">
-      <BaseContainer>
-        <div class="title">
+    <!-- <section class="second"> -->
+    <!-- <BaseContainer> -->
+    <!-- <pre>
+          {{ post.story.content.markdown_block }}
+        </pre> -->
+    <!-- <div class="title">
           <img src="/icons/divider.svg" alt="разделитель" />
           <h2>Подзаголовок</h2>
         </div>
@@ -99,42 +56,9 @@
             eveniet non quo odio illum sapiente nulla, magnam eum quidem quis!
           </p>
         </div>
-      </BaseContainer>
+      </BaseContainer> -->
 
-      <div class="grid-gallery">
-        <img
-          id="gallery-item-1"
-          class="grid-gallery__item full-img"
-          src="/img/grid-gallery/5.jpg"
-          @click="openImage"
-        />
-        <img
-          id="gallery-item-2"
-          class="grid-gallery__item full-img"
-          src="/img/grid-gallery/2.jpg"
-          @click="openImage"
-        />
-        <img
-          id="gallery-item-3"
-          class="grid-gallery__item full-img"
-          src="/img/grid-gallery/3.jpg"
-          @click="openImage"
-        />
-        <img
-          id="gallery-item-4"
-          class="grid-gallery__item full-img"
-          src="/img/grid-gallery/4.jpg"
-          @click="openImage"
-        />
-        <img
-          id="gallery-item-5"
-          class="grid-gallery__item full-img"
-          src="/img/grid-gallery/1.jpg"
-          @click="openImage"
-        />
-      </div>
-
-      <!-- <div id="gallery-item-1" class="grid-gallery__item">
+    <!-- <div id="gallery-item-1" class="grid-gallery__item">
           <img src="/img/grid-gallery/1.jpg" alt="" />
         </div>
         <div id="gallery-item-2" class="grid-gallery__item">
@@ -149,11 +73,22 @@
         <div id="gallery-item-5" class="grid-gallery__item">
           <img src="/img/grid-gallery/5.jpg" alt="" />
         </div> -->
-    </section>
+    <!-- </section> -->
+
+    <div class="grid-gallery">
+      <img
+        v-for="(gallery_item, index) in post.story.content.grid_gallery"
+        :id="`gallery-item-${index + 1}`"
+        :key="index"
+        class="grid-gallery__item full-img"
+        :src="`${gallery_item.image.filename}/m/`"
+        @click="openImage"
+      />
+    </div>
 
     <section class="second">
-      <BaseContainer>
-        <div class="title">
+      <BaseContainer v-if="post.story.content.markdown_block">
+        <!-- <div class="title">
           <img src="/icons/divider.svg" alt="разделитель" />
           <h2>Подзаголовок</h2>
         </div>
@@ -165,12 +100,21 @@
             voluptatem odio asperiores veritatis officia eligendi, labore
             expedita adipisci? Mollitia minima ut dolorum.
           </p>
-        </div>
+        </div> -->
+        <div
+          v-for="(
+            markdown_item, index
+          ) in post.story.content.markdown_block.slice(3)"
+          :key="index"
+          class="text-wrapper"
+          @click="openImage"
+          v-html="markdown().render(markdown_item.markdown)"
+        ></div>
       </BaseContainer>
 
       <div id="flex-gallery-1" class="flex-gallery">
         <div
-          v-for="index in 5"
+          v-for="(gallery_item, index) in post.story.content.flex_gallery"
           ref="flexGalleryItem"
           :key="index"
           class="flex-gallery__item"
@@ -179,9 +123,11 @@
         >
           <div
             class="img"
-            :style="`background-image: url(/img/flex-gallery/${index}.jpg)`"
+            :style="`background-image: url(${gallery_item.image.filename}/m/)`"
           >
-            <h3 class="flex-gallery__title">Магадан</h3>
+            <h3 class="flex-gallery__title">
+              {{ gallery_item.title }}
+            </h3>
           </div>
         </div>
       </div>
@@ -197,10 +143,17 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
-
+import markdown from 'markdown-it';
 import useImageDialog from '~/composables/useImageDialog.js';
 
 export default {
+  props: {
+    post: {
+      type: Object,
+      required: true,
+    },
+  },
+
   setup() {
     // const flexGalleryItem = ref([]);
     const sliderEl1 = ref(null);
@@ -237,6 +190,8 @@ export default {
       imgSrc,
       openImage,
       closeDialog,
+
+      markdown,
     };
   },
 };
@@ -255,12 +210,18 @@ img {
 
 img.full-img {
   // max-height: 55rem;
-  max-width: 150rem;
-  width: 100%;
+  // max-width: 150rem;
+  // width: 100%;
+
+  // max-height: 90vh;
 
   object-fit: cover;
 
   margin: 0 auto;
+
+  @include mq(lg) {
+    height: 100%;
+  }
 }
 
 img.mah-55r {
@@ -271,7 +232,7 @@ img.mah-55r {
   padding: 0 1rem;
   @include adaptive-value-min-max(margin-top, 25, 45);
   // max-width: 1920px;
-  // width: 100%;
+  width: 100%;
 
   display: flex;
   // align-items: center;
@@ -344,20 +305,29 @@ img.mah-55r {
 }
 
 .flex-gallery {
-  max-width: 100%;
+  // max-width: 100%;
   display: flex;
+  // flex-direction: column;
 
-  overflow-x: auto;
+  overflow-x: auto !important;
 
   height: 100%;
   max-height: 50rem;
 
   gap: 1.5rem;
+  // margin-top: 2em;
+  margin: 2em auto 0 auto;
 
   &__item {
-    width: 100%;
-    max-width: 30%;
-    flex: 1 0 30%;
+    /* width: 100%;
+    max-width: 47%;
+    flex: 1 0 47%; */
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 75%;
+
+    /* object-fit: cover;
+    @include adaptive-value-min-max(width, 250, 400); */
 
     & > .img {
       @include adaptive-value-min-max(height, 200, 500);
@@ -434,11 +404,17 @@ section {
     margin: 0 auto;
 
     @include adaptive-value-min-max(padding, 15, 25);
+    padding-bottom: 0;
 
     background: $white;
     color: $text-dark;
 
     @include adaptive-value-min-max(font-size, 14, 16);
+
+    text-indent: 1.5rem;
+    line-height: 160%;
+    text-align: justify;
+    hyphens: auto;
 
     p {
       text-indent: 1.5rem;

@@ -15,9 +15,14 @@
       :pagination="true"
       :navigation="true"
     >
-      <swiper-slide v-for="(slide, index) in slides" :key="index">
-        <nuxt-link :to="slide.path" class="slide__link">
-          {{ slide.text }}
+      <swiper-slide
+        v-for="(slide, index) in directions.stories"
+        :key="index"
+        :style="`background: url(${slide.content.bg.filename}/m/); background-size: cover; background-position: center center; bacground-repeat: no-repeat`"
+      >
+        <nuxt-link :to="`/${slide.full_slug}`" class="slide__link">
+          {{ slide.content.title }}
+          <!-- {{ slide.content.bg.filename }} -->
         </nuxt-link>
       </swiper-slide>
 
@@ -30,11 +35,11 @@
     </swiper>
     <div ref="myPagination" class="my-pagination">
       <div
-        v-for="(slide, index) in slides"
+        v-for="index in directions.stories.length"
         ref="bullet"
         :key="index"
         class="bullet"
-        @click="goToSlide(index)"
+        @click="goToSlide(index - 1)"
       ></div>
     </div>
   </div>
@@ -55,45 +60,15 @@ export default {
     SwiperSlide,
   },
 
+  props: {
+    directions: {
+      type: Object,
+      required: true,
+    },
+  },
+
   data() {
     return {
-      // modules: JSON.stringify([Controller, Pagination, Scrollbar, Navigation]),
-
-      slides: [
-        {
-          imgSrc: '/img/slider-main/1-min.jpg',
-          text: 'Дальний Восток',
-          path: '/directions/1',
-        },
-        {
-          imgSrc: '/img/slider-main/1-min.jpg',
-          text: 'Сибирь',
-          path: '/directions/1',
-        },
-        {
-          imgSrc: '/img/slider-main/1-min.jpg',
-          text: 'Урал',
-          path: '/directions/1',
-        },
-        {
-          imgSrc: '/img/slider-main/1-min.jpg',
-          text: 'Кавказ',
-          path: '/directions/1',
-        },
-        {
-          imgSrc: '/img/slider-main/1-min.jpg',
-          text: 'Север',
-          path: '/directions/1',
-        },
-        {
-          imgSrc: '/img/slider-main/1-min.jpg',
-          text: 'Юг',
-          path: '/directions/1',
-        },
-      ],
-
-      // currentActive: Math.round(this.slides?.length),
-
       activeSlide: this.swiper?.activeIndex,
 
       swiperOptions: {
@@ -110,21 +85,28 @@ export default {
         },
 
         on: {
+          //* hook от swiper смены слайдов
           slideChange: () => {
             const bullets = this.$refs.bullet;
 
-            const activeIndex = this.swiper.activeIndex;
+            const activeIndex = this.swiper.activeIndex; // получаем индекс активного слайда
 
-            const { prevBtn, nextBtn } = this.$refs;
+            const { prevBtn, nextBtn } = this.$refs; // получаем кнопки через refs
 
+            // убираем скрывающий класс
             prevBtn.classList.remove('disabled');
             nextBtn.classList.remove('disabled');
 
+            // если слайд текущий самый первый - убираем кнопку назад, если слайд самый последний - убираем кнопку вперед
             if (activeIndex === 0) prevBtn.classList.add('disabled');
-            if (activeIndex === this.slides.length - 1)
+            if (activeIndex === this.directions.stories.length - 1)
               nextBtn.classList.add('disabled');
 
-            if (activeIndex !== 0 || activeIndex !== this.slides.length) {
+            // по аналогии с булетами
+            if (
+              activeIndex !== 0 ||
+              activeIndex !== this.directions.stories.length
+            ) {
               bullets.forEach((b) => b.classList.remove('active'));
               bullets[this.swiper.activeIndex].classList.add('active');
             }
@@ -140,8 +122,13 @@ export default {
   },
 
   mounted() {
-    this.swiper.slideTo(3, 1000, false);
-    this.goToSlide(3);
+    const initialSlideIndex = Math.floor(this.directions.stories.length / 2);
+
+    this.swiper.slideTo(initialSlideIndex, 1000, false);
+    this.goToSlide(initialSlideIndex);
+
+    // this.swiper.slideTo(3, 1000, false);
+    // this.goToSlide(3);
   },
 
   methods: {
@@ -151,7 +138,7 @@ export default {
       this.swiper.slidePrev(1000, false);
     },
     goToNextSlide() {
-      if (this.swiper.activeIndex === this.slides.length) return;
+      if (this.swiper.activeIndex === this.directions.stories.length) return;
 
       this.swiper.slideNext(1000, false);
     },
@@ -265,11 +252,11 @@ export default {
 }
 
 .swiper-slide {
-  background: url(/img/slider-main/1-min.jpg) $overlay;
-  background-blend-mode: darken;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+  // background: url(/img/slider-main/1-min.jpg) $overlay;
+  // background-blend-mode: darken;
+  // background-size: cover;
+  // background-repeat: no-repeat;
+  // background-position: center center;
 
   // @include adaptive-value-min-max(height, 200, 400);
   // @include adaptive-value-min-max(width, 300, 600);

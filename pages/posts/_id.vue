@@ -1,6 +1,22 @@
 <template>
-  <div>
-    <section class="first">
+  <div v-if="fetchState.pending">
+    <nuxt-loader name="cube-loader" />
+  </div>
+  <!--  -->
+  <div v-else v-editable="post.story">
+    <!-- <pre>
+      {{ post }}
+    </pre> -->
+    <!-- <pre>
+      {{ posts }}
+    </pre> -->
+
+    <section ref="firstSection" class="first">
+      <img
+        :src="`${post.story.content.bg.filename}/m/filters:brightness(-40)`"
+        alt=""
+        class="bg"
+      />
       <BaseContainer>
         <div class="content-wrapper">
           <div class="breadcrumbs">
@@ -12,28 +28,40 @@
               Направления
               <img src="/icons/shevron.svg" alt="" />
             </nuxt-link>
-            <nuxt-link to="/directions/1" class="breadcrumb-item">
-              Дальний Восток
+            <!-- :to="path"  -->
+            <nuxt-link
+              :to="`/${post.rels[0].full_slug}`"
+              class="breadcrumb-item"
+            >
+              {{ post.story.content.direction }}
               <img src="/icons/shevron.svg" alt="" />
             </nuxt-link>
-            <span class="breadcrumb-item"> Магадан </span>
+            <span class="breadcrumb-item">
+              {{ post.story.content.title }}
+            </span>
           </div>
 
           <div class="content-text">
-            <h1 class="title">Магадан</h1>
+            <h1 class="title">{{ post.story.content.title }}</h1>
 
             <div class="post-info">
               <div class="post-info__row row">
                 <img src="/icons/date.svg" alt="" class="row__img" />
-                <span class="row__text">Пн, 18 октября 2021 г.</span>
+                <span class="row__text">{{ formatDate() }}</span>
               </div>
               <div class="post-info__row row">
                 <img src="/icons/author.svg" alt="" class="row__img" />
-                <span class="row__text">Автор, Федор Федоров</span>
+                <span class="row__text"
+                  >Автор, <strong>{{ post.story.content.author }}</strong></span
+                >
               </div>
               <div class="post-info__row row">
                 <img src="/icons/time.svg" alt="" class="row__img" />
-                <span class="row__text">Время на чтение: 12 мин.</span>
+                <span class="row__text"
+                  >Время на чтение:
+                  <strong>{{ minutes }}</strong>
+                  мин.</span
+                >
               </div>
             </div>
           </div>
@@ -41,31 +69,151 @@
       </BaseContainer>
     </section>
 
-    <SectionPostContent />
+    <SectionPostContent :post="post" />
   </div>
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import { ref, useFetch, useRoute, useRouter } from '@nuxtjs/composition-api';
+
+import StoryblokClient from 'storyblok-js-client';
+import markdown from 'markdown-it';
+
+import { STORYBLOK_KEY } from '~/config/config.js';
+
 export default {
-  setup() {
-    return {};
+  name: 'Home',
+
+  setup(props, { root }) {
+    const route = useRoute();
+    const router = useRouter();
+
+    const postId = route.value.params.id;
+
+    const Storyblok = new StoryblokClient({
+      accessToken: STORYBLOK_KEY,
+    });
+
+    // const store = useStore();
+    const post = ref(null);
+
+    const firstSection = ref(null);
+
+    const minutes = ref(null);
+
+    const { fetch, fetchState } = useFetch(async () => {
+      post.value = await Storyblok.get(`cdn/stories/posts/${postId}`, {
+        // version: 'draft',
+        version: 'published',
+        resolve_relations: 'Post.direction_info',
+      })
+        .then((res) => {
+          return res.data;
+        })
+        .catch((err) => {
+          console.warn('err.response: ', err.response);
+
+          // todo если нет такого поста - перекидываем на страницу с ошибкой
+          // eslint-disable-next-line
+          if (err.response.status == 404) {
+            router.replace({
+              path: '/error',
+              name: 'NotFound',
+              params: { notFound: 'not-found' },
+            });
+          }
+        });
+
+      minutesToRead();
+    });
+
+    // Manually trigger a refetch
+    fetch();
+
+    // todo вычисляем сколько минут на чтение
+    function minutesToRead() {
+      const wpm = 200;
+
+      const totalText = post.value.story.content.markdown_block
+        .map((m) => m.markdown)
+        .join(' ');
+
+      const words = totalText.trim().split(/\s+/).length;
+
+      const time = Math.round(words / wpm);
+
+      minutes.value = time;
+    }
+
+    // todo для форматирования даты поста
+    const formatDate = (date) => {
+      return new Intl.DateTimeFormat(navigator.locale, {
+        weekday: 'short',
+        month: 'long',
+        year: 'numeric',
+        day: 'numeric',
+      }).format(date);
+    };
+
+    return {
+      post,
+      fetch,
+      fetchState,
+
+      formatDate,
+      minutes,
+
+      markdown,
+
+      firstSection,
+    };
   },
 };
 </script>
 
 <style lang="scss" scoped>
 section.first {
-  background: url(/img/post-bg/magadan-cover.jpg) $overlay;
-  background-blend-mode: darken;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-
   @include adaptive-value-min-max(padding-top, 35, 55);
   @include adaptive-value-min-max(padding-bottom, 125, 175);
 
   position: relative;
   z-index: 1;
+
+  img.bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: -1;
+    isolation: isolate;
+
+    // filter: brightness(0.5);
+
+    /* &::before {
+      content: '';
+      position: absolute;
+
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: hsla(0, 0%, 0%, 0.4);
+      mix-blend-mode: darken;
+      z-index: 1;
+    } */
+  }
 
   .content-wrapper {
     .breadcrumbs {

@@ -1,12 +1,18 @@
 <template>
-  <section>
+  <section id="hero-section">
     <BaseContainer>
       <div class="content">
-        <h1 class="title">Окунитесь в мир путешествий по России</h1>
+        <!-- <pre>
+          {{ heroData }}
+        </pre> -->
+        <h1 class="title">{{ heroData.title }}</h1>
 
-        <p class="text">
-          Добро пожаловать в мой блог!<br />
-          Меня зовут Федор и я обожаю путешествовать по нашей необъятной Родине
+        <p
+          v-for="(p, index) in heroData.description.content"
+          :key="index"
+          class="text"
+        >
+          {{ p.content[0].text }}
         </p>
 
         <div class="btn-row">
@@ -32,11 +38,24 @@
 
 <script>
 export default {
-  setup(props) {},
+  props: {
+    heroData: {
+      type: Object,
+      // default: {},
+      required: true,
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+pre {
+  color: white;
+  font-size: 1.2rem;
+
+  margin: 2rem;
+}
+
 section {
   @include adaptive-value-min-max(padding-top, 35, 55);
   @include adaptive-value-min-max(padding-bottom, 125, 175);
@@ -68,7 +87,9 @@ section {
       font-weight: 400;
       color: $text-light;
 
-      margin-bottom: 2.5em;
+      &:last-of-type {
+        margin-bottom: 2.5em;
+      }
     }
 
     .btn-row {

@@ -2,74 +2,116 @@
   <section id="#about" class="about">
     <BaseContainer>
       <div class="content">
+        <!-- <pre>
+          {{ aboutData.About_row }}
+        </pre> -->
         <div class="title">
           <img src="/icons/divider.svg" alt="разделитель" />
-          <h2>Обо мне</h2>
+          <!-- <h2>Обо мне</h2> -->
+          <h2>{{ aboutData.title }}</h2>
         </div>
 
         <div class="rows">
-          <div class="row">
-            <img src="/img/about/1.jpg" class="row__img" alt="" />
+          <div
+            v-for="(row, index) in aboutData.About_row"
+            :key="index"
+            v-editable="row"
+            class="row"
+          >
+            <div
+              class="row__content prose"
+              v-html="markdown().render(row.text)"
+            ></div>
+            <img
+              :src="`${row.image.filename}/m/`"
+              class="row__img"
+              alt=""
+              @click="openImage"
+            />
             <!-- @click="openImage" -->
-            <div class="row__content">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. In
-              similique reprehenderit mollitia eum rem quisquam nisi,
-              accusantium iusto, dolorum, sed iste fugiat aliquam suscipit.
-              Deserunt voluptatibus placeat labore! Voluptates, vel. Lorem ipsum
-              dolor, sit amet consectetur adipisicing elit. In similique
-              reprehenderit mollitia eum rem quisquam nisi, accusantium iusto,
-              dolorum, sed iste fugiat aliquam suscipit.
-            </div>
-          </div>
-
-          <div class="row">
-            <img src="/img/about/2.jpg" class="row__img" alt="" />
-            <!-- @click="openImage" -->
-            <div class="row__content">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. In
-              similique reprehenderit mollitia eum rem quisquam nisi,
-              accusantium iusto, dolorum, sed iste fugiat aliquam suscipit.
-              Deserunt voluptatibus placeat labore! Voluptates, vel. Lorem ipsum
-              dolor, sit amet consectetur adipisicing elit. In similique
-              reprehenderit mollitia eum rem quisquam nisi, accusantium iusto,
-              dolorum, sed iste fugiat aliquam suscipit. Lorem ipsum dolor, sit
-              amet consectetur adipisicing elit. In similique reprehenderit
-              mollitia eum rem quisquam nisi, accusantium iusto, dolorum, sed
-              iste fugiat aliquam suscipit.
-            </div>
           </div>
         </div>
       </div>
     </BaseContainer>
 
-    <!-- <BaseImageDialog
-      :is-open="isImageShowing"
-      :image-src="imgSrc"
+    <BaseImageDialog
+      v-if="isImageShowingComp"
+      :image-src="`${imgSrc}`"
       @close-dialog="closeDialog"
-    /> -->
+    />
   </section>
 </template>
 
 <script>
 // import { ref } from '@nuxtjs/composition-api';
 
-// import useImageDialog from '~/composables/useImageDialog.js';
+// import RichTextResolver from 'storyblok-js-client/dist/rich-text-resolver.es';
+import markdown from 'markdown-it';
+import useImageDialog from '~/composables/useImageDialog.js';
 
 export default {
-  setup() {
-    /* const { isImageShowing, imgSrc, openImage, closeDialog } = useImageDialog();
+  props: {
+    aboutData: {
+      type: Object,
+      // default: {},
+      required: true,
+    },
+  },
 
-    return {
+  setup() {
+    const {
       isImageShowing,
+      isImageShowingComp,
       imgSrc,
       openImage,
       closeDialog,
+    } = useImageDialog();
+
+    return {
+      isImageShowing,
+      isImageShowingComp,
+      imgSrc,
+      openImage,
+      closeDialog,
+
+      markdown,
+    };
+    /* return {
+      resolver,
+      markdown,
     }; */
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.rows blockquote {
+  padding-left: 1.5rem !important;
+
+  border-left: 4px solid $primary-opacity60 !important;
+
+  font-style: italic !important;
+}
+
+h5 {
+  font-size: 1.6rem;
+  text-align: left;
+}
+
+hr {
+  margin-top: 1em !important;
+}
+
+img {
+  max-width: 100% !important;
+}
+
+.row {
+  &__content.prose > * {
+    margin-top: 2em !important;
+  }
+}
+
 section {
   @include adaptive-value-min-max(padding-top, 40, 70);
   @include adaptive-value-min-max(padding-bottom, 40, 70);
@@ -109,7 +151,7 @@ section {
 
       .row {
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: stretch;
         gap: 1.75rem;
 
@@ -122,6 +164,8 @@ section {
         .row__img {
           max-height: 50rem;
           object-fit: cover;
+
+          cursor: pointer;
 
           /* // img {
           } */

@@ -1,28 +1,57 @@
 <template>
   <div class="card">
     <header class="card__header">
-      <img src="/img/post-bg/magadan-cover.jpg" alt="Горы около Магадана" />
+      <img :src="`${cardData.content.bg.filename}/m/`" />
     </header>
     <div class="card__content">
-      <span class="card__badge"> Дальний Восток </span>
+      <div class="card__upper">
+        <span class="card__badge"> {{ cardData.content.direction }} </span>
+        <span class="card__time"> {{ formatDate(cardTime) }} </span>
+      </div>
 
-      <h3 class="card__title">Магадан</h3>
+      <h3 class="card__title">{{ cardData.content.title }}</h3>
 
       <p class="card__preview-text">
-        Сегодня я поведаю Вам о таком, легендарном месте, как Магадан. У этого
-        города не слишком славная репутация, однако он способен будет Вас
-        удивить.
+        {{ cardData.content.preview_text }}
       </p>
 
-      <nuxt-link to="/posts/1" class="card__link">Читать далее</nuxt-link>
+      <nuxt-link :to="`/posts/${cardData.slug}`" class="card__link"
+        >Читать далее</nuxt-link
+      >
     </div>
   </div>
 </template>
 
 <script>
+import { computed } from '@vue/composition-api';
+
 export default {
-  setup() {
-    return {};
+  props: {
+    cardData: {
+      type: Object,
+      required: true,
+    },
+  },
+
+  setup(props) {
+    const cardTime = computed(() => {
+      return props.cardData.first_published_at ?? props.cardData.created_at;
+    });
+
+    const formatDate = (date) => {
+      return Intl.DateTimeFormat(navigator.locale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
+        minute: '2-digit',
+        hour: '2-digit',
+      }).format(new Date(date));
+    };
+
+    return {
+      cardTime,
+      formatDate,
+    };
   },
 };
 </script>
@@ -31,6 +60,10 @@ export default {
 .card {
   background: $primary-Xlight;
   // padding: 1.5em;
+  display: flex;
+  flex-direction: column;
+
+  max-width: 50rem;
 
   // .card__header
 
@@ -52,16 +85,40 @@ export default {
   &__content {
     padding: 1.5em;
     padding-bottom: 1.75em;
+
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    height: 100%;
   }
 
   // .card__badge
-  &__badge {
+  &__upper {
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+  }
+
+  // .card__badge
+  &__badge,
+  &__time {
     padding: 0.25em 0.5em;
     display: inline-block;
+    width: max-content;
 
     background: $secondary-opacity60;
 
     @include adaptive-value-min-max(font-size, 12.5, 16);
+  }
+
+  // .card__time
+  &__time {
+    // background: $text-dark;
+    // color: $text-light;
+    background: transparent;
+    color: $text-dark;
+
+    // opacity: 0.8;
   }
 
   // .card__title
@@ -70,6 +127,8 @@ export default {
     @include adaptive-value-min-max(font-size, 20, 32);
 
     margin: 0.5em 0 0.8em;
+
+    align-self: flex-start;
   }
 
   // .card__preview-text
@@ -94,6 +153,9 @@ export default {
     position: relative;
 
     padding-bottom: 0.25em;
+
+    align-self: flex-end;
+    justify-self: flex-start;
 
     &::before {
       position: absolute;

@@ -2,10 +2,12 @@
   <BaseContainer>
     <div class="wrapper bg-primary">
       <div class="content">
+        <!-- -->
         <h1 v-if="error.statusCode === 404">
           Упс, кажется вы заблудились.<br />
           Этой страницы не существует
         </h1>
+        <!--  -->
         <h1 v-else>Упс, что-то пошло не так</h1>
         <NuxtLink to="/" class="to-home">На главную </NuxtLink>
       </div>
@@ -16,7 +18,7 @@
 <script>
 export default {
   layout: 'error', // you can set a custom layout for the error page
-  // props: ['error'],
+  props: ['error'],
 };
 </script>
 

@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-if="fetchState.pending"></div>
+  <div v-else>
     <section class="first">
       <BaseContainer>
         <div class="content-wrapper">
@@ -19,25 +20,48 @@
 
           <div class="search-filter__wrapper">
             <div class="search__block search">
-              <input id="search-input" class="search__input" type="search" />
-              <label for="search-input" class="search__label">Поиск...</label>
-              <button class="btn search__btn">
-                <img src="/icons/search.svg" alt="" />
-              </button>
+              <input
+                id="search-input"
+                v-model="searchQuery"
+                class="search__input"
+                type="search"
+              />
+              <label
+                for="search-input"
+                class="search__label"
+                :class="searchQuery && searchQuery.length > 0 ? 'active' : ''"
+                >Поиск...</label
+              >
             </div>
 
-            <div class="filter__block filter">
-              <button id="btn-alphabet-up" class="btn filter__btn">
+            <div class="filter__block filter" @click="handleSortPosts">
+              <button
+                id="btn-alphabet-up"
+                class="btn filter__btn"
+                :class="{ active: !!sortInfo.alphabet }"
+              >
                 <img src="/icons/alphabet.svg" alt="" />
               </button>
-              <button id="btn-alphabet-reverse" class="btn filter__btn">
+              <button
+                id="btn-alphabet-reverse"
+                class="btn filter__btn"
+                :class="{ active: !!sortInfo.alphabetReverse }"
+              >
                 <img src="/icons/alphabet-reverse.svg" alt="" />
               </button>
-              <button id="btn-date-up" class="btn filter__btn">
+              <button
+                id="btn-date-down"
+                class="btn filter__btn"
+                :class="{ active: !!sortInfo.dateDown }"
+              >
                 <img src="/icons/date.svg" alt="" />
                 <img src="/icons/arrow-slim.svg" alt="" />
               </button>
-              <button id="btn-date-down" class="btn filter__btn">
+              <button
+                id="btn-date-up"
+                class="btn filter__btn"
+                :class="{ active: !!sortInfo.dateUp }"
+              >
                 <img src="/icons/date.svg" alt="" />
                 <img src="/icons/arrow-slim.svg" alt="" />
               </button>
@@ -49,19 +73,113 @@
 
     <section class="second">
       <BaseContainer>
-        <h2 class="title">Все посты</h2>
+        <h2 class="title">
+          {{ postsTitle.title }}
+          <span v-if="postsTitle.query" class="hightlight">
+            {{ postsTitle.query }}
+          </span>
+        </h2>
+        <!-- <p v-if="nonePostsFound">ыыыыы</p> -->
         <div class="content">
-          <BaseCard v-for="index in 17" :key="index" />
+          <!-- v-for="post in postsToShow" -->
+          <BaseCard
+            v-for="post in contentToShow.value || contentToShow"
+            :key="post.id"
+            :card-data="post"
+          />
         </div>
+        <!-- <pre>
+            {{ contentToShow }}
+        </pre> -->
       </BaseContainer>
     </section>
   </div>
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import {
+  computed,
+  // reactive,
+  ref,
+  // toRef,
+  // toRefs,
+  useFetch,
+  useStore,
+} from '@nuxtjs/composition-api';
+
+import StoryblokClient from 'storyblok-js-client';
+
+import { STORYBLOK_KEY } from '~/config/config.js';
+
+import useSearchPosts from '~/composables/useSearchPosts.js';
+import useSortPosts from '~/composables/useSortPosts.js';
+
 export default {
-  setup() {
-    return {};
+  name: 'Home',
+
+  setup(props, { root }) {
+    const store = useStore();
+    const Storyblok = new StoryblokClient({
+      accessToken: STORYBLOK_KEY,
+    });
+
+    const posts = ref(null);
+
+    // const sortedPosts = ref(null);
+
+    const { fetch, fetchState } = useFetch(async () => {
+      posts.value = await Storyblok.get(`cdn/stories`, {
+        // version: 'draft',
+        version: 'published',
+        starts_with: 'posts',
+      })
+        .then((res) => {
+          store.dispatch('addAllPosts', res.data.stories);
+
+          return res.data.stories;
+        })
+        .catch((err) => {
+          console.warn('err.response: ', err.response);
+        });
+    });
+
+    // Manually trigger a refetch
+    fetch();
+
+    // ==========================
+    // todo функционал поиска
+
+    // eslint-disable-next-line no-unused-vars
+    const { searchQuery, postsTitle, searchedPosts } = useSearchPosts();
+
+    // todo функционал сортировки
+    // eslint-disable-next-line no-unused-vars
+    const { sortInfo, handleSortPosts, sortedPosts, sorted } = useSortPosts();
+
+    const contentToShow = computed(() => {
+      if (!searchQuery.value) return store.getters.getAllPosts;
+      return searchedPosts;
+    });
+
+    const nonePostsFound = computed(
+      () => contentToShow?.value?.length === 0 || contentToShow?.length === 0
+    );
+
+    return {
+      fetch,
+      fetchState,
+
+      posts,
+      contentToShow,
+      postsTitle,
+
+      searchQuery,
+
+      sortInfo,
+      handleSortPosts,
+      nonePostsFound,
+    };
   },
 };
 </script>
@@ -233,6 +351,11 @@ section.first {
       opacity: 0.8;
 
       transition: all 150ms ease-in-out;
+
+      &.active {
+        transform: translate(-20%, -175%);
+        opacity: 0.8;
+      }
     }
 
     // .search__btn
@@ -283,6 +406,11 @@ section.first {
         transform: rotate(180deg);
       }
 
+      &:hover,
+      &:focus {
+        opacity: 0.7;
+      }
+
       &::after {
         content: '';
         position: absolute;
@@ -326,21 +454,34 @@ section.first {
 }
 
 section.second {
-  @include adaptive-value-min-max(padding-top, 45, 75);
+  // @include adaptive-value-min-max(padding-top, 45, 75);
   @include adaptive-value-min-max(padding-bottom, 45, 75);
 
-  @include adaptive-value-min-max(margin-top, -125, -150);
+  @include adaptive-value-min-max(margin-top, -105, -145);
 
   position: relative;
   z-index: 2;
 
   h2.title {
-    @include adaptive-value-min-max(font-size, 24, 40);
+    @include adaptive-value-min-max(font-size, 18, 32);
 
     color: $text-light;
-    font-weight: 700;
+    font-weight: 600;
 
-    margin-bottom: 0.5em;
+    margin-bottom: 0.85em;
+
+    span.hightlight {
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1;
+      background: rgb(195, 172, 40);
+
+      padding: 0.15em;
+    }
+
+    &:before {
+      display: none;
+    }
   }
 
   .content {

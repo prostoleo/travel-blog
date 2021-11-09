@@ -1,3 +1,5 @@
+import { dynamicRoutes } from './helpers/routes';
+
 export default {
   ssr: false,
 
@@ -8,7 +10,7 @@ export default {
   head: {
     title: 'travel-blog',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'ru',
     },
     meta: [
       { charset: 'utf-8' },
@@ -36,7 +38,6 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@nuxtjs/fontawesome',
     '@nuxtjs/google-fonts',
     '@nuxtjs/composition-api/module',
     '@aceforth/nuxt-netlify',
@@ -72,17 +73,23 @@ export default {
     preload: true,
   },
 
+  // * для SSG
   generate: {
     fallback: true,
-  },
 
-  fontawesome: {
-    icons: {},
+    // * воздаем динамические пути
+    routes: dynamicRoutes,
   },
 
   loading: {
-    color: 'goldenrod',
+    color: 'hsla(200, 100%, 42%, 60%);',
     height: '3px',
+  },
+
+  loadingIndicator: {
+    name: 'cube-grid',
+    color: 'hsla(200, 100%, 42%, 60%)',
+    background: 'white',
   },
 
   server: {
