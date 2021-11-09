@@ -140,29 +140,14 @@ export default {
       posts.value = await Storyblok.get(`cdn/stories`, {
         version: 'draft',
         starts_with: 'posts',
-        // resolve_relations: 'Post.direction_info',
       })
         .then((res) => {
-          // console.log('res.data.stories: ', res.data.stories);
-          // store.dispatch('addPostsPagePosts', res.data.stories);
           store.dispatch('addAllPosts', res.data.stories);
 
           return res.data.stories;
         })
         .catch((err) => {
-          console.log('err.response: ', err.response);
-
-          // todo если нет такого поста - перекидываем на страницу с ошибкой
-          // eslint-disable-next-line
-          /* if (err.response.status == 404) {
-            router.replace({
-              path: '/error',
-              name: 'NotFound',
-              params: { notFound: 'not-found' },
-            });
-            // context.redirect(err.status, '/not-found');
-            console.log('404 !');
-          } */
+          console.warn('err.response: ', err.response);
         });
     });
 
@@ -171,211 +156,17 @@ export default {
 
     // ==========================
     // todo функционал поиска
-    /* const searchQuery = ref(null);
-
-    const postsToShow = computed(() => {
-      // console.log('searchQuery.value: ', searchQuery.value);
-      // const postsFromStore = store.getters.getPostsPagePosts;
-      const postsFromStore = store.getters.getAllPosts;
-      console.log('postsFromStore: ', postsFromStore);
-
-      if (searchQuery.value) {
-        // return
-        const postsToShowLocal = postsFromStore.filter((story) => {
-          console.log('story: ', story);
-          return story.content.title
-            .toLowerCase()
-            .includes(searchQuery.value.toLowerCase());
-          // return (
-          //   story.content.title
-          //     .toLowerCase()
-          //     .includes(searchQuery.value.toLowerCase()) ||
-          //   story.content.preview_text
-          //     .toLowerCase()
-          //     .includes(searchQuery.value.toLowerCase())
-          // );
-        });
-        console.log('postsToShowLocal: ', postsToShowLocal);
-
-        // if (postsToShowLocal.length > 0) {
-        //   store.dispatch('addPostsPagePosts', postsToShowLocal);
-        //   return postsToShowLocal;
-        // }
-
-        store.dispatch('addPostsPagePosts', postsToShowLocal);
-      }
-      // store.dispatch('addPostsPagePosts', postsFromStore);
-
-      return postsFromStore;
-    });
-
-    const postsTitle = computed(() => {
-      if (searchQuery.value) {
-        return {
-          title: `Посты по запросу: `,
-          query: searchQuery.value,
-        };
-      }
-
-      if (searchQuery.value && postsToShow.length === 0) {
-        return {
-          title: `Ничего не удалось найти по запросу: `,
-          query: searchQuery.value,
-        };
-      }
-
-      return {
-        title: `Все посты`,
-        query: '',
-      };
-    }); */
-
-    //* сортировка
-    /* const sortInfo = reactive({
-      alphabet: false,
-      alphabetReverse: false,
-      dateUp: false,
-      dateDown: true,
-    });
-
-    function returnToFalse() {
-      console.log('sortInfo: ', sortInfo);
-      console.log('Object.entries(sortInfo): ', Object.entries(sortInfo));
-
-      Object.entries(sortInfo).forEach(([key, val]) => {
-        console.log('{key, val}: ', { key, val });
-        // console.log('s: ', s);
-        // console.log('sortInfo[s]: ', sortInfo[s]);
-        sortInfo[key] = false;
-      });
-    }
-
-    function sortPosts(event) {
-      const target = event.target.closest('.filter__btn');
-
-      if (!target) {
-        return;
-      }
-
-      console.log('target: ', target);
-
-      let nextVal;
-
-      switch (target.id) {
-        case 'btn-alphabet-up':
-          nextVal = !sortInfo.alphabet;
-
-          returnToFalse();
-          sortInfo.alphabet = nextVal;
-          funcSortPosts(postsToShow);
-
-          break;
-        case 'btn-alphabet-reverse':
-          nextVal = !sortInfo.alphabetReverse;
-          returnToFalse();
-          sortInfo.alphabetReverse = nextVal;
-          funcSortPosts(postsToShow);
-
-          break;
-        case 'btn-date-up':
-          nextVal = !sortInfo.dateUp;
-          returnToFalse();
-          sortInfo.dateUp = nextVal;
-          funcSortPosts(postsToShow);
-
-          break;
-        case 'btn-date-down':
-          nextVal = !sortInfo.dateDown;
-          returnToFalse();
-          sortInfo.dateDown = nextVal;
-          funcSortPosts(postsToShow);
-
-          break;
-
-        default:
-          break;
-      }
-    }
-
-    // eslint-disable-next-line no-unused-vars
-    const funcSortPosts = () => {
-      // console.log('postsToSort: ', postsToSort);
-      // let sorted = toRefs(postsToSort.value.slice());
-      const postsFromStore =
-        store.getters.getPostsPagePosts ?? store.getters.getAllPosts;
-      console.log('postsFromStore: ', postsFromStore);
-
-      // eslint-disable-next-line prefer-const
-      let sorted = null;
-      console.log('sorted: ', sorted);
-
-      if (sortInfo.alphabet) {
-        sorted = postsFromStore.slice().sort((a, b) => {
-          console.log('a.content.title: ', a.content.title);
-          console.log('b.content.title: ', b.content.title);
-          console.log(
-            'b.content.title.localeCompare(b.content.title): ',
-            b.content.title.localeCompare(a.content.title)
-          );
-
-          return a.content.title.localeCompare(b.content.title);
-        });
-      }
-      if (sortInfo.alphabetReverse) {
-        sorted = postsFromStore
-          .slice()
-          .sort((a, b) => b.content.title.localeCompare(a.content.title));
-      }
-      if (sortInfo.dateUp) {
-        sorted = postsFromStore
-          .slice()
-          .sort(
-            (a, b) =>
-              +new Date(a.first_published_at ?? a.created_at) -
-              +new Date(b.first_published_at ?? a.created_at)
-          );
-      }
-      if (sortInfo.dateDown) {
-        sorted = postsFromStore
-          .slice()
-          .sort(
-            (a, b) =>
-              +new Date(b.first_published_at ?? a.created_at) -
-              +new Date(a.first_published_at ?? a.created_at)
-          );
-      }
-      console.log('sorted: ', sorted);
-
-      // sortedPosts.value = sorted;
-      store.dispatch('addPostsPagePosts', sorted);
-      // return sorted;
-    }; */
 
     // eslint-disable-next-line no-unused-vars
     const { searchQuery, postsTitle, searchedPosts } = useSearchPosts();
 
+    // todo функционал сортировки
     // eslint-disable-next-line no-unused-vars
     const { sortInfo, handleSortPosts, sortedPosts, sorted } = useSortPosts();
 
     const contentToShow = computed(() => {
-      // console.log('sortedPosts: ', sortedPosts);
-      // console.log('postsToShow: ', postsToShow);
-      /* console.log(
-        'store.getters.getPostsPagePosts: ',
-        store.getters.getPostsPagePosts
-      ); */
-      // return store.getters.getPostsPagePosts ?? store.getters.getAllPosts;
-
-      /* console.log('sortedPosts.value.length: ', sortedPosts.value.length);
-      if (sortedPosts?.value?.length > 0) {
-        return sortedPosts;
-      } */
-
       if (!searchQuery.value) return store.getters.getAllPosts;
       return searchedPosts;
-      // return
-      // return sorted;
-      // return store.getters.getPostsPagePosts;
     });
 
     const nonePostsFound = computed(
@@ -387,13 +178,9 @@ export default {
       fetchState,
 
       posts,
-      // postsToShow: sortedPosts?.value?.length > 0 ? sortedPosts : postsToShow,
       contentToShow,
-      // postsToShow,
-      // contentToShow,
       postsTitle,
 
-      // searchPost,
       searchQuery,
 
       sortInfo,

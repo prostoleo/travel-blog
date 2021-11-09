@@ -38,7 +38,6 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@nuxtjs/fontawesome',
     '@nuxtjs/google-fonts',
     '@nuxtjs/composition-api/module',
     '@aceforth/nuxt-netlify',
@@ -80,10 +79,6 @@ export default {
 
     // * воздаем динамические пути
     routes: dynamicRoutes,
-  },
-
-  fontawesome: {
-    icons: {},
   },
 
   loading: {

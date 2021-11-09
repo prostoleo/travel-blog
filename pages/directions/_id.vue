@@ -1,6 +1,6 @@
 <template>
   <div v-if="fetchState.pending">
-    <nuxt-loader />
+    <nuxt-loader name="cube-loader" />
   </div>
   <div v-else>
     <SectionDirectionsFirst :direction="direction" />
@@ -19,10 +19,7 @@ export default {
   name: 'Home',
 
   setup(props, context) {
-    // const store = useStore();
     const route = useRoute();
-    console.log('route: ', route);
-    console.log('route.path.slice(1): ', route.value.path.slice(1));
 
     const router = useRouter();
 
@@ -42,36 +39,22 @@ export default {
         starts_with: 'directions/',
         by_slugs: route.value.path.slice(1),
 
-        // resolve_relations: 'group_id',
         resolve_relations: 'posts',
       })
         .then((res) => {
-          // console.log('res.data: Directions ', res.data);
-
-          console.log('res.data.stories[0]: Direction', res.data.stories[0]);
-
-          /* if (res.data.stories[0].length === 0)
-            error({ statusCode: '404', message: 'post ' }); */
-
           return res.data.stories[0];
-          // return res.data;
         })
         .catch((err) => {
-          console.log(`💣💣💣 - ${err.response}`);
+          console.warn(`💣💣💣 - ${err.response}`);
 
           // todo если нет такого поста - перекидываем на страницу с ошибкой
-          // eslint-disable-next-line
           if (err.response.status === 404) {
             router.replace({
               path: '/error',
               name: 'NotFound',
               params: { notFound: 'not-found' },
             });
-            // context.redirect(err.status, '/not-found');
-            console.log('404 !');
           }
-
-          // err({ statusCode: '404', message: 'post ' });
         });
 
       // todo для карточек
@@ -89,15 +72,11 @@ export default {
         // search_term: direction.value.content.title,
       })
         .then((res) => {
-          console.log('res.data.stories: - Posts preview ', res.data.stories);
-
           return res.data.stories;
           // return res.data;
         })
         .catch((err) => {
-          console.log(`💣💣💣 - ${err.response}`);
-
-          console.log('err.response: ', err.response);
+          console.warn(`💣💣💣 - ${err.response}`);
 
           // todo если нет такого поста - перекидываем на страницу с ошибкой
           // eslint-disable-next-line
@@ -107,8 +86,6 @@ export default {
               name: 'NotFound',
               params: { notFound: 'not-found' },
             });
-            /* context.redirect(err.status, '/not-found'); */
-            console.log('404 !');
           }
         });
     });
@@ -116,11 +93,7 @@ export default {
     // Manually trigger a refetch
     fetch();
 
-    // provide('postsForCards', postsForCards);
-    // provide('directions', directions);
-
     return {
-      // data,
       direction,
       postsForCards,
 

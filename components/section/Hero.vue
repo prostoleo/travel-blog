@@ -37,15 +37,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import {
-  ref,
-  // computed,
-  // useStore,
-  onMounted,
-  useContext,
-} from '@nuxtjs/composition-api';
-
 export default {
   props: {
     heroData: {
@@ -53,35 +44,6 @@ export default {
       // default: {},
       required: true,
     },
-  },
-
-  setup(props, context) {
-    console.log('context: ', context);
-
-    const heroSection = ref(null);
-    console.log('heroSection: ', heroSection);
-
-    const { $storybridge } = useContext();
-    console.log('$storybridge: ', $storybridge);
-
-    // const data = ref(null);
-    // const store = useStore();
-
-    onMounted(() => {
-      /* const heroSectionEl = document.getElementById('hero-section');
-      console.log('heroSectionEl: ', heroSectionEl);
-      // data.value = store.getters['home/getHome'];
-      heroSectionEl.style.background = `url(${props.heroData.bg_image.filename}) rgba(0, 0, 0, 40%)`;
-      heroSectionEl.style.backgroundSize = `cover`;
-      heroSectionEl.style.backgroundBlendMode = `darken`;
-      heroSectionEl.style.backgroundPosition = `center center`;
-      heroSectionEl.style.backgroundRepeat = `no-repeat`; */
-    });
-
-    return {
-      // data,
-      // heroSection,
-    };
   },
 };
 </script>

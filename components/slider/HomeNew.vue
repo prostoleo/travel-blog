@@ -90,7 +90,6 @@ export default {
             const bullets = this.$refs.bullet;
 
             const activeIndex = this.swiper.activeIndex; // получаем индекс активного слайда
-            console.log('activeIndex: ', activeIndex);
 
             const { prevBtn, nextBtn } = this.$refs; // получаем кнопки через refs
 
@@ -124,7 +123,6 @@ export default {
 
   mounted() {
     const initialSlideIndex = Math.floor(this.directions.stories.length / 2);
-    console.log('initialSlideIndex: ', initialSlideIndex);
 
     this.swiper.slideTo(initialSlideIndex, 1000, false);
     this.goToSlide(initialSlideIndex);

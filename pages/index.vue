@@ -1,6 +1,6 @@
 <template>
   <div v-if="fetchState.pending">
-    <nuxt-loader />
+    <nuxt-loader name="cube-loader" />
   </div>
   <div v-else>
     <!-- <button @click="fetch">refetch</button> -->
@@ -62,13 +62,11 @@ export default {
         starts_with: 'home',
       })
         .then((res) => {
-          console.log('res.data: ', res.data);
-
           return res.data;
           // return res.data;
         })
         .catch((err) => {
-          console.log(`💣💣💣 - ${err.response}`);
+          console.warn(`💣💣💣 - ${err.response}`);
         });
 
       // todo направления
@@ -77,15 +75,13 @@ export default {
         starts_with: 'directions',
       })
         .then((res) => {
-          console.log('res.data: Directions ', res.data);
-
           store.dispatch('addDirections', res.data);
 
           return res.data;
           // return res.data;
         })
         .catch((err) => {
-          console.log(`💣💣💣 - ${err.response}`);
+          console.warn(`💣💣💣 - ${err.response}`);
         });
 
       // todo для карточек
@@ -95,15 +91,13 @@ export default {
         excluding_fields: 'markdown_block,flex_gallery,grid_gallery',
       })
         .then((res) => {
-          console.log('res.data: - Posts preview ', res.data);
-
           store.dispatch('addPostsForCards', res.data);
 
           return res.data;
           // return res.data;
         })
         .catch((err) => {
-          console.log(`💣💣💣 - ${err.response}`);
+          console.warn(`💣💣💣 - ${err.response}`);
         });
     });
 
@@ -112,30 +106,6 @@ export default {
 
     provide('postsForCards', postsForCards);
     provide('directions', directions);
-
-    /* const data = useAsync(() => {
-      return Storyblok.get(`cdn/stories/home`, {
-        version: 'draft',
-      });
-      // console.log('story: ', story);
-
-      // return { story };
-      // .then((res) => {
-      //     console.log('res: ', res);
-      //     // store.dispatch('home/addHome', res.data.story);
-
-      //     return res.data;
-      //   })
-      //   .catch((err) => console.warn(err));
-    });
-    console.log('data: ', data);
-
-    const dataComp = computed(() => {
-      store.dispatch('home/addHome', data.value);
-
-      return data.value;
-    });
-    // console.log('Storyblok: ', Storyblok); */
 
     return {
       data,

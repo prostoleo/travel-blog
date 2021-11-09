@@ -19,13 +19,7 @@ const useSortPosts = () => {
   });
 
   function returnToFalse() {
-    console.log('sortInfo: ', sortInfo);
-    // console.log('Object.entries(sortInfo): ', Object.entries(sortInfo));
-
     Object.entries(sortInfo).forEach(([key, val]) => {
-      // console.log('{key, val}: ', { key, val });
-      // console.log('s: ', s);
-      // console.log('sortInfo[s]: ', sortInfo[s]);
       sortInfo[key] = false;
     });
   }
@@ -74,25 +68,10 @@ const useSortPosts = () => {
   }
 
   function sortPosts(posts) {
-    console.log('posts.value: ', posts.value);
-
-    // eslint-disable-next-line prefer-const
-    // let sorted = null;
-    // console.log('sorted: ', sorted);
-
-    console.log('sorted.value: ', sorted.value);
-
     if (sortInfo.alphabet) {
-      sorted.value = posts.value.sort((a, b) => {
-        // console.log('a.content.title: ', a.content.title);
-        // console.log('b.content.title: ', b.content.title);
-        console.log(
-          'b.content.title.localeCompare(b.content.title): ',
-          b.content.title.localeCompare(a.content.title)
-        );
-
-        return a.content.title.localeCompare(b.content.title);
-      });
+      sorted.value = posts.value.sort((a, b) =>
+        a.content.title.localeCompare(b.content.title)
+      );
     }
     if (sortInfo.alphabetReverse) {
       sorted.value = posts.value.sort((a, b) =>
@@ -113,20 +92,13 @@ const useSortPosts = () => {
           +new Date(a.first_published_at ?? a.created_at)
       );
     }
-    console.log('sorted: ', sorted);
-
-    // sortedPosts.value = sorted;
-    // store.dispatch('addPostsPagePosts', sorted.value);
     return sorted;
   }
-
-  // const sortedPosts = computed(() => sortPosts(postsToSort));
 
   return {
     sortInfo,
     handleSortPosts,
     sorted,
-    // sortedPosts,
   };
 };
 

@@ -1,6 +1,6 @@
 <template>
   <div v-if="fetchState.pending">
-    <nuxt-loader />
+    <nuxt-loader name="cube-loader" />
   </div>
   <!--  -->
   <div v-else v-editable="post.story">
@@ -75,17 +75,7 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import {
-  ref,
-  useFetch,
-  useRoute,
-  useRouter,
-  useContext,
-  // useAsync,
-  onMounted,
-  // useStore,
-  // computed,
-} from '@nuxtjs/composition-api';
+import { ref, useFetch, useRoute, useRouter } from '@nuxtjs/composition-api';
 
 import StoryblokClient from 'storyblok-js-client';
 import markdown from 'markdown-it';
@@ -96,15 +86,8 @@ export default {
   name: 'Home',
 
   setup(props, { root }) {
-    const context = useContext();
-    console.log('context: ', context);
-
-    console.log('root: ', root);
-
     const route = useRoute();
     const router = useRouter();
-    // console.log('router: ', router);
-    // console.log('route.value.params.id: ', route.value.params.id);
 
     const postId = route.value.params.id;
 
@@ -119,29 +102,16 @@ export default {
 
     const minutes = ref(null);
 
-    /* const path = ref(null);
-    console.log('path: ', path); */
-
-    onMounted(() => {
-      console.log('firstSection.value: ', firstSection.value);
-    });
-
     const { fetch, fetchState } = useFetch(async () => {
-      // data.value = await $axios.$get(
-      //   `https://api.storyblok.com/v1/cdn/stories/test?version=draft&token=gmlwyE5LJpGMoSrWXvgA3Att`
-      // );
-      // data.value = await $storyapi
       post.value = await Storyblok.get(`cdn/stories/posts/${postId}`, {
         version: 'draft',
         resolve_relations: 'Post.direction_info',
       })
         .then((res) => {
-          console.log('res.data: ', res.data);
-
           return res.data;
         })
         .catch((err) => {
-          console.log('err.response: ', err.response);
+          console.warn('err.response: ', err.response);
 
           // todo если нет такого поста - перекидываем на страницу с ошибкой
           // eslint-disable-next-line
@@ -151,25 +121,10 @@ export default {
               name: 'NotFound',
               params: { notFound: 'not-found' },
             });
-            /* context.redirect(err.status, '/not-found'); */
-            console.log('404 !');
           }
         });
 
       minutesToRead();
-
-      /* path.value = post.value.rels.find((rel) => {
-        console.log('rel.uuid: ', rel.uuid);
-        console.log(
-          'post.value.story.content.direction_info: ',
-          post.value.story.content.direction_info.value.uuid
-        );
-
-        return rel.uuid === post.value.story.content.direction_info
-          ? rel.full_slug
-          : '';
-      });
-      console.log('path.value: ', path.value); */
     });
 
     // Manually trigger a refetch
@@ -184,7 +139,6 @@ export default {
         .join(' ');
 
       const words = totalText.trim().split(/\s+/).length;
-      console.log('words: ', words);
 
       const time = Math.round(words / wpm);
 
@@ -208,7 +162,6 @@ export default {
 
       formatDate,
       minutes,
-      // path,
 
       markdown,
 
@@ -220,12 +173,6 @@ export default {
 
 <style lang="scss" scoped>
 section.first {
-  /* background: url(/img/post-bg/magadan-cover.jpg) $overlay;
-  background-blend-mode: darken;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center; */
-
   @include adaptive-value-min-max(padding-top, 35, 55);
   @include adaptive-value-min-max(padding-bottom, 125, 175);
 

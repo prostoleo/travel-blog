@@ -24,6 +24,7 @@
 
 <script>
 import { computed } from '@vue/composition-api';
+
 export default {
   props: {
     cardData: {
@@ -38,8 +39,6 @@ export default {
     });
 
     const formatDate = (date) => {
-      // console.log('date: ', date);
-
       return Intl.DateTimeFormat(navigator.locale, {
         day: '2-digit',
         month: '2-digit',
