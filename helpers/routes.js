@@ -1,6 +1,6 @@
 import StoryblokClient from 'storyblok-js-client';
 
-import { STORYBLOK_KEY } from '../config/config.js';
+import { STORYBLOK_KEY } from '~~/config/config.js';
 
 // todo для генерации динамических путей для SSG
 // https://medium.com/js-dojo/how-i-generated-dynamic-routes-for-different-nuxt-js-pages-ce2ee6972743
