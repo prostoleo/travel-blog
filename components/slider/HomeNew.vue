@@ -15,11 +15,24 @@
       :pagination="true"
       :navigation="true"
     >
-      <swiper-slide
-        v-for="(slide, index) in directions.stories"
-        :key="index"
-        :style="`background: url(${slide.content.bg.filename}/m/); background-size: cover; background-position: center center; bacground-repeat: no-repeat`"
-      >
+      <swiper-slide v-for="(slide, index) in directions.stories" :key="index">
+        <picture>
+          <source
+            media="(min-width: 900)"
+            :srcset="`${slide.content.bg.filename}/m/filters:quality(50)`"
+            width="600"
+          />
+          <source
+            :srcset="`${slide.content.bg.filename}/m/filters:quality(30)`"
+            alt=""
+            style="width: 100%"
+          />
+          <img
+            :src="`${slide.content.bg.filename}/m/filters:quality(30)`"
+            alt=""
+            style="width: 100%"
+          />
+        </picture>
         <nuxt-link :to="`/${slide.full_slug}`" class="slide__link">
           {{ slide.content.title }}
           <!-- {{ slide.content.bg.filename }} -->
@@ -126,9 +139,6 @@ export default {
 
     this.swiper.slideTo(initialSlideIndex, 1000, false);
     this.goToSlide(initialSlideIndex);
-
-    // this.swiper.slideTo(3, 1000, false);
-    // this.goToSlide(3);
   },
 
   methods: {
@@ -200,12 +210,6 @@ export default {
 
 .my-pagination,
 .swiper-pagination {
-  /* position: absolute;
-  top: 110%;
-  left: 50%;
-
-  transform: translate(-50%, -50%); */
-
   width: 50%;
   // height: 3rem;
   margin: 0 auto;
@@ -252,17 +256,6 @@ export default {
 }
 
 .swiper-slide {
-  // background: url(/img/slider-main/1-min.jpg) $overlay;
-  // background-blend-mode: darken;
-  // background-size: cover;
-  // background-repeat: no-repeat;
-  // background-position: center center;
-
-  // @include adaptive-value-min-max(height, 200, 400);
-  // @include adaptive-value-min-max(width, 300, 600);
-  // margin: 0.5%;
-  // width: 100vw;
-
   display: flex;
   align-items: flex-end;
 
@@ -273,11 +266,28 @@ export default {
 
   transition: all 1000ms ease-in-out;
 
+  position: relative;
+
   @include mq(lg) {
     transform: scale(0.8, 0.8);
     max-width: 60rem;
 
     width: 100%;
+  }
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: -1;
   }
 
   .slide__link {
@@ -289,6 +299,8 @@ export default {
     padding: 0.25em 0;
 
     position: relative;
+
+    font-weight: 600;
 
     &::before {
       content: '';
@@ -317,7 +329,7 @@ export default {
     transform: scale(1, 1);
     opacity: 1;
 
-    font-weight: 600;
+    // font-weight: 600;
   }
 }
 </style>

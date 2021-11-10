@@ -28,19 +28,6 @@
 
     <section class="second">
       <BaseContainer v-if="post.story.content.markdown_block">
-        <!-- <div class="title">
-          <img src="/icons/divider.svg" alt="разделитель" />
-          <h2>Подзаголовок</h2>
-        </div>
-        <div class="text-wrapper">
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur
-            dolor nostrum dolorem ipsa eveniet, nulla saepe unde autem deserunt
-            vero quis, repellendus delectus iste ab facilis perferendis
-            voluptatem odio asperiores veritatis officia eligendi, labore
-            expedita adipisci? Mollitia minima ut dolorum.
-          </p>
-        </div> -->
         <div
           v-for="(
             markdown_item, index

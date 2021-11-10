@@ -1,5 +1,32 @@
 <template>
   <section id="hero-section">
+    <picture>
+      <source
+        media="(max-width: 600)"
+        :srcset="`${heroData.bg_image.filename}/m/filters:brightness(-40):quality(30)`"
+        width="600"
+      />
+      <source
+        media="(max-width: 900)"
+        :srcset="`${heroData.bg_image.filename}/m/filters:brightness(-40):quality(50)`"
+        width="900"
+      />
+      <source
+        media="(max-width: 1200)"
+        :srcset="`${heroData.bg_image.filename}/m/filters:brightness(-40):quality(75)`"
+        width="1200"
+      />
+      <source
+        media="(max-width: 1400)"
+        :srcset="`${heroData.bg_image.filename}/m/filters:brightness(-40):quality(90)`"
+        width="1400"
+      />
+      <img
+        :src="`${heroData.bg_image.filename}/m/filters:brightness(-40)`"
+        alt=""
+        class="bg"
+      />
+    </picture>
     <BaseContainer>
       <div class="content">
         <!-- <pre>
@@ -60,14 +87,29 @@ section {
   @include adaptive-value-min-max(padding-top, 35, 55);
   @include adaptive-value-min-max(padding-bottom, 125, 175);
 
-  background: url(/img/hero-bg/1-min.jpg) $overlay;
-  background-blend-mode: darken;
+  // background: url(/img/hero-bg/1-min.jpg) $overlay;
+  // background-blend-mode: darken;
 
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  // background-position: center center;
+  // background-size: cover;
+  // background-repeat: no-repeat;
 
   // min-height: 95vh;
+
+  position: relative;
+
+  img.bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
 
   .content {
     text-align: center;

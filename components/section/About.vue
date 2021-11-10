@@ -24,16 +24,23 @@
             ></div>
             <picture>
               <source
-                media="(max-width: 900px)"
+                media="(min-width: 900px)"
+                :srcset="`${row.image.filename}/m/`"
+                width="1230"
+                @click="openImage"
+              />
+              <source
+                media="(max-width: 899px)"
                 :srcset="`${row.image.filename}/m/filters:quality(50)`"
+                alt=""
                 width="800"
                 @click="openImage"
               />
               <img
-                :src="`${row.image.filename}/m/`"
+                :src="`${row.image.filename}/m/filters:quality(50)`"
                 class="row__img"
                 alt=""
-                width="1230"
+                width="800"
                 @click="openImage"
               />
             </picture>
