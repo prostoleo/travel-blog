@@ -33,14 +33,14 @@
                 media="(max-width: 899px)"
                 :srcset="`${row.image.filename}/m/filters:quality(50)`"
                 alt=""
-                width="800"
+                width="880"
                 @click="openImage"
               />
               <img
                 :src="`${row.image.filename}/m/filters:quality(50)`"
                 class="row__img"
                 alt=""
-                width="800"
+                width="880"
                 @click="openImage"
               />
             </picture>

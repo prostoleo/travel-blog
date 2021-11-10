@@ -1,10 +1,20 @@
 <template>
   <div class="my-slider-wrapper">
     <div class="my-slider-navigation">
-      <button ref="prevBtn" class="button-next" @click="goToPrevSlide">
+      <button
+        ref="prevBtn"
+        class="button-next"
+        aria-label="toPrevSlide"
+        @click="goToPrevSlide"
+      >
         <img src="/icons/arrow.svg" alt="" />
       </button>
-      <button ref="nextBtn" class="button-prev" @click="goToNextSlide">
+      <button
+        ref="nextBtn"
+        class="button-prev"
+        aria-label="toNextSlide"
+        @click="goToNextSlide"
+      >
         <img src="/icons/arrow.svg" alt="" />
       </button>
     </div>
