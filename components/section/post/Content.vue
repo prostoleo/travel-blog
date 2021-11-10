@@ -12,68 +12,7 @@
           v-html="markdown().render(markdown_item.markdown)"
         ></div>
       </BaseContainer>
-
-      <!-- <img
-        src="/img/post-bg/girl.jpg"
-        alt=""
-        class="full-img mah-55r"
-        @click="openImage"
-      /> -->
     </section>
-    <!-- <section class="second">
-      <BaseContainer>
-        
-        <div
-          class="text-wrapper"
-          v-html="markdown().render(post.story.content.markdown_2)"
-        >
-          
-        </div>
-      </BaseContainer>
-
-      
-    </section> -->
-
-    <!-- <section class="second"> -->
-    <!-- <BaseContainer> -->
-    <!-- <pre>
-          {{ post.story.content.markdown_block }}
-        </pre> -->
-    <!-- <div class="title">
-          <img src="/icons/divider.svg" alt="разделитель" />
-          <h2>Подзаголовок</h2>
-        </div>
-        <div class="text-wrapper">
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur
-            dolor nostrum dolorem ipsa eveniet, nulla saepe unde autem deserunt
-            vero quis, repellendus delectus iste ab facilis perferendis
-            voluptatem odio asperiores veritatis officia eligendi, labore
-            expedita adipisci? Mollitia minima ut dolorum.
-          </p>
-          <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illo
-            eveniet non quo odio illum sapiente nulla, magnam eum quidem quis!
-          </p>
-        </div>
-      </BaseContainer> -->
-
-    <!-- <div id="gallery-item-1" class="grid-gallery__item">
-          <img src="/img/grid-gallery/1.jpg" alt="" />
-        </div>
-        <div id="gallery-item-2" class="grid-gallery__item">
-          <img src="/img/grid-gallery/2.jpg" alt="" />
-        </div>
-        <div id="gallery-item-3" class="grid-gallery__item">
-          <img src="/img/grid-gallery/3.jpg" alt="" />
-        </div>
-        <div id="gallery-item-4" class="grid-gallery__item">
-          <img src="/img/grid-gallery/4.jpg" alt="" />
-        </div>
-        <div id="gallery-item-5" class="grid-gallery__item">
-          <img src="/img/grid-gallery/5.jpg" alt="" />
-        </div> -->
-    <!-- </section> -->
 
     <div class="grid-gallery">
       <img
@@ -81,7 +20,8 @@
         :id="`gallery-item-${index + 1}`"
         :key="index"
         class="grid-gallery__item full-img"
-        :src="`${gallery_item.image.filename}/m/`"
+        :src="`${gallery_item.image.filename}/m/filters:quality(75)`"
+        width="570"
         @click="openImage"
       />
     </div>

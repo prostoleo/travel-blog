@@ -1,7 +1,22 @@
 <template>
   <div class="card">
     <header class="card__header">
-      <img :src="`${cardData.content.bg.filename}/m/`" />
+      <!-- :srcset="`${cardData.content.bg.filename}/m/ 400w,
+          ${cardData.content.bg.filename}/m/filters:quality(75)350w`"
+        sizes="(min-width: 1440px) 400px, 350px" -->
+      <picture>
+        <source
+          media="(max-width: 900px)"
+          :srcset="`${cardData.content.bg.filename}/m/filters:quality(50)`"
+          width="400"
+          height="150"
+        />
+        <img
+          :src="`${cardData.content.bg.filename}/m/`"
+          height="150"
+          width="400"
+        />
+      </picture>
     </header>
     <div class="card__content">
       <div class="card__upper">

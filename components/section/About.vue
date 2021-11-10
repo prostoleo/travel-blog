@@ -22,12 +22,21 @@
               class="row__content prose"
               v-html="markdown().render(row.text)"
             ></div>
-            <img
-              :src="`${row.image.filename}/m/`"
-              class="row__img"
-              alt=""
-              @click="openImage"
-            />
+            <picture>
+              <source
+                media="(max-width: 900px)"
+                :srcset="`${row.image.filename}/m/filters:quality(50)`"
+                width="800"
+                @click="openImage"
+              />
+              <img
+                :src="`${row.image.filename}/m/`"
+                class="row__img"
+                alt=""
+                width="1230"
+                @click="openImage"
+              />
+            </picture>
             <!-- @click="openImage" -->
           </div>
         </div>
