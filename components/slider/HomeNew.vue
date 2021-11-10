@@ -74,6 +74,8 @@ import 'swiper/swiper-bundle.css';
 
 // eslint-disable-next-line no-unused-vars
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+// import { Swiper, SwiperSlide } from 'swiper/vue/swiper-vue.js';
+// import { SwiperSlide } from 'swiper/swiper-slide.js';
 
 export default {
   name: 'Carousel',

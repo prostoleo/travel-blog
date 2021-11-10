@@ -24,16 +24,16 @@
             ></div>
             <picture>
               <source
-                media="(min-width: 900px)"
-                :srcset="`${row.image.filename}/m/`"
-                width="1230"
-                @click="openImage"
-              />
-              <source
                 media="(max-width: 899px)"
                 :srcset="`${row.image.filename}/m/filters:quality(50)`"
                 alt=""
                 width="880"
+                @click="openImage"
+              />
+              <source
+                media="(min-width: 900px)"
+                :srcset="`${row.image.filename}/m/`"
+                width="1230"
                 @click="openImage"
               />
               <img
@@ -182,6 +182,8 @@ section {
           object-fit: cover;
 
           cursor: pointer;
+
+          width: 100%;
 
           /* // img {
           } */
