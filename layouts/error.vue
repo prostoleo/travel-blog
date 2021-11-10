@@ -33,8 +33,8 @@ export default {
 
   flex-direction: column;
 
-  background-image: url(/img/404.svg);
-  background-position: top center;
+  // background-image: url(/img/404.svg);
+  // background-position: top center;
 
   .content {
     margin-top: 3.5em;

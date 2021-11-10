@@ -13,7 +13,7 @@ import { ref, useFetch, useRoute, useRouter } from '@nuxtjs/composition-api';
 
 import StoryblokClient from 'storyblok-js-client';
 
-import { STORYBLOK_KEY } from '~/config/config.js';
+// import { STORYBLOK_KEY } from '~/config/config.js';
 
 export default {
   name: 'Home',
@@ -24,7 +24,8 @@ export default {
     const router = useRouter();
 
     const Storyblok = new StoryblokClient({
-      accessToken: STORYBLOK_KEY,
+      // accessToken: STORYBLOK_KEY,
+      accessToken: process.env.STORYBLOK_KEY,
     });
 
     const direction = ref(null);

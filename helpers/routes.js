@@ -1,14 +1,13 @@
 import StoryblokClient from 'storyblok-js-client';
 
-import { STORYBLOK_KEY } from './my-config';
-
 // todo для генерации динамических путей для SSG
 // https://medium.com/js-dojo/how-i-generated-dynamic-routes-for-different-nuxt-js-pages-ce2ee6972743
 
 export const dynamicRoutes = async () => {
   const Storyblok = new StoryblokClient({
-    // accessToken: process.env.STORYBLOK_KEY,
-    accessToken: STORYBLOK_KEY,
+    accessToken: process.env.STORYBLOK_KEY,
+    // accessToken: key,
+    // accessToken: STORYBLOK_KEY,
   });
 
   const resForPosts = await Storyblok.get(`cdn/stories`, {
@@ -42,3 +41,6 @@ export const dynamicRoutes = async () => {
 
   return routes;
 };
+
+// const test = dynamicRoutes();
+// console.log('test: ', test);

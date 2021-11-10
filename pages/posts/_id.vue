@@ -80,7 +80,7 @@ import { ref, useFetch, useRoute, useRouter } from '@nuxtjs/composition-api';
 import StoryblokClient from 'storyblok-js-client';
 import markdown from 'markdown-it';
 
-import { STORYBLOK_KEY } from '~/config/config.js';
+// import { STORYBLOK_KEY } from '~/config/config.js';
 
 export default {
   name: 'Home',
@@ -92,7 +92,8 @@ export default {
     const postId = route.value.params.id;
 
     const Storyblok = new StoryblokClient({
-      accessToken: STORYBLOK_KEY,
+      // accessToken: STORYBLOK_KEY,
+      accessToken: process.env.STORYBLOK_KEY,
     });
 
     // const store = useStore();

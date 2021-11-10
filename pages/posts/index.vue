@@ -110,7 +110,7 @@ import {
 
 import StoryblokClient from 'storyblok-js-client';
 
-import { STORYBLOK_KEY } from '~/config/config.js';
+// import { STORYBLOK_KEY } from '~/config/config.js';
 
 import useSearchPosts from '~/composables/useSearchPosts.js';
 import useSortPosts from '~/composables/useSortPosts.js';
@@ -121,7 +121,8 @@ export default {
   setup(props, { root }) {
     const store = useStore();
     const Storyblok = new StoryblokClient({
-      accessToken: STORYBLOK_KEY,
+      // accessToken: STORYBLOK_KEY,
+      accessToken: process.env.STORYBLOK_KEY,
     });
 
     const posts = ref(null);

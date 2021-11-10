@@ -11,20 +11,20 @@
 </template>
 
 <script>
+/* eslint-disable dot-notation */
+
 import { ref, useFetch, provide, useStore } from '@nuxtjs/composition-api';
 
 import StoryblokClient from 'storyblok-js-client';
 
-import { STORYBLOK_KEY } from '~/config/config.js';
-
 export default {
   name: 'Home',
 
-  setup(props, context) {
+  setup(props) {
     const store = useStore();
 
     const Storyblok = new StoryblokClient({
-      accessToken: STORYBLOK_KEY,
+      accessToken: process.env.STORYBLOK_KEY,
     });
 
     // const store = useStore();
