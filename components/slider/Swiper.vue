@@ -126,7 +126,7 @@ export default {
           },
         },
       });
-      console.log('swiper: ', swiper);
+      // console.log('swiper: ', swiper);
 
       const numberOfSlides = props.directions.stories.length;
 
@@ -145,22 +145,6 @@ export default {
 .swiper-pagination {
   margin-top: 2.5em;
   position: unset !important;
-}
-
-.swiper-pagination-bullet {
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  line-height: 20px;
-  font-size: 16px;
-  color: #000;
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.swiper-pagination-bullet-active {
-  color: #fff;
-  background: #ffbb00;
 }
 
 /* .bullet {
@@ -275,6 +259,7 @@ export default {
     position: relative;
 
     width: 100%;
+    flex: 1 0 100vw;
 
     @include mq(lg) {
       transform: scale(0.8, 0.8);
