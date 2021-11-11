@@ -3,6 +3,7 @@ import { ref, computed } from '@nuxtjs/composition-api';
 export default function () {
   const isImageShowing = ref(false);
   const imgSrc = ref('');
+  const altSrc = ref('');
 
   // const header = document.querySelector('header.header');
 
@@ -14,6 +15,7 @@ export default function () {
     // header.classList.add('d-none');
 
     imgSrc.value = target.src;
+    altSrc.value = target.alt;
     isImageShowing.value = true;
   }
 
@@ -29,6 +31,7 @@ export default function () {
     isImageShowing,
     isImageShowingComp,
     imgSrc,
+    altSrc,
     openImage,
     closeDialog,
   };

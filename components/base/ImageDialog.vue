@@ -1,7 +1,7 @@
 <template>
   <div class="overlay" @click="closeDialog">
     <div class="content">
-      <img :src="imageSrc" alt="" class="image" />
+      <img :src="imageSrc" class="image" :alt="altSrc" />
       <img src="/icons/close.svg" alt="" class="close" @click="closeDialog" />
       <!-- <span src="/icons/close.svg" alt="" class="close">X</span> -->
     </div>
@@ -17,6 +17,10 @@ export default {
       default: false,
     }, */
     imageSrc: {
+      type: String,
+      required: true,
+    },
+    altSrc: {
       type: String,
       required: true,
     },

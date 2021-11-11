@@ -5,6 +5,7 @@
         :src="`${cardData.content.bg.filename}/m/filters:quality(30)`"
         height="150"
         width="400"
+        :alt="cardData.content.bg.alt"
       />
     </header>
     <div class="card__content">

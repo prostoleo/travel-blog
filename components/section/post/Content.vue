@@ -21,6 +21,7 @@
         :key="index"
         class="grid-gallery__item full-img"
         :src="`${gallery_item.image.filename}/m/filters:quality(75)`"
+        :alt="gallery_item.image.alt"
         width="570"
         @click="openImage"
       />
@@ -62,6 +63,7 @@
     <BaseImageDialog
       v-if="isImageShowingComp"
       :image-src="imgSrc"
+      :alt-src="altSrc"
       @close-dialog="closeDialog"
     />
   </div>
@@ -105,6 +107,7 @@ export default {
       isImageShowing,
       isImageShowingComp,
       imgSrc,
+      altSrc,
       openImage,
       closeDialog,
     } = useImageDialog();
@@ -115,6 +118,7 @@ export default {
       isImageShowing,
       isImageShowingComp,
       imgSrc,
+      altSrc,
       openImage,
       closeDialog,
 

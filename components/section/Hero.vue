@@ -3,27 +3,31 @@
     <picture>
       <source
         media="(max-width: 600)"
+        :alt="heroData.bg_image.alt"
         :srcset="`${heroData.bg_image.filename}/m/filters:brightness(-40):quality(30)`"
         width="600"
       />
       <source
         media="(max-width: 900)"
+        :alt="heroData.bg_image.alt"
         :srcset="`${heroData.bg_image.filename}/m/filters:brightness(-40):quality(50)`"
         width="900"
       />
       <source
         media="(max-width: 1200)"
+        :alt="heroData.bg_image.alt"
         :srcset="`${heroData.bg_image.filename}/m/filters:brightness(-40):quality(75)`"
         width="1200"
       />
       <source
         media="(max-width: 1400)"
+        :alt="heroData.bg_image.alt"
         :srcset="`${heroData.bg_image.filename}/m/filters:brightness(-40):quality(90)`"
         width="1400"
       />
       <img
         :src="`${heroData.bg_image.filename}/m/filters:brightness(-40)`"
-        alt=""
+        :alt="heroData.bg_image.alt"
         class="bg"
       />
     </picture>

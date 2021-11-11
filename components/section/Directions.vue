@@ -14,7 +14,7 @@
         <!-- <SliderHome /> -->
       </div>
     </BaseContainer>
-    <SliderHomeNew :directions="directions" />
+    <SliderSwiper :directions="directions" />
   </section>
 </template>
 

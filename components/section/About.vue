@@ -26,7 +26,7 @@
               <source
                 media="(max-width: 899px)"
                 :srcset="`${row.image.filename}/m/filters:quality(50)`"
-                alt=""
+                :alt="row.image.alt"
                 width="880"
                 @click="openImage"
               />
@@ -34,12 +34,13 @@
                 media="(min-width: 900px)"
                 :srcset="`${row.image.filename}/m/`"
                 width="1230"
+                :alt="row.image.alt"
                 @click="openImage"
               />
               <img
                 :src="`${row.image.filename}/m/filters:quality(50)`"
                 class="row__img"
-                alt=""
+                :alt="row.image.alt"
                 width="880"
                 @click="openImage"
               />
@@ -53,6 +54,7 @@
     <BaseImageDialog
       v-if="isImageShowingComp"
       :image-src="`${imgSrc}`"
+      :alt-src="altSrc"
       @close-dialog="closeDialog"
     />
   </section>
@@ -79,6 +81,7 @@ export default {
       isImageShowing,
       isImageShowingComp,
       imgSrc,
+      altSrc,
       openImage,
       closeDialog,
     } = useImageDialog();
@@ -87,6 +90,7 @@ export default {
       isImageShowing,
       isImageShowingComp,
       imgSrc,
+      altSrc,
       openImage,
       closeDialog,
 

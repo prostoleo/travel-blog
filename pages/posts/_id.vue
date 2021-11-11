@@ -14,7 +14,7 @@
     <section ref="firstSection" class="first">
       <img
         :src="`${post.story.content.bg.filename}/m/filters:brightness(-40)`"
-        alt=""
+        :alt="post.story.content.bg.alt"
         class="bg"
       />
       <BaseContainer>
