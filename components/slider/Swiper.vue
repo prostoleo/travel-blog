@@ -5,24 +5,33 @@
         <button
           ref="prevBtn"
           class="button-prev swiper-button-prev"
+          :class="{ disabled: activeIndex === 0 }"
           aria-label="toPrevSlide"
+          @click="activeIndex === 0 ? '' : goToSlide(activeIndex - 1)"
         >
+          <!-- :class="activeIndex === 0 ? 'disabled' : ''" -->
           <img src="/icons/arrow.svg" alt="" />
         </button>
         <button
           ref="nextBtn"
           class="button-next swiper-button-next"
+          :class="{ disabled: SlidesNumber - 1 === activeIndex }"
           aria-label="toNextSlide"
+          @click="
+            SlidesNumber - 1 === activeIndex ? '' : goToSlide(activeIndex + 1)
+          "
         >
+          <!-- :class="swiper.slides.length === activeIndex ? 'disabled' : ''" -->
           <img src="/icons/arrow.svg" alt="" />
         </button>
       </div>
     </BaseContainer>
     <!-- :modules="modules" -->
-    <ul class="my-slider swiper-wrapper">
-      <li
+    <div class="my-slider swiper-wrapper">
+      <div
         v-for="(slide, index) in directions.stories"
         :key="index"
+        ref="slides"
         class="my-slider__slide swiper-slide"
       >
         <picture>
@@ -46,11 +55,22 @@
           {{ slide.content.title }}
           <!-- {{ slide.content.bg.filename }} -->
         </nuxt-link>
-      </li>
+      </div>
 
       <!-- <div class="swiper-navigation"> -->
-    </ul>
-    <div slot="pagination" class="swiper-pagination my-pagination"></div>
+    </div>
+    <div slot="pagination" class="swiper-pagination my-pagination">
+      <span
+        v-for="index in directions.stories.length"
+        ref="bullets"
+        :key="index"
+        tabindex="0"
+        role="button"
+        :aria-label="`Go to slide ${index - 1}`"
+        class="swiper-pagination-bullet"
+        @click="goToSlide(index - 1)"
+      ></span>
+    </div>
     <!-- <div ref="myPagination" class="my-pagination">
       <div
         v-for="index in directions.stories.length"
@@ -64,7 +84,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from '@nuxtjs/composition-api';
+import { computed, onMounted, ref, watch } from '@nuxtjs/composition-api';
 
 // import style (>= Swiper 6.x)
 // import 'swiper/swiper-bundle.css';
@@ -72,6 +92,7 @@ import { onMounted, ref } from '@nuxtjs/composition-api';
 
 // eslint-disable-next-line no-unused-vars
 import { Swiper } from 'swiper/swiper-bundle.esm.js';
+// eslint-disable-next-line no-unused-vars
 import { Pagination, Navigation, Keyboard } from 'swiper';
 // import { Swiper, SwiperSlide } from 'swiper/vue/swiper-vue.js';
 // import { SwiperSlide } from 'swiper/swiper-slide.js';
@@ -88,9 +109,12 @@ export default {
 
   setup(props) {
     const mySwiper = ref(null);
+    const swiper = ref(null);
+    const bullets = ref(null);
+    const slides = ref(null);
 
     onMounted(() => {
-      const swiper = new Swiper(mySwiper.value, {
+      swiper.value = new Swiper(mySwiper.value, {
         slidesPerView: 1,
         // autoHeight: true,
         // speed: 1,
@@ -98,22 +122,7 @@ export default {
         centeredSlides: true,
         centeredSlidesBound: true,
         // centerInsufficientSlides: true,
-        modules: [Navigation, Pagination, Keyboard],
-
-        pagination: {
-          el: '.my-pagination',
-          type: 'bullets',
-          clickable: true,
-          // eslint-disable-next-line object-shorthand
-          renderBullet: function (index, className) {
-            return '<div class="' + className + '">' + '</div>';
-          },
-        },
-
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
+        modules: [Keyboard],
 
         keyboard: {
           enabled: true,
@@ -130,12 +139,57 @@ export default {
 
       const numberOfSlides = props.directions.stories.length;
 
-      swiper.slideTo(Math.floor(numberOfSlides / 2), false, false);
+      // swiper.value.slideTo(Math.floor(numberOfSlides / 2), 1000, false);
+      goToSlide(Math.floor(numberOfSlides / 2));
+
+      console.log('swiper: ', swiper);
     });
+
+    // * computed для текущего активного индекс
+    const activeIndex = computed(() => {
+      const idx = swiper?.value?.activeIndex;
+
+      return idx;
+    });
+
+    // * computed для количества слайдов
+    const SlidesNumber = computed(() => {
+      const lngth = swiper?.value?.slides?.length;
+
+      return lngth;
+    });
+
+    //* если activeIndex меняется , то обрабатываем кнопки
+    watch(activeIndex, (oldValue, newValue) => {
+      if (oldValue !== newValue) {
+        handleBullets();
+      }
+    });
+
+    // todo функция перемещения по слайдам
+    const goToSlide = (index) => {
+      swiper.value.slideTo(index, 1000, false);
+    };
+
+    // todo для изменения классов bullet
+    const handleBullets = () => {
+      bullets.value.forEach((bullet) =>
+        bullet.classList.remove('swiper-pagination-bullet-active')
+      );
+
+      bullets.value[activeIndex.value].classList.add(
+        'swiper-pagination-bullet-active'
+      );
+    };
 
     return {
       mySwiper,
-      // swiper
+      swiper,
+      goToSlide,
+      bullets,
+      slides,
+      activeIndex,
+      SlidesNumber,
     };
   },
 };
@@ -143,8 +197,14 @@ export default {
 
 <style lang="scss" scoped>
 .swiper-pagination {
-  margin-top: 2.5em;
   position: unset !important;
+  // height: 2.5rem;
+
+  margin: 2.5em auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
 }
 
 /* .bullet {
@@ -168,8 +228,8 @@ export default {
   }
 } */
 
-/* span.swiper-pagination-bullet {
-  --swiper-pagination-bullet-inactive-color: black;
+span.swiper-pagination-bullet {
+  --swiper-pagination-bullet-inactive-color: grey;
   --swiper-theme-color: $secondary-opacity60;
 
   // width: unset;
@@ -192,9 +252,10 @@ export default {
 
   &-active {
     opacity: 1;
-    background: var(--swiper-theme-color);
+    // background: var(--swiper-theme-color);
+    background: $secondary-opacity60;
   }
-} */
+}
 
 .my-slider-navigation {
   display: flex;
@@ -209,6 +270,10 @@ export default {
   .swiper-button {
     &-next,
     &-prev {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
       position: unset !important;
 
       width: 2.5em;
@@ -218,6 +283,11 @@ export default {
 
       &::after {
         display: none;
+      }
+
+      &.disabled {
+        opacity: 0;
+        pointer-events: none;
       }
     }
 
@@ -243,6 +313,7 @@ export default {
   display: flex;
 
   &--wrapper {
+    @include adaptive-value-min-max(margin-top, 25, 35);
   }
 
   &__slide {

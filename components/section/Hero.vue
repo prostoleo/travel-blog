@@ -47,18 +47,13 @@
         </p>
 
         <div class="btn-row">
-          <nuxt-link
-            :to="{ path: '/', hash: '#new' }"
-            class="btn btn-primary"
-            tag="button"
-          >
+          <nuxt-link :to="{ path: '/', hash: '#new' }" class="btn btn-primary">
             Новые приключения</nuxt-link
           >
           <!-- @click="navigateToNew" -->
           <nuxt-link
             :to="{ path: '/', hash: '#directions' }"
             class="btn btn-secondary"
-            tag="button"
             >Направления</nuxt-link
           >
         </div>
@@ -144,7 +139,7 @@ section {
 
       gap: 0 2rem;
 
-      button.btn {
+      .btn {
         display: inline-block;
         padding: 0.5em 1em;
 
