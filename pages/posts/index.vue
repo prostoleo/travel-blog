@@ -66,6 +66,7 @@
               <button
                 id="btn-alphabet-up"
                 class="btn filter__btn"
+                aria-label="По алфавиту - от А к Я"
                 :class="{ active: !!sortInfo.alphabet }"
               >
                 <img src="/icons/alphabet.svg" alt="" />
@@ -73,6 +74,7 @@
               <button
                 id="btn-alphabet-reverse"
                 class="btn filter__btn"
+                aria-label="По алфавиту - от Я к А"
                 :class="{ active: !!sortInfo.alphabetReverse }"
               >
                 <img src="/icons/alphabet-reverse.svg" alt="" />
@@ -80,6 +82,7 @@
               <button
                 id="btn-date-down"
                 class="btn filter__btn"
+                aria-label="По дате - от более новых постов к более старым постам"
                 :class="{ active: !!sortInfo.dateDown }"
               >
                 <img src="/icons/date.svg" alt="" />
@@ -88,6 +91,7 @@
               <button
                 id="btn-date-up"
                 class="btn filter__btn"
+                aria-label="По дате - от более старых постов к более новым постам"
                 :class="{ active: !!sortInfo.dateUp }"
               >
                 <img src="/icons/date.svg" alt="" />

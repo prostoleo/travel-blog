@@ -66,7 +66,7 @@
         :key="index"
         tabindex="0"
         role="button"
-        :aria-label="`Go to slide ${index - 1}`"
+        :aria-label="`Переход к слайду ${index}`"
         class="swiper-pagination-bullet"
         @click="goToSlide(index - 1)"
       ></span>
