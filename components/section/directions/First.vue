@@ -1,5 +1,36 @@
 <template>
   <section>
+    <picture>
+      <source
+        media="(max-width: 600px)"
+        :srcset="`${direction.content.bg.filename}/m/filters:brightness(-35):quality(50)`"
+        width="600"
+        :alt="direction.content.bg.alt"
+      />
+      <source
+        media="(max-width: 900px)"
+        :srcset="`${direction.content.bg.filename}/m/filters:brightness(-35):quality(60)`"
+        width="900"
+        :alt="direction.content.bg.alt"
+      />
+      <source
+        media="(max-width: 1200px)"
+        :srcset="`${direction.content.bg.filename}/m/filters:brightness(-35):quality(75)`"
+        width="1200"
+        :alt="direction.content.bg.alt"
+      />
+      <source
+        media="(min-width: 1201px)"
+        :srcset="`${direction.content.bg.filename}/m/filters:brightness(-35)`"
+        width="1200"
+        :alt="direction.content.bg.alt"
+      />
+      <img
+        :src="`${direction.content.bg.filename}/m/filters:brightness(-35)`"
+        :alt="direction.content.bg.alt"
+        class="bg"
+      />
+    </picture>
     <BaseContainer>
       <div class="content-wrapper">
         <div class="breadcrumbs">
@@ -21,9 +52,10 @@
             {{ direction.content.title }}
           </h1>
 
-          <p class="text">
-            {{ direction.content.text }}
-          </p>
+          <p
+            class="text prose"
+            v-html="markdown().render(direction.content.text)"
+          ></p>
         </div>
       </div>
     </BaseContainer>
@@ -31,6 +63,8 @@
 </template>
 
 <script>
+import markdown from 'markdown-it';
+
 export default {
   props: {
     direction: {
@@ -40,24 +74,42 @@ export default {
   },
 
   setup() {
-    return {};
+    return {
+      markdown,
+    };
   },
 };
 </script>
 
 <style lang="scss" scoped>
 section {
-  background: url(/img/directions-bg/дальний-восток.jpg) $overlay;
+  /* background: url(/img/directions-bg/дальний-восток.jpg) $overlay;
   background-blend-mode: darken;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: center center; */
 
   @include adaptive-value-min-max(padding-top, 35, 55);
   @include adaptive-value-min-max(padding-bottom, 70, 120);
 
   position: relative;
   z-index: 1;
+
+  img.bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: -1;
+    isolation: isolate;
+  }
 
   .content-wrapper {
     .breadcrumbs {

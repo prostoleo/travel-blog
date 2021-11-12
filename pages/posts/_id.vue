@@ -12,11 +12,37 @@
     </pre> -->
 
     <section ref="firstSection" class="first">
-      <img
-        :src="`${post.story.content.bg.filename}/m/filters:brightness(-40)`"
-        :alt="post.story.content.bg.alt"
-        class="bg"
-      />
+      <picture>
+        <source
+          media="(max-width: 600px)"
+          :srcset="`${post.story.content.bg.filename}/m/filters:brightness(-40):quality(50)`"
+          width="600"
+          :alt="post.story.content.bg.alt"
+        />
+        <source
+          media="(max-width: 900px)"
+          :srcset="`${post.story.content.bg.filename}/m/filters:brightness(-40):quality(60)`"
+          width="900"
+          :alt="post.story.content.bg.alt"
+        />
+        <source
+          media="(max-width: 1200px)"
+          :srcset="`${post.story.content.bg.filename}/m/filters:brightness(-40):quality(75)`"
+          width="1200"
+          :alt="post.story.content.bg.alt"
+        />
+        <source
+          media="(min-width: 1201px)"
+          :srcset="`${post.story.content.bg.filename}/m/filters:brightness(-40)`"
+          width="1200"
+          :alt="post.story.content.bg.alt"
+        />
+        <img
+          :src="`${post.story.content.bg.filename}/m/filters:brightness(-40)`"
+          :alt="post.story.content.bg.alt"
+          class="bg"
+        />
+      </picture>
       <BaseContainer>
         <div class="content-wrapper">
           <div class="breadcrumbs">

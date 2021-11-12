@@ -2,6 +2,34 @@
   <div v-if="fetchState.pending"></div>
   <div v-else>
     <section class="first">
+      <picture>
+        <source
+          media="(max-width: 600px)"
+          srcset="
+            https://a.storyblok.com/f/132621/2015x1009/ba4c20e870/bg-min.jpg/m/filters:brightness(-20):quality(50)
+          "
+          width="600"
+        />
+        <source
+          media="(max-width: 900px)"
+          srcset="
+            https://a.storyblok.com/f/132621/2015x1009/ba4c20e870/bg-min.jpg/m/filters:brightness(-20):quality(70)
+          "
+          width="900"
+        />
+        <source
+          media="(max-width: 1200px)"
+          srcset="
+            https://a.storyblok.com/f/132621/2015x1009/ba4c20e870/bg-min.jpg/m/filters:brightness(-20):quality(80)
+          "
+          width="1200"
+        />
+        <img
+          src="https://a.storyblok.com/f/132621/2015x1009/ba4c20e870/bg-min.jpg/m/filters:brightness(-20)"
+          alt=""
+          class="bg"
+        />
+      </picture>
       <BaseContainer>
         <div class="content-wrapper">
           <div class="breadcrumbs">
@@ -187,17 +215,32 @@ export default {
 
 <style lang="scss" scoped>
 section.first {
-  background: url(/img/all-posts-bg/bg.jpg) $overlay;
+  /* background: url(/img/all-posts-bg/bg.jpg) $overlay;
   background-blend-mode: darken;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: center center; */
 
   @include adaptive-value-min-max(padding-top, 35, 55);
   @include adaptive-value-min-max(padding-bottom, 125, 175);
 
   position: relative;
   z-index: 1;
+
+  img.bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: -1;
+  }
 
   .content-wrapper {
     .breadcrumbs {
